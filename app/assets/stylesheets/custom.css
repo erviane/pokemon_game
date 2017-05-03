@@ -1,0 +1,49 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+.navbar-brand{
+  font-weight: bold;
+}
+
+.panel-body{
+  min-height: 500px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  min-height: 60px;
+  background-color: #f5f5f5;
+
+}
+.footer p{
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold
+}
+.index_page{
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+.index_page h2{
+  font-weight: bold;
+  color: grey;
+}
+.photo img{
+  width: 200px;
+  height: 200px;
+}
+table img{
+  width: 50px;
+}
+thead{
+  background-color: #f5f5f5; 
+}

@@ -1,0 +1,60 @@
+<%= render 'pages/nav' %>
+    <div class="container">
+
+      <div class="panel panel-default">
+      <div class="panel-heading">Detail Pokedex</div>
+        <div class="panel-body"><br>
+            <p id="notice"><%= notice %></p>
+            <div class="row">
+            <div class="col-md-4">
+              <center>
+              <div class="photo">
+                <%= image_tag @pokedex.image_url %>
+              </div>
+              </center>
+            </div>
+            <div class="col-md-8">
+            <table cellpadding="10px">
+              <tr>
+                <td><strong>Name </strong></td>
+                <td>:</td>
+                <td><%= @pokedex.name %></td>
+              </tr>
+              <tr>
+                <td><strong>Base Health Point</strong></td>
+                <td>:</td>
+                <td><%= @pokedex.base_health_point %></td>
+              </tr>
+              <tr>
+                <td><strong>Base Attack</strong></td>
+                <td>:</td>
+                <td><%= @pokedex.base_attack %></td>
+              </tr>
+              <tr>
+                <td><strong>Base Defense</strong></td>
+                <td>:</td>
+                <td><%= @pokedex.base_defence %></td>
+              </tr>
+              <tr>
+                <td><strong>Base Speed</strong></td>
+                <td>:</td>
+                <td><%= @pokedex.base_speed %></td>
+              </tr>
+              <tr>
+                <td><strong>Element Type</strong></td>
+                <td>:</td>
+                <td><%= @pokedex.element_type %></td>
+              </tr>
+            </table>
+              </div>
+              
+            </div>
+            
+
+        </div>
+      </div>
+
+
+
+    </div> <!-- /container -->
+<%= render 'pages/footer' %>

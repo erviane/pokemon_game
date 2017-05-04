@@ -4,7 +4,7 @@ class PokedexesController < ApplicationController
   # GET /pokedexes
   # GET /pokedexes.json
   def index
-    @pokedexes = Pokedex.all
+    @pokedexes = Pokedex.all.order("created_at DESC").paginate(page: params[:page], per_page: 20)
   end
 
   # GET /pokedexes/1
@@ -44,7 +44,7 @@ class PokedexesController < ApplicationController
     respond_to do |format|
       if @pokedex.update(pokedex_params)
         format.html { redirect_to pokedexes_url
-        flash[:success] = "New pokedex was successfully updated" }
+        flash[:success] = "Pokedex was successfully updated" }
         format.json { render :show, status: :ok, location: @pokedex }
       else
         format.html { render :edit }

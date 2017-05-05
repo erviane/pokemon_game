@@ -1,0 +1,98 @@
+<br>
+<%= form_for pokemon,:html => {:class => 'form-horizontal'} do |f| %>
+          <% if pokemon.errors.any? %>
+            <div class="alert alert-danger">
+              <h2><%= pluralize(pokemon.errors.count, "error") %> prohibited this pokemon from being saved:</h2>        
+
+              <ul>
+              <% pokemon.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+<div class="row">
+    <div class="col-sm-4">
+         <center>
+              <div class="photo">
+                <%= image_tag pokemon.pokedex.image_url %>
+              </div>
+        </center>
+    </div>
+    <div class="col-sm-8">
+      
+          <div class="form-group">
+            <%= f.label :name, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+              <%= f.text_field :name, class: "form-control", required: true %>
+            </div>
+          </div> 
+
+          <div class="form-group">
+            <%= f.label :pokedex, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+              <%= f.text_field :pokedex_id, :value => @pokemon.pokedex.name, class: "form-control", disabled: true %>
+            </div>
+          </div>          
+
+          <div class="form-group">
+            <%= f.label :level, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+            <%= f.text_field :level, class: "form-control", disabled: true %>
+            </div>
+          </div>        
+
+            <div class="form-group">
+            <%= f.label :max_health_point, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+            <%= f.number_field :max_health_point, class: "form-control", required: true %>
+            </div>
+          </div> 
+
+            <div class="form-group">
+            <%= f.label :current_health_point, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+            <%= f.number_field :current_health_point, class: "form-control", required: true %>
+            </div>
+          </div>        
+
+          <div class="form-group">
+            <%= f.label :attack, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+            <%= f.number_field :attack , class: "form-control", required: true%>
+          </div>
+          </div>        
+
+          <div class="form-group">
+            <%= f.label :defence, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+            <%= f.number_field :defence, class: "form-control", required: true %>
+            </div>
+          </div>        
+
+          <div class="form-group">
+            <%= f.label :speed, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+            <%= f.number_field :speed, class: "form-control", required: true %>
+            </div>
+          </div>        
+
+          <div class="form-group">
+            <%= f.label :current_experience, class: "control-label col-sm-2" %>
+            <div class="col-sm-10">
+            <%= f.text_field :current_experience , class: "form-control", required: true%>
+            </div>
+          </div>  
+            <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+    <%= f.submit'Submit', class: "btn btn-primary"%>
+  </div>
+  </div>      
+    </div>
+  
+</div>
+
+<% end %>
+
+
+

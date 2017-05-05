@@ -1,7 +1,7 @@
 <br>
 <%= form_for pokedex,:html => {:class => 'form-horizontal'} do |f| %>
   <% if pokedex.errors.any? %>
-    <div <div class="alert alert-danger">
+    <div class="alert alert-danger">
       <h2><%= pluralize(pokedex.errors.count, "error") %> prohibited this pokedex from being saved:</h2>
 
       <ul>

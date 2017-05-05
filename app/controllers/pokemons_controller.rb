@@ -1,15 +1,14 @@
 class PokemonsController < ApplicationController
-  before_action :set_pokemon, only: [:show, :edit, :update, :destroy]
+  before_action :set_pokemon, only: [:show, :edit, :update, :destroy, :destroy_skill]
 
   # GET /pokemons
-  # GET /pokemons.json
   def index
     @pokemons = Pokemon.all.order("created_at DESC").paginate(page: params[:page], per_page: 20)
   end
 
   # GET /pokemons/1
-  # GET /pokemons/1.json
   def show
+    @pokemon_skills = PokemonSkill.new
   end
 
   # GET /pokemons/new
@@ -20,49 +19,44 @@ class PokemonsController < ApplicationController
 
   # GET /pokemons/1/edit
   def edit
+    @pokemon_skills = @pokemon.pokemon_skills
   end
 
   # POST /pokemons
-  # POST /pokemons.json
   def create
-    @pokemon = Pokemon.new(pokemon_params)
-
-    respond_to do |format|
+      @pokemon = Pokemon.new(pokemon_params_create)
+      pokedex = Pokedex.find(params[:pokedex_id])
+      @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
+                                   :current_experience => 1, 
+                                   :max_health_point => pokedex.base_health_point,
+                                   :attack => pokedex.base_attack, 
+                                   :defence => pokedex.base_defence, 
+                                   :speed => pokedex.base_speed, 
+                                   :level => 1, })
+    
       if @pokemon.save
-        format.html { redirect_to pokemons_url
-        flash[:success] = "New pokemon was successfully created"  }
-        format.json { render :show, status: :created, location: @pokemon }
+        redirect_to pokemons_url
+        flash[:success] = "New pokemon was successfully created" 
       else
-        format.html { render :new }
-        format.json { render json: @pokemon.errors, status: :unprocessable_entity }
+        render :new
       end
-    end
   end
 
   # PATCH/PUT /pokemons/1
-  # PATCH/PUT /pokemons/1.json
   def update
-    respond_to do |format|
-      if @pokemon.update(pokemon_params)
-        format.html { redirect_to pokemons_url
-        flash[:success] = "Pokemon was successfully updated"  }
-        format.json { render :show, status: :ok, location: @pokemon }
+      if @pokemon.update(pokemon_params_edit)
+        redirect_to pokemons_url
+        flash[:success] = "Pokemon was successfully updated"
       else
-        format.html { render :edit }
-        format.json { render json: @pokemon.errors, status: :unprocessable_entity }
+        render :edit
       end
-    end
   end
 
   # DELETE /pokemons/1
-  # DELETE /pokemons/1.json
   def destroy
     @pokemon.destroy
-    respond_to do |format|
-      format.html { redirect_to pokemons_url
-      flash[:success] = "Pokemon was successfully deleted"  }
-      format.json { head :no_content }
-    end
+      redirect_to pokemons_url
+      flash[:success] = "Pokemon was successfully deleted"
   end
 
   private
@@ -72,15 +66,11 @@ class PokemonsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def pokemon_params
-      pokedex = Pokedex.find(params[:pokemon][:pokedex_id])
-      params[:pokemon][:max_health_point] = pokedex.base_health_point
-      params[:pokemon][:current_health_point] = pokedex.base_health_point
-      params[:pokemon][:attack] = pokedex.base_attack
-      params[:pokemon][:defence] = pokedex.base_defence
-      params[:pokemon][:speed] = pokedex.base_speed
-      params[:pokemon][:current_experience] = 1
-      params[:pokemon][:level] = 1
-      x = params.require(:pokemon).permit(:pokedex_id, :name, :level , :max_health_point, :current_health_point, :attack, :defence, :speed, :current_experience)
+    def pokemon_params_create
+      params.permit(:pokedex_id, :name)
+    end
+
+    def pokemon_params_edit
+      params.require(:pokemon).permit(:name, :max_health_point, :current_health_point, :attack, :defence, :speed, :current_experience)
     end
 end

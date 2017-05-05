@@ -3,5 +3,11 @@ Rails.application.routes.draw do
   resources :pokemons
   resources :skills
   resources :pokedexes
+
+resources :pokemons do
+	resources :pokemon_skills
+end
+
 root 'pages#index'
+delete '/pokemons/:pokemon_id/pokemon_skills/:skill_id', to: 'pokemon_skills#destroy', as: 'pokemon_skill_destroy'
 end

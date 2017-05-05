@@ -25,43 +25,33 @@ class PokedexesController < ApplicationController
   # POST /pokedexes.json
   def create
     @pokedex = Pokedex.new(pokedex_params)
-
-    respond_to do |format|
+    element_type = params[:pokedex][:element_type].upcase_first
+    @pokedex.element_type = element_type
       if @pokedex.save
-        format.html { redirect_to pokedexes_url
-        flash[:success] = "New pokedex was successfully created" }
-        format.json { render :show, status: :created, location: @pokedex }
+        redirect_to pokedexes_url
+        flash[:success] = "New pokedex was successfully created"
       else
-        format.html { render :new }
-        format.json { render json: @pokedex.errors, status: :unprocessable_entity }
+        render :new
       end
-    end
   end
 
   # PATCH/PUT /pokedexes/1
   # PATCH/PUT /pokedexes/1.json
   def update
-    respond_to do |format|
       if @pokedex.update(pokedex_params)
-        format.html { redirect_to pokedexes_url
-        flash[:success] = "Pokedex was successfully updated" }
-        format.json { render :show, status: :ok, location: @pokedex }
+        redirect_to pokedexes_url
+        flash[:success] = "Pokedex was successfully updated"
       else
-        format.html { render :edit }
-        format.json { render json: @pokedex.errors, status: :unprocessable_entity }
+        render :edit
       end
-    end
   end
 
   # DELETE /pokedexes/1
   # DELETE /pokedexes/1.json
   def destroy
     @pokedex.destroy
-    respond_to do |format|
-      format.html { redirect_to pokedexes_url
-      flash[:success] = "Pokedex was successfully destroyed" }
-      format.json { head :no_content }
-    end
+      redirect_to pokedexes_url
+      flash[:success] = "Pokedex was successfully destroyed"
   end
 
   private
@@ -72,6 +62,6 @@ class PokedexesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pokedex_params
-      params.require(:pokedex).permit(:name, :base_health_point, :base_attack, :base_defence, :base_speed, :element_type, :image_url)
+      params.require(:pokedex).permit(:name, :base_health_point, :base_attack, :base_defence, :base_speed, :image_url)
     end
 end

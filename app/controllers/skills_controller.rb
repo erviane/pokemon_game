@@ -25,42 +25,33 @@ class SkillsController < ApplicationController
   # POST /skills.json
   def create
     @skill = Skill.new(skill_params)
-
-    respond_to do |format|
+    element_type = params[:skill][:element_type].upcase_first
+    @skill.element_type = element_type
       if @skill.save
-        format.html { redirect_to skills_url
-        flash[:success] = "New skill was successfully created"}
-        format.json { render :show, status: :created, location: @skill }
+        redirect_to skills_url
+        flash[:success] = "New skill was successfully created"
       else
-        format.html { render :new }
-        format.json { render json: @skill.errors, status: :unprocessable_entity }
+        render :new
       end
-    end
   end
 
   # PATCH/PUT /skills/1
   # PATCH/PUT /skills/1.json
   def update
-    respond_to do |format|
       if @skill.update(skill_params)
-        format.html { redirect_to skills_url
-        flash[:success] = "Skill was successfully updated" }
-        format.json { render :show, status: :ok, location: @skill }
+        redirect_to skills_url
+        flash[:success] = "Skill was successfully updated"
       else
-        format.html { render :edit }
-        format.json { render json: @skill.errors, status: :unprocessable_entity }
+        render :edit
       end
-    end
   end
 
   # DELETE /skills/1
   # DELETE /skills/1.json
   def destroy
     @skill.destroy
-    respond_to do |format|
-      format.html { redirect_to skills_url, notice: 'Skill was successfully destroyed.'
-        flash[:success] = "Skill was successfully destroyed"}
-    end
+    redirect_to skills_url
+    flash[:success] = "Skill was successfully destroyed"
   end
 
   private
@@ -71,6 +62,6 @@ class SkillsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def skill_params
-      params.require(:skill).permit(:name, :power, :max_pp, :element_type)
+      params.require(:skill).permit(:name, :power, :max_pp )
     end
 end

@@ -35,25 +35,7 @@
    <div class="form-group">
     <%= f.label :element_type, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
-    <%= select_tag('skill[element_type]', options_for_select([
-      ['Normal', "Normal"], 
-      ['Fire', "Fire"],
-      ['Fighting', "Fighting"],
-      ['Water', "Water"],
-      ['Flying', "Flying"],
-      ['Grass', "Grass"],
-      ['Poison', "Poison"],
-      ['Ground', "Ground"],
-      ['Psychic', "Psychic"],
-      ['Rock', "Rock"],
-      ['Ice', "Ice"],
-      ['Bug', "Bug"],
-      ['Dragon', "Dragon"],
-      ['Ghost', "Ghost"],
-      ['Dark', "Dark"],
-      ['Steel', "Steel"],
-      ['Fairy', "Fairy"]
-      ], :selected => skill.element_type), :include_blank => '--- Select Element Type ---', class: 'form-control', required: true) %>
+    <%= f.text_field :element_type, class: "form-control", required: true%>
     </div>
   </div>
 

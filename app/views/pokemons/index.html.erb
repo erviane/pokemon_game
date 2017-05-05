@@ -38,7 +38,9 @@
                       <td><%= pokemon.defence %></td>
                       <td><%= pokemon.speed %></td>
                       <td><%= pokemon.current_experience %></td>
-                      <td><%= link_to 'Heal', "#", :class=>"btn btn-warning btn-sm" %></td>
+                      <td><%= link_to 'Heal', "#", :class=>"btn btn-warning btn-sm" %>
+                        <%= link_to 'Show', pokemon, :class=>"btn btn-info btn-sm" %>
+                      </td>
                     </tr>
                   <% end %>
                 </tbody>

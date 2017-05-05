@@ -12,7 +12,8 @@ class Pokedex < ApplicationRecord
 	validates :base_speed, presence: true,
 							numericality: { :greater_than => 0 }
 	validates :element_type, presence: true,
-							length: {maximum: 45}
+							length: {maximum: 45},
+							inclusion: {in: Skill::ELEMENT_TYPE, allow_nil: true}
 	validates :image_url, presence: true,
 	 					format: { with: URI.regexp }
 end

@@ -15,3 +15,4 @@
 //= require bootstrap
 //= require jquery
 //= require ie-emulation-modes-warning
+//= require add_row

@@ -14,7 +14,6 @@ body {
   min-height: 500px;
 }
 .footer {
-  position: absolute;
   bottom: 0;
   width: 100%;
   min-height: 60px;
@@ -23,8 +22,8 @@ body {
 }
 .footer p{
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   font-size: 20px;
   font-weight: bold
 }
@@ -68,4 +67,15 @@ thead{
 }
 .navbar-default{
   background-color: #d9edf7;
+  height: 70px;
+}
+body{
+  padding-top: 0px;
+}
+a img{
+  width: 25px;
+}
+.container{
+  margin-bottom: 20px;
+  min-height: 800px;
 }

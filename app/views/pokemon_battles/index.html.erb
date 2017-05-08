@@ -1,0 +1,44 @@
+<%= render 'pages/nav' %>
+    <div class="container">
+
+      <div class="panel panel-info">
+        <div class="panel-heading">Pokemon Battles</div>
+        <div class="panel-body">
+            <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>"><%= value %></div>
+            <% end %>         
+            <%= link_to 'New Pokemon Battle', new_pokemon_battle_path, :class=>"btn btn-default" %>
+            <br><br>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Pokemon1</th>
+                  <th>Pokemon2</th>
+                  <th>Turn</th>
+                  <th>State</th>
+                  <th>Action</th>
+                </tr>
+              </thead>            
+
+              <tbody>
+                <% @pokemon_battles.each do |pokemon_battle| %>
+                  <tr>
+                    <td><%= pokemon_battle.pokemon1_id %></td>
+                    <td><%= pokemon_battle.pokemon2_id %></td>
+                    <td><%= pokemon_battle.current_turn %></td>
+                    <td><%= pokemon_battle.state %></td>
+                    <td><%= link_to 'Show', pokemon_battle, :class=>"btn btn-info btn-sm" %>
+                    <%= link_to 'Destroy', pokemon_battle, :class=>"btn btn-danger btn-sm", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>      
+            <br>
+            <%= will_paginate @pokemon_battles, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>            
+          </div>
+        </div>
+
+
+
+    </div> <!-- /container -->
+<%= render 'pages/footer' %>

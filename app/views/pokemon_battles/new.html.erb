@@ -1,0 +1,37 @@
+<%= render 'pages/nav' %>
+    <div class="container">
+
+      <div class="panel panel-info">
+      <div class="panel-heading">New Pokemon Battle</div>
+        <div class="panel-body">
+        <center><h2><strong>SELECT POKEMON</strong></h2></center>
+        <br><br>
+        <%= form_for(@pokemon_battle) do |f| %>
+        <div class="row">
+        	<div class="col-sm-6">
+        		<div class="battle"><h4>Pokemon 1</h4>
+        		<br>
+        			<%= select_tag('pokemon1_id',  options_for_select(Pokemon.all.collect {|p| [ p.name, p.id ] }), prompt: '--- Choose Pokemon 1 ---', required: true) %>
+        		</div>
+        	</div>
+        	<div class="col-sm-6">
+        		<div class="battle"><h4>Pokemon 2</h4>
+        		<br>
+        			<%= select_tag('pokemon2_id',  options_for_select(Pokemon.all.collect {|p| [ p.name, p.id ] }), prompt: '--- Choose Pokemon 2 ---' , required: true) %>
+        		</div>
+        	</div>
+        </div>
+        <br>
+        <center>
+        <div class="actions">
+		    <%= f.submit 'Battle', class: 'btn btn-primary' %>
+		</div>
+		</center>
+        <% end %>
+        </div>
+      </div>
+
+
+
+    </div> <!-- /container -->
+<%= render 'pages/footer' %>

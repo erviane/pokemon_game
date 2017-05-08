@@ -79,3 +79,33 @@ a img{
   margin-bottom: 20px;
   min-height: 800px;
 }
+.field_with_errors input{
+  border: 1px solid red !important;
+}
+.select-error{
+  border: 1px solid red !important;
+}
+.battle{
+  text-align:  center;
+}
+.battle h4{
+  text-align:  center;
+}
+.battle-img{
+  text-align:  center;
+}
+.battle-img img{
+  height: 200px; 
+}
+.col-sm-2 h2{
+  margin: 150px auto;
+  text-align: center;
+  font-weight: bold;
+}
+.field_with_errors .message{
+  color: red !important;
+}
+.field_with_errors_pokemon{
+  color: red;
+  font-weight: bold;
+}

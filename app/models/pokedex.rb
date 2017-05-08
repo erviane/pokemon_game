@@ -3,17 +3,19 @@ class Pokedex < ApplicationRecord
 	validates :name, presence: true,
 					length: {maximum: 45},
 					uniqueness: true
-	validates :base_health_point, presence: true,
-									numericality: { :greater_than => 0 }
-	validates :base_attack, presence: true,
-							numericality: { :greater_than => 0 }
-	validates :base_defence, presence: true,
-							numericality: { :greater_than => 0 }
-	validates :base_speed, presence: true,
-							numericality: { :greater_than => 0 }
+	validates :base_health_point, numericality: { :greater_than => 0 }
+	validates :base_attack,numericality: { :greater_than => 0 }
+	validates :base_defence, numericality: { :greater_than => 0 }
+	validates :base_speed, numericality: { :greater_than => 0 }
 	validates :element_type, presence: true,
 							length: {maximum: 45},
-							inclusion: {in: Skill::ELEMENT_TYPE, allow_nil: true}
+							inclusion: {in: Skill::ELEMENT_TYPE, :message => "The value: %{value} is not included in the list."},
+							allow_blank: false
 	validates :image_url, presence: true,
 	 					format: { with: URI.regexp }
+	 validate :check_element_type
+
+	def check_element_type
+		errors.add(:element_type, "can't be blank") if self.element_type.blank?		
+	end
 end

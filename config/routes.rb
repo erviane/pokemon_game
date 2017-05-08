@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :pokemon_battles
   resources :pokemons
   resources :skills
   resources :pokedexes

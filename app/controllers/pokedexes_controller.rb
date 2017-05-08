@@ -25,8 +25,6 @@ class PokedexesController < ApplicationController
   # POST /pokedexes.json
   def create
     @pokedex = Pokedex.new(pokedex_params)
-    element_type = params[:pokedex][:element_type].upcase_first
-    @pokedex.element_type = element_type
       if @pokedex.save
         redirect_to pokedexes_url
         flash[:success] = "New pokedex was successfully created"
@@ -62,6 +60,6 @@ class PokedexesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pokedex_params
-      params.require(:pokedex).permit(:name, :base_health_point, :base_attack, :base_defence, :base_speed, :image_url)
+      params.require(:pokedex).permit(:name, :base_health_point, :base_attack, :base_defence, :base_speed, :element_type, :image_url)
     end
 end

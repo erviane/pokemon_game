@@ -1,16 +1,6 @@
 <br>
-<%= form_for pokemon,:html => {:class => 'form-horizontal'} do |f| %>
-          <% if pokemon.errors.any? %>
-            <div class="alert alert-danger">
-              <h2><%= pluralize(pokemon.errors.count, "error") %> prohibited this pokemon from being saved:</h2>        
+<%= form_for pokemon, validate: true,:html => {:class => 'form-horizontal'} do |f| %>
 
-              <ul>
-              <% pokemon.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
 <div class="row">
     <div class="col-sm-4">
          <center>

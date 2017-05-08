@@ -25,14 +25,19 @@ class PokemonsController < ApplicationController
   # POST /pokemons
   def create
       @pokemon = Pokemon.new(pokemon_params_create)
-      pokedex = Pokedex.find(params[:pokedex_id])
-      @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
+      if params[:pokedex_id].blank?
+        @pokedex_id_errors = "Pokedex not include the list"
+      else
+        pokedex = Pokedex.find(params[:pokedex_id])
+        @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
                                    :current_experience => 1, 
                                    :max_health_point => pokedex.base_health_point,
                                    :attack => pokedex.base_attack, 
                                    :defence => pokedex.base_defence, 
                                    :speed => pokedex.base_speed, 
-                                   :level => 1, })
+                                   :level => 1 })
+      end
+
     
       if @pokemon.save
         redirect_to pokemons_url

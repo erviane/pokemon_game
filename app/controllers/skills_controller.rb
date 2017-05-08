@@ -25,8 +25,6 @@ class SkillsController < ApplicationController
   # POST /skills.json
   def create
     @skill = Skill.new(skill_params)
-    element_type = params[:skill][:element_type].upcase_first
-    @skill.element_type = element_type
       if @skill.save
         redirect_to skills_url
         flash[:success] = "New skill was successfully created"
@@ -62,6 +60,6 @@ class SkillsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def skill_params
-      params.require(:skill).permit(:name, :power, :max_pp )
+      params.require(:skill).permit(:name, :power, :max_pp, :element_type  )
     end
 end

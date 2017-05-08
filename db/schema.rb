@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504063818) do
+ActiveRecord::Schema.define(version: 20170508025124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,22 @@ ActiveRecord::Schema.define(version: 20170504063818) do
     t.string   "image_url",         null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "pokemon_battles", force: :cascade do |t|
+    t.integer  "pokemon1_id",               null: false
+    t.integer  "pokemon2_id",               null: false
+    t.integer  "current_turn",              null: false
+    t.string   "state",                     null: false
+    t.integer  "pokemon_winner_id"
+    t.integer  "pokemon_loser_id"
+    t.integer  "experience_gain"
+    t.integer  "pokemon1_max_health_point", null: false
+    t.integer  "pokemon2_max_health_point", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["pokemon1_id"], name: "index_pokemon_battles_on_pokemon1_id", using: :btree
+    t.index ["pokemon2_id"], name: "index_pokemon_battles_on_pokemon2_id", using: :btree
   end
 
   create_table "pokemon_skills", force: :cascade do |t|

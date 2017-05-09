@@ -15,4 +15,3 @@
 //= require bootstrap
 //= require jquery
 //= require ie-emulation-modes-warning
-//= require rails.validations

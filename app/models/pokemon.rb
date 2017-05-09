@@ -7,7 +7,9 @@ class Pokemon < ApplicationRecord
 	validates :name, presence: true,
 						length: {maximum: 45},
 						uniqueness: true
-	validates :pokedex_id, presence: true
+	validates :pokedex_id, presence: true, 
+							allow_blank: false,
+							inclusion: { in: Pokedex.ids, :message => "The value is not included in the list."}
 	validates :current_health_point, numericality: { :greater_than_or_equal_to => 0}									
 	validates :current_experience, numericality: { :greater_than_or_equal_to => 0 }
 	validates :max_health_point, numericality: { :greater_than => 0 }

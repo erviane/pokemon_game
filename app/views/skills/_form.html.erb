@@ -1,10 +1,11 @@
 <br>
-<%= form_for skill, validate: true,:html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for skill,:html => {:class => 'form-horizontal'} do |f| %>
 
   <div class="form-group">
     <%= f.label :name, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
     <%= f.text_field :name, class: "form-control" %>
+    <%= content_tag(:div, "#{ skill.errors[:name].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
     </div>
   </div>
 
@@ -12,6 +13,7 @@
     <%= f.label :power, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
     <%= f.number_field :power, class: "form-control" %>
+    <%= content_tag(:div, "#{ skill.errors[:power].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
     </div>
   </div>
 
@@ -19,13 +21,14 @@
     <%= f.label :max_pp, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
     <%= f.number_field :max_pp, class: "form-control"%>
+    <%= content_tag(:div, "#{ skill.errors[:max_pp].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
     </div>
   </div>
    <div class="form-group">
     <%= f.label :element_type, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
     <%= select_tag('skill[element_type]',  options_for_select(Skill::ELEMENT_TYPE.collect {|p| [ p, p ] }, selected: skill.element_type) , class: "form-control") %>
-    <%= content_tag(:div, "#{ skill.errors.messages[:element_type].to_sentence}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
+    <%= content_tag(:div, "#{ skill.errors[:element_type].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
     </div>
   </div>
 

@@ -23,21 +23,24 @@ class PokemonBattlesController < ApplicationController
   # POST /pokemon_battles.json
   def create
     @pokemon_battle = PokemonBattle.new(pokemon_battle_params)
-    current_turn = 1
-    state = "ongoing"
-    pokemon1 = Pokemon.find(params[:pokemon1_id])
-    pokemon2 = Pokemon.find(params[:pokemon2_id])
-    pokemon1_max_health_point = pokemon1.max_health_point
-    pokemon2_max_health_point = pokemon2.max_health_point
-    @pokemon_battle.assign_attributes({:current_turn => current_turn,
-                                      :state => state,
-                                      :pokemon1_max_health_point => pokemon1_max_health_point,
-                                      :pokemon2_max_health_point => pokemon2_max_health_point})
-      if @pokemon_battle.save
-        redirect_to pokemon_battle_url(@pokemon_battle)
-      else
-        render :new
-      end
+    if  (Pokemon.ids.include?params[:pokemon1_id].to_i) && (Pokemon.ids.include?params[:pokemon2_id].to_i)
+          current_turn = 1
+          state = "ongoing"
+          pokemon1 = Pokemon.find(params[:pokemon1_id])
+          pokemon2 = Pokemon.find(params[:pokemon2_id])
+          pokemon1_max_health_point = pokemon1.max_health_point
+          pokemon2_max_health_point = pokemon2.max_health_point
+          @pokemon_battle.assign_attributes({:current_turn => current_turn,
+                                            :state => state,
+                                            :pokemon1_max_health_point => pokemon1_max_health_point,
+                                            :pokemon2_max_health_point => pokemon2_max_health_point})
+    end
+    if @pokemon_battle.save
+      redirect_to pokemon_battle_url(@pokemon_battle)
+    else
+      render :new
+    end
+
   end
 
   # DELETE /pokemon_battles/1

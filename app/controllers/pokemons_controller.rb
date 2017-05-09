@@ -25,10 +25,8 @@ class PokemonsController < ApplicationController
   # POST /pokemons
   def create
       @pokemon = Pokemon.new(pokemon_params_create)
-      if params[:pokedex_id].blank?
-        @pokedex_id_errors = "Pokedex not include the list"
-      else
-        pokedex = Pokedex.find(params[:pokedex_id])
+      if Pokedex.ids.include?params[:pokemon][:pokedex_id].to_i
+        pokedex = Pokedex.find(params[:pokemon][:pokedex_id])
         @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
                                    :current_experience => 1, 
                                    :max_health_point => pokedex.base_health_point,
@@ -37,7 +35,6 @@ class PokemonsController < ApplicationController
                                    :speed => pokedex.base_speed, 
                                    :level => 1 })
       end
-
     
       if @pokemon.save
         redirect_to pokemons_url
@@ -72,7 +69,7 @@ class PokemonsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pokemon_params_create
-      params.permit(:pokedex_id, :name)
+      params.require(:pokemon).permit(:pokedex_id, :name)
     end
 
     def pokemon_params_edit

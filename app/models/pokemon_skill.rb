@@ -3,7 +3,9 @@ class PokemonSkill < ApplicationRecord
 	belongs_to :skill
 	validates :pokemon_id, presence: true
 	validates :current_pp, numericality: { :greater_than_or_equal_to => 0}
-	validates :skill_id, :uniqueness => {:scope => :pokemon_id}
+	validates :skill_id, presence: true, 
+						allow_blank: false, 
+						:uniqueness => {:scope => :pokemon_id, :message => "Skill has already been taken"}
 	validate :check_current_pp
 
 	def check_current_pp

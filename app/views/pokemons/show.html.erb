@@ -91,7 +91,7 @@
                 </tbody>                
               </table>
               <%= form_for ([@pokemon, @pokemon.pokemon_skills.build]),:html => {:class => 'form-inline'} do %>
-              <%= select_tag('skill_id',  options_for_select(Skill.all.collect {|p| [ p.name, p.id ] }), prompt: '--- Choose Skill ---' , class: "form-control", required: true) %>
+              <%= select_tag('skill_id',  options_for_select(Skill.all.collect {|p| [ p.name, p.id ] }), class: "form-control") %>
               <%= submit_tag "Add Skill", class: "btn btn-primary"%>
             <% end %>
           </div>

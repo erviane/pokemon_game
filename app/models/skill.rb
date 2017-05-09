@@ -11,7 +11,7 @@ class Skill < ApplicationRecord
 		validates :max_pp, numericality: { :greater_than => 0 }
 		validates :element_type, presence: true,
 					length: {maximum: 45},
-					inclusion: { in: ELEMENT_TYPE},
+					inclusion: { in: ELEMENT_TYPE, :message => "The value is not included in the list."},
 					allow_blank: false
 
 

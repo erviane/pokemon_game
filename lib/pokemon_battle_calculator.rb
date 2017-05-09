@@ -70,7 +70,7 @@ class PokemonBattleCalculator
 			@pokemon_defender = Pokemon.find(defender_id)
 			@skill = Skill.find(skill_id)
 			damage = ((((2 * @pokemon_attacker.level / 5.to_f + 2) * @pokemon_attacker.attack * @skill.power / @pokemon_defender.defence.to_f) / 50.to_f) + 2) * stab * weakness_resistance * ( random_number / 100.to_f)
-			result = damage
+			result = damage.to_i
 			puts result
 		end	
 
@@ -93,7 +93,7 @@ class PokemonBattleCalculator
 		def weakness_resistance
 			@pokemon_attacker_symbol = @pokemon_attacker_element_type.downcase.to_sym
 			@pokemon_defender_symbol = @pokemon_defender_element_type.downcase.to_sym
-			ARRAY_OF_BATTLE_TYPES[@pokemon_attacker_symbol][@pokemon_defender_symbol]
+			return ARRAY_OF_BATTLE_TYPES[@pokemon_attacker_symbol][@pokemon_defender_symbol]
 		end
 	end
 end

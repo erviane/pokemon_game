@@ -1,5 +1,4 @@
-class PokemonBattleCalculator
-	class << self
+class Test
 		ARRAY_OF_BATTLE_TYPES = {
 			normal: {
 				normal: 1,
@@ -73,8 +72,7 @@ class PokemonBattleCalculator
 			result = damage
 			puts result
 		end	
-
-		private	
+	
 
 		def random_number
 			rand(85..100)	
@@ -91,9 +89,13 @@ class PokemonBattleCalculator
 		end	
 
 		def weakness_resistance
+			@pokemon_attacker_element_type = Pokemon.find(1).pokedex.element_type
+			@pokemon_defender_element_type = Pokemon.find(2).pokedex.element_type
 			@pokemon_attacker_symbol = @pokemon_attacker_element_type.downcase.to_sym
 			@pokemon_defender_symbol = @pokemon_defender_element_type.downcase.to_sym
-			ARRAY_OF_BATTLE_TYPES[@pokemon_attacker_symbol][@pokemon_defender_symbol]
+			puts @pokemon_attacker_element_type
+			puts @pokemon_defender_element_type
+			puts ARRAY_OF_BATTLE_TYPES[@pokemon_attacker_symbol][@pokemon_defender_symbol]
+
 		end
-	end
 end

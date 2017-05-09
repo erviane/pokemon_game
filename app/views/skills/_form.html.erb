@@ -12,7 +12,7 @@
   <div class="form-group">
     <%= f.label :power, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
-    <%= f.number_field :power, class: "form-control" %>
+    <%= f.text_field :power, class: "form-control" %>
     <%= content_tag(:div, "#{ skill.errors[:power].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
     </div>
   </div>
@@ -20,7 +20,7 @@
   <div class="form-group">
     <%= f.label :max_pp, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
-    <%= f.number_field :max_pp, class: "form-control"%>
+    <%= f.text_field :max_pp, class: "form-control"%>
     <%= content_tag(:div, "#{ skill.errors[:max_pp].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
     </div>
   </div>

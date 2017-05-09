@@ -12,14 +12,14 @@
         		<div class="battle"><h4>Pokemon 1</h4>
         		<br>
         			<%= select_tag('pokemon1_id',  options_for_select(Pokemon.all.collect {|p| [ p.name, p.id ] }), prompt: '--- Choose Pokemon 1 ---') %>
-                    <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon1_id].first}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.any?%>
+                    <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon1_id].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.any?%>
         		</div>
         	</div>
         	<div class="col-sm-6">
         		<div class="battle"><h4>Pokemon 2</h4>
         		<br>
         			<%= select_tag('pokemon2_id',  options_for_select(Pokemon.all.collect {|p| [ p.name, p.id ] }), prompt: '--- Choose Pokemon 2 ---') %>
-                    <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon2_id].first}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.any?%>
+                    <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon2_id].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.any?%>
         		</div>
         	</div>
         </div>

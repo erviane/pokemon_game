@@ -38,7 +38,7 @@
             <div class="form-group">
             <%= f.label :max_health_point, class: "control-label col-sm-2" %>
             <div class="col-sm-10">
-            <%= f.number_field :max_health_point, class: "form-control"%>
+            <%= f.text_field :max_health_point, class: "form-control"%>
             <%= content_tag(:div, "#{ @pokemon.errors[:max_health_point].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon.errors.any?%>
             </div>
           </div> 
@@ -46,7 +46,7 @@
             <div class="form-group">
             <%= f.label :current_health_point, class: "control-label col-sm-2" %>
             <div class="col-sm-10">
-            <%= f.number_field :current_health_point, class: "form-control"%>
+            <%= f.text_field :current_health_point, class: "form-control"%>
             <%= content_tag(:div, "#{ @pokemon.errors[:current_health_point].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon.errors.any?%>
             </div>
           </div>        
@@ -54,7 +54,7 @@
           <div class="form-group">
             <%= f.label :attack, class: "control-label col-sm-2" %>
             <div class="col-sm-10">
-            <%= f.number_field :attack , class: "form-control"%>
+            <%= f.text_field :attack , class: "form-control"%>
             <%= content_tag(:div, "#{ @pokemon.errors[:attack].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon.errors.any?%>
           </div>
           </div>        
@@ -62,7 +62,7 @@
           <div class="form-group">
             <%= f.label :defence, class: "control-label col-sm-2" %>
             <div class="col-sm-10">
-            <%= f.number_field :defence, class: "form-control"%>
+            <%= f.text_field :defence, class: "form-control"%>
             <%= content_tag(:div, "#{ @pokemon.errors[:defence].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon.errors.any?%>
             </div>
           </div>        
@@ -70,7 +70,7 @@
           <div class="form-group">
             <%= f.label :speed, class: "control-label col-sm-2" %>
             <div class="col-sm-10">
-            <%= f.number_field :speed, class: "form-control"%>
+            <%= f.text_field :speed, class: "form-control"%>
             <%= content_tag(:div, "#{ @pokemon.errors[:speed].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon.errors.any?%>
             </div>
           </div>        

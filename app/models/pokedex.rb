@@ -11,8 +11,6 @@ class Pokedex < ApplicationRecord
 							length: {maximum: 45},
 							inclusion: {in: Skill::ELEMENT_TYPE, :message => "The value is not included in the list"},
 							allow_blank: false
-	validates :image_url, presence: true,
-	 					format: { with: URI.regexp, :message => "URL is invalid (should be contain http or https)" }
 	 validate :check_element_type
 
 	def check_element_type

@@ -5,13 +5,28 @@
       <div class="panel-heading">Battle</div>
         <div class="panel-body">
         <br>
-          <div class="row">
-            <div class="col-sm-5">
-              <div class="battle">
-              <h4>Pokemon 1</h4>
+
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="battle">
+                <h4>Pokemon 1</h4>
                 <div class="battle-img"><%= image_tag @pokemon1.pokedex.image_url %></div>
-                <br>
-                <table class="table table-bordered">
+            </div>            
+          </div>
+          <div class="col-sm-2">
+                         <h2>VS</h2>
+          </div>
+          <div class="col-sm-5">
+            <div class="battle">
+                <h4>Pokemon 2</h4>
+              <div class="battle-img"><%= image_tag @pokemon2.pokedex.image_url %></div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+              <table class="table table-bordered">
                   <tr>
                     <td width="35%" bgcolor="#d9edf7">Name</td>
                     <td><%= @pokemon1.name %></td>
@@ -30,17 +45,13 @@
                 <%= link_to 'Attack', '#' , :class=>"btn btn-danger btn-sm" %>
                 <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
                 </center>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <h2>VS</h2>
-            </div>
-            <div class="col-sm-5">
-              <div class="battle">
-              <h4>Pokemon 2</h4>
-              <div class="battle-img"><%= image_tag @pokemon2.pokedex.image_url %></div>
-              <br>
-                <table class="table table-bordered">
+            
+          </div>
+          <div class="col-sm-2">
+
+          </div>
+          <div class="col-sm-5">
+            <table class="table table-bordered">
                   <tr>
                     <td width="35%" bgcolor="#d9edf7">Name</td>
                     <td><%= @pokemon2.name %></td>
@@ -58,9 +69,10 @@
                 <%= link_to 'Attack', '#' , :class=>"btn btn-danger btn-sm" %>
                 <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
                 </center>
-              </div>
-            </div>
           </div>
+          
+        </div>
+
         </div>
       </div>
 

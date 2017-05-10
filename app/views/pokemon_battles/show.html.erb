@@ -1,82 +1,90 @@
 <%= render 'pages/nav' %>
-    <div class="container">
-
-      <div class="panel panel-info">
-      <div class="panel-heading">Battle</div>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">Battle</div>
         <div class="panel-body">
-        <br>
-
-        <div class="row">
-          <div class="col-sm-5">
-            <div class="battle">
-                <h4>Pokemon 1</h4>
-                <div class="battle-img"><%= image_tag @pokemon1.pokedex.image_url %></div>
-            </div>            
-          </div>
-          <div class="col-sm-2">
-                         <h2>VS</h2>
-          </div>
-          <div class="col-sm-5">
-            <div class="battle">
-                <h4>Pokemon 2</h4>
-              <div class="battle-img"><%= image_tag @pokemon2.pokedex.image_url %></div>
+            <br>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="battle">
+                        <h4>Pokemon 1</h4>
+                        <div class="battle-img"><%= image_tag @pokemon1.pokedex.image_url %></div>
+                    </div>            
+                </div>
+                <div class="col-sm-2">
+                    <h2>VS</h2>
+                    <h3>Turn <%= @pokemon_battle.current_turn %> </h3>
+                </div>
+                <div class="col-sm-5">
+                    <div class="battle">
+                        <h4>Pokemon 2</h4>
+                        <div class="battle-img"><%= image_tag @pokemon2.pokedex.image_url %></div>
+                    </div>
+                </div>
             </div>
-            
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-5">
-              <table class="table table-bordered">
-                  <tr>
-                    <td width="35%" bgcolor="#d9edf7">Name</td>
-                    <td><%= @pokemon1.name %></td>
-                  </tr>
-                  <tr>
-                    <td bgcolor="#d9edf7">Health Point</td>
-                    <td><%= @pokemon1.current_health_point %>/<%= @pokemon1.max_health_point %></td>
-                  </tr>
-                  <tr>
-                    <td bgcolor="#d9edf7">Attack</td>
-                    <td>
-                      <%= select_tag('attack',  options_for_select(@pokemon1.skills.all.collect {|p| [ p.name, p.id ] }), prompt: '--- Choose Attack ---' , class: "form-control", required: true) %>
-                  </tr>
+            <div class="row">
+                <div class="col-sm-5">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td width="35%" bgcolor="#d9edf7">Name</td>
+                            <td><%= @pokemon1.name %></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#d9edf7">Health Point</td>
+                            <td><%= @pokemon1.current_health_point %>/<%= @pokemon1.max_health_point %></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#d9edf7">Attack</td>
+                            <td>
+                                <%= form_tag attack_path(@pokemon_battle) do %>
+                                    <%= select_tag('attack',  options_for_select(@pokemon1_skills), prompt: '--- Choose Attack ---' , class: "form-control", required: true)%>
+                            </td>
+                        </tr>
+                    </table>
+                    <p id="notice"><%= flash[:notice1] %></p>
+                    <center>
+                                    <% if @pokemon_battle.current_turn%2==1 %>
+                                         <%= submit_tag 'Attack', class: "btn btn-danger btn-sm" %>
+                                     <% else %>
+                                         <%= submit_tag 'Attack', class: "btn btn-danger btn-sm", disabled: true %>
+                                     <% end %>
+                                 <% end %>
+                        <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
+                    </center>            
+                </div>
+                <div class="col-sm-2">
+            </div>
+            <div class="col-sm-5">
+                <table class="table table-bordered">
+                    <tr>
+                        <td width="35%" bgcolor="#d9edf7">Name</td>
+                        <td><%= @pokemon2.name %></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#d9edf7">Health Point</td>
+                        <td><%= @pokemon2.current_health_point %> / <%= @pokemon2.max_health_point %></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#d9edf7">Attack</td>
+                        <td>
+                        <%= form_tag attack_path(@pokemon_battle) do %>
+                            <%= select_tag('attack',  options_for_select(@pokemon2_skills), prompt: '--- Choose Attack ---' , class: "form-control", required: true) %>
+                        </td>
+                    </tr>
                 </table>
+                <p id="notice"><%= flash[:notice2] %></p>
                 <center>
-                <%= link_to 'Attack', '#' , :class=>"btn btn-danger btn-sm" %>
-                <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
+                            <% if @pokemon_battle.current_turn%2==0 %>
+                                <%= submit_tag 'Attack', class: "btn btn-danger btn-sm" %>
+                            <% else %>
+                                <%= submit_tag 'Attack', class: "btn btn-danger btn-sm", disabled: true %>
+                            <% end %>
+                        <% end %>
+                        <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
                 </center>
-            
-          </div>
-          <div class="col-sm-2">
-
-          </div>
-          <div class="col-sm-5">
-            <table class="table table-bordered">
-                  <tr>
-                    <td width="35%" bgcolor="#d9edf7">Name</td>
-                    <td><%= @pokemon2.name %></td>
-                  </tr>
-                  <tr>
-                    <td bgcolor="#d9edf7">Health Point</td>
-                    <td><%= @pokemon2.current_health_point %> / <%= @pokemon2.max_health_point %></td>
-                  </tr>
-                  <tr>
-                    <td bgcolor="#d9edf7">Attack</td>
-                    <td><%= select_tag('attack',  options_for_select(@pokemon2.skills.all.collect {|p| [ p.name, p.id ] }), prompt: '--- Choose Attack ---' , class: "form-control", required: true) %></td>
-                  </tr>
-                </table>
-                <center>
-                <%= link_to 'Attack', '#' , :class=>"btn btn-danger btn-sm" %>
-                <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
-                </center>
-          </div>
-          
+                </div>
+            </div>
         </div>
-
-        </div>
-      </div>
-
-
-
-    </div> <!-- /container -->
+    </div>
+</div> <!-- /container -->
 <%= render 'pages/footer' %>

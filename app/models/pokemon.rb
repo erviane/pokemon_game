@@ -27,4 +27,8 @@ class Pokemon < ApplicationRecord
 	def check_pokedex_id
 		errors.add(:pokedex_id, "can't be blank") if self.pokedex_id.blank?		
 	end
+
+	def element_type
+		pokedex.element_type
+	end
 end 

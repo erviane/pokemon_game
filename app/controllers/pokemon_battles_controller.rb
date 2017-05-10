@@ -19,7 +19,8 @@ class PokemonBattlesController < ApplicationController
     # GET /pokemon_battles/new
     def new
        @pokemon_battle = PokemonBattle.new
-       @pokemon_select = Pokemon.all.map {|p| [ p.name, p.id ] }
+       available_pokemon = Pokemon.where("current_health_point>?",0)
+       @pokemon_select = available_pokemon.map {|p| [ p.name, p.id ] }
     end 
 
     # POST /pokemon_battles
@@ -41,7 +42,7 @@ class PokemonBattlesController < ApplicationController
         if @pokemon_battle.save
             redirect_to pokemon_battle_url(@pokemon_battle)
         else
-            render :new
+            redirect_to new_pokemon_battle_url
         end 
 
     end 
@@ -61,14 +62,14 @@ class PokemonBattlesController < ApplicationController
         current_pp = pokemon_skill.current_pp        
         if current_turn%2==1
             if current_pp == 0
-                flash[:notice1] = "Current PP skill is empty. Try another skill"
+                flash[:notice1] = "Current PP skill is null. Try another skill"
                 redirect_to :back
             end
             attacker = pokemon1
             defender = pokemon2
         else
             if current_pp == 0
-                flash[:notice2] = "Current PP skill is empty. Try another skill"
+                flash[:notice2] = "Current PP skill is null. Try another skill"
                 redirect_to :back
             end
             attacker = pokemon2
@@ -78,8 +79,17 @@ class PokemonBattlesController < ApplicationController
         hp_defender = defender.current_health_point - damage.to_i
         current_pp -= 1
         current_turn += 1
-        defender.update(current_health_point: hp_defender )
+        if hp_defender < 0 
+            hp_defender = 0
+        end
+        defender.update(current_health_point: hp_defender)
         pokemon_skill.update(current_pp: current_pp)
+        if hp_defender == 0
+            flash[:winner] = "#{attacker.name} is winner"
+            @pokemon_battle.update(state: "finish", 
+                                    pokemon_winner_id: attacker.id, 
+                                    pokemon_loser_id: defender.id)
+        end
         @pokemon_battle.update(current_turn: current_turn)
         redirect_to :back
     end 

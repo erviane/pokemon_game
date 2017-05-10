@@ -121,3 +121,8 @@ a img{
   text-align: center;
   font-weight: bold;
 }
+.text-primary{
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+}

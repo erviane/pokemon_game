@@ -381,5 +381,6 @@ class PokemonBattleCalculator
 		weakness_resistance = ARRAY_OF_BATTLE_TYPES[attacker_symbol][defender_symbol]
 
 		damage = ((((2 * attacker.level / 5.to_f + 2) * attacker.attack * skill.power / defender.defence.to_f) / 50.to_f) + 2) * stab * weakness_resistance * ( rand(85..100) / 100.to_f)
+
 	end
 end

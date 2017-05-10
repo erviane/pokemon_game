@@ -9,6 +9,7 @@ class PokemonsController < ApplicationController
   # GET /pokemons/1
   def show
     @pokemon_skills = PokemonSkill.new
+    @skill_list = Skill.all.collect {|p| [ p.name, p.id ] }
   end
 
   # GET /pokemons/new

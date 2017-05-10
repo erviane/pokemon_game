@@ -16,6 +16,11 @@
                   <th>Pokemon2</th>
                   <th>Turn</th>
                   <th>State</th>
+                  <th>Winner</th>
+                  <th>Loser</th>
+                  <th>Experience</th>
+                  <th>Pokemon1 max HP</th>
+                  <th>Pokemon2 max HP</th>
                   <th>Action</th>
                 </tr>
               </thead>            
@@ -23,10 +28,15 @@
               <tbody>
                 <% @pokemon_battles.each do |pokemon_battle| %>
                   <tr>
-                    <td><%= pokemon_battle.pokemon1_id %></td>
-                    <td><%= pokemon_battle.pokemon2_id %></td>
+                    <td><%= pokemon_battle.pokemon1_name %></td>
+                    <td><%= pokemon_battle.pokemon2_name %></td>
                     <td><%= pokemon_battle.current_turn %></td>
                     <td><%= pokemon_battle.state %></td>
+                    <td><%= pokemon_battle.winner %></td>
+                    <td><%= pokemon_battle.loser %></td>
+                    <td><%= pokemon_battle.experience_gain %></td>
+                    <td><%= pokemon_battle.pokemon1_max_health_point %></td>
+                    <td><%= pokemon_battle.pokemon2_max_health_point %></td>
                     <td><%= link_to 'Show', pokemon_battle, :class=>"btn btn-info btn-sm" %>
                     <%= link_to 'Destroy', pokemon_battle, :class=>"btn btn-danger btn-sm", method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>

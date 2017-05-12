@@ -383,4 +383,17 @@ class PokemonBattleCalculator
 		damage = ((((2 * attacker.level / 5.to_f + 2) * attacker.attack * skill.power / defender.defence.to_f) / 50.to_f) + 2) * stab * weakness_resistance * ( rand(85..100) / 100.to_f)
 
 	end
+
+	def self.calculate_experience(enemy_level)
+		rand(20..150)*enemy_level		
+	end
+
+	def self.level_up?(level_winner, total_experience_winner)
+		max_exp = 2**level_winner*100
+		if total_experience_winner >= max_exp
+			return true
+		else
+			return false
+		end		
+	end
 end

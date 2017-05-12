@@ -3,12 +3,18 @@
     <div class="panel panel-info">
         <div class="panel-heading">Battle</div>
         <div class="panel-body">
-            <% if  flash[:danger].present? %>
+            <% if  @pokemon_battle.state == "finish" %>
                 <div class="alert alert-danger">
-                    <strong><%= flash[:danger] %></strong>
+                    <strong> GAME IS FINISHED... </strong>
                 </div>
             <% end %>
-            <p class='text-primary'><%= flash[:winner] if flash[:winner].present? %></p>
+
+            <% if  flash[:danger].present? || flash[:success].present?%>
+                <% flash.each do |key, value| %>
+                    <div class="alert alert-<%= key %>"><%= value %></div>
+                <% end %>   
+            <% end %>
+            <p class='text-primary'><%= "#{@pokemon_battle.winner.upcase} IS WINNER" if @pokemon_battle.pokemon_winner_id.present? %></p>
             <br>
             <div class="row">
                 <div class="col-sm-5">

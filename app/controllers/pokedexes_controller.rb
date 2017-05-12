@@ -1,5 +1,6 @@
 class PokedexesController < ApplicationController
   before_action :set_pokedex, only: [:show, :edit, :update, :destroy]
+  before_action :pokedex_select, only: [:new, :create, :edit, :update]
 
   # GET /pokedexes
   # GET /pokedexes.json
@@ -61,5 +62,9 @@ class PokedexesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def pokedex_params
       params.require(:pokedex).permit(:name, :base_health_point, :base_attack, :base_defence, :base_speed, :element_type, :image_url)
+    end
+
+    def pokedex_select
+      @pokedex_select = Skill::ELEMENT_TYPE.collect {|p| [ p, p ] }
     end
 end

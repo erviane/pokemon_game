@@ -13,8 +13,8 @@
             <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th>Pokedex</th>
                     <th>Name</th>
+                    <th>Pokedex</th>
                     <th>Level</th>
                     <th>Max health point</th>
                     <th>Current health point</th>
@@ -29,8 +29,8 @@
                 <tbody>
                   <% @pokemons.each do |pokemon| %>
                     <tr>
-                      <td><%= pokemon.pokedex.name %></td>
                       <td><%= pokemon.name %></td>
+                      <td><%= pokemon.pokedex.name %></td>
                       <td><%= pokemon.level %></td>
                       <td><%= pokemon.max_health_point %></td>
                       <td><%= pokemon.current_health_point %></td>

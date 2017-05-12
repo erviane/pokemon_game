@@ -22,8 +22,7 @@ class PokemonBattlesController < ApplicationController
     # GET /pokemon_battles/new
     def new
        @pokemon_battle = PokemonBattle.new
-       #available_pokemon = Pokemon.where("current_health_point>?",0)
-       #@pokemon_select = available_pokemon.all.collect {|p| [ p.name, p.id ] }
+       select_pokemon
     end 
 
     # POST /pokemon_battles
@@ -45,6 +44,7 @@ class PokemonBattlesController < ApplicationController
         if @pokemon_battle.save
             redirect_to pokemon_battle_url(@pokemon_battle)
         else
+            select_pokemon
             render :new
         end 
 
@@ -66,7 +66,7 @@ class PokemonBattlesController < ApplicationController
         attack_success = @defender.update(current_health_point: hp_defender)
 
         if attack_success
-            attacker_current_pp = attacker_skill.current_pp -= 1
+            attacker_current_pp = attacker_skill.current_pp - 1
             @current_turn += 1
             attacker_skill.update(current_pp: attacker_current_pp)
             @pokemon_battle.update(current_turn: @current_turn)
@@ -75,11 +75,7 @@ class PokemonBattlesController < ApplicationController
         end
 
         if hp_defender == 0
-            flash[:danger] = "GAME IS FINISH"
-            flash[:winner] = "#{@attacker.name} is winner"
-            @pokemon_battle.update(state: "finish", 
-                                    pokemon_winner_id: @attacker.id, 
-                                    pokemon_loser_id: @defender.id)
+            result(@attacker, @defender)
         end
         
         redirect_to :back
@@ -87,17 +83,8 @@ class PokemonBattlesController < ApplicationController
 
 
     def surrender
-        if @pokemon_battle.update(state: "finish",
-                                pokemon_winner_id: @defender.id,
-                                pokemon_loser_id: @attacker.id)
-            flash[:danger] = "GAME IS FINISH"
-            flash[:winner] = "#{@defender.name} is winner"
-            redirect_to :back
-        else
-            flash[:danger] = "Failed surrender"
-            redirect_to :back
-        end
-        
+        result(@defender, @attacker)
+        redirect_to :back        
     end
 
     private
@@ -123,6 +110,26 @@ class PokemonBattlesController < ApplicationController
             @defender = pokemon1
         end
           
+      end
+
+      def select_pokemon
+        available_pokemon = Pokemon.where("current_health_point>?",0)
+        @pokemon_select = available_pokemon.all.collect {|p| [ p.name, p.id ] }
+      end
+
+      def result (winner, loser)
+            experience_gain = PokemonBattleCalculator.calculate_experience(loser.level)
+            @pokemon_battle.update(state: "finish", 
+                                    pokemon_winner_id: winner.id, 
+                                    pokemon_loser_id: loser.id,
+                                    experience_gain: experience_gain)
+            winner_experience = winner.current_experience + experience_gain
+            winner.update(current_experience: winner_experience)
+            if PokemonBattleCalculator.level_up?(winner.level, winner.current_experience)
+                flash[:success] = "#{winner.name} level up"
+                winner_level = winner.level + 1
+                winner.update(level: winner_level)
+            end
       end
 
 end

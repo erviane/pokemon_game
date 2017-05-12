@@ -1,5 +1,6 @@
 class PokemonsController < ApplicationController
   before_action :set_pokemon, only: [:show, :edit, :update, :destroy, :destroy_skill]
+  before_action :select_pokedex, only: [:new, :create]
 
   # GET /pokemons
   def index
@@ -15,7 +16,6 @@ class PokemonsController < ApplicationController
   # GET /pokemons/new
   def new
     @pokemon = Pokemon.new
-    @pokedex_select = Pokedex.all.collect {|p| [ p.name, p.id ] }
   end
 
   # GET /pokemons/1/edit
@@ -29,7 +29,7 @@ class PokemonsController < ApplicationController
       if Pokedex.ids.include?params[:pokemon][:pokedex_id].to_i
         pokedex = Pokedex.find(params[:pokemon][:pokedex_id])
         @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
-                                   :current_experience => 1, 
+                                   :current_experience => 0, 
                                    :max_health_point => pokedex.base_health_point,
                                    :attack => pokedex.base_attack, 
                                    :defence => pokedex.base_defence, 
@@ -75,5 +75,9 @@ class PokemonsController < ApplicationController
 
     def pokemon_params_edit
       params.require(:pokemon).permit(:name, :max_health_point, :current_health_point, :attack, :defence, :speed, :current_experience)
+    end
+
+    def select_pokedex
+      @pokedex_select = Pokedex.all.map {|p| [ p.name, p.id ] }
     end
 end

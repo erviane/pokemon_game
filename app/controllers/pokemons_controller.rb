@@ -15,7 +15,7 @@ class PokemonsController < ApplicationController
   # GET /pokemons/new
   def new
     @pokemon = Pokemon.new
-    @pokedex = Pokedex.all
+    @pokedex_select = Pokedex.all.collect {|p| [ p.name, p.id ] }
   end
 
   # GET /pokemons/1/edit

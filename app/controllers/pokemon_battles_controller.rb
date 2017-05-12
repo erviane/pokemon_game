@@ -1,5 +1,6 @@
 class PokemonBattlesController < ApplicationController
-    before_action :set_pokemon_battle, only: [:show, :destroy, :attack] 
+    before_action :set_pokemon_battle, only: [:show, :destroy, :attack, :surrender] 
+    before_action :turn, only: [:attack, :surrender]
 
     # GET /pokemon_battles
     # GET /pokemon_battles.json
@@ -12,15 +13,17 @@ class PokemonBattlesController < ApplicationController
     def show
         @pokemon1 = Pokemon.find(@pokemon_battle.pokemon1_id)
         @pokemon2 = Pokemon.find(@pokemon_battle.pokemon2_id)
-        @pokemon1_skills = @pokemon1.pokemon_skills.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
-        @pokemon2_skills = @pokemon2.pokemon_skills.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
+        pokemon1_select_skill =  @pokemon1.pokemon_skills.where("current_pp >?", 0)
+        pokemon2_select_skill =  @pokemon2.pokemon_skills.where("current_pp >?", 0)
+        @pokemon1_skills = pokemon1_select_skill.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
+        @pokemon2_skills = pokemon2_select_skill.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
     end 
 
     # GET /pokemon_battles/new
     def new
        @pokemon_battle = PokemonBattle.new
-       available_pokemon = Pokemon.where("current_health_point>?",0)
-       @pokemon_select = available_pokemon.map {|p| [ p.name, p.id ] }
+       #available_pokemon = Pokemon.where("current_health_point>?",0)
+       #@pokemon_select = available_pokemon.all.collect {|p| [ p.name, p.id ] }
     end 
 
     # POST /pokemon_battles
@@ -42,7 +45,7 @@ class PokemonBattlesController < ApplicationController
         if @pokemon_battle.save
             redirect_to pokemon_battle_url(@pokemon_battle)
         else
-            redirect_to new_pokemon_battle_url
+            render :new
         end 
 
     end 
@@ -55,44 +58,47 @@ class PokemonBattlesController < ApplicationController
     end 
 
     def attack
-        pokemon_skill = PokemonSkill.find(params[:attack])
-        pokemon1 = Pokemon.find(@pokemon_battle.pokemon1_id)
-        pokemon2 = Pokemon.find(@pokemon_battle.pokemon2_id)
-        current_turn = @pokemon_battle.current_turn
-        current_pp = pokemon_skill.current_pp        
-        if current_turn%2==1
-            if current_pp == 0
-                flash[:notice1] = "Current PP skill is null. Try another skill"
-                redirect_to :back
-            end
-            attacker = pokemon1
-            defender = pokemon2
+        attacker_skill = PokemonSkill.find(params[:attack])
+        damage = PokemonBattleCalculator.calculate_damage(@attacker, @defender, attacker_skill.skill)
+        hp_defender = @defender.current_health_point - damage.to_i
+        hp_defender = 0 if hp_defender < 0
+
+        attack_success = @defender.update(current_health_point: hp_defender)
+
+        if attack_success
+            attacker_current_pp = attacker_skill.current_pp -= 1
+            @current_turn += 1
+            attacker_skill.update(current_pp: attacker_current_pp)
+            @pokemon_battle.update(current_turn: @current_turn)
         else
-            if current_pp == 0
-                flash[:notice2] = "Current PP skill is null. Try another skill"
-                redirect_to :back
-            end
-            attacker = pokemon2
-            defender = pokemon1
+            flash[:danger] = "Failed attack. Try again"
         end
-        damage = PokemonBattleCalculator.calculate_damage(attacker, defender, pokemon_skill.skill)
-        hp_defender = defender.current_health_point - damage.to_i
-        current_pp -= 1
-        current_turn += 1
-        if hp_defender < 0 
-            hp_defender = 0
-        end
-        defender.update(current_health_point: hp_defender)
-        pokemon_skill.update(current_pp: current_pp)
+
         if hp_defender == 0
-            flash[:winner] = "#{attacker.name} is winner"
+            flash[:danger] = "GAME IS FINISH"
+            flash[:winner] = "#{@attacker.name} is winner"
             @pokemon_battle.update(state: "finish", 
-                                    pokemon_winner_id: attacker.id, 
-                                    pokemon_loser_id: defender.id)
+                                    pokemon_winner_id: @attacker.id, 
+                                    pokemon_loser_id: @defender.id)
         end
-        @pokemon_battle.update(current_turn: current_turn)
+        
         redirect_to :back
     end 
+
+
+    def surrender
+        if @pokemon_battle.update(state: "finish",
+                                pokemon_winner_id: @defender.id,
+                                pokemon_loser_id: @attacker.id)
+            flash[:danger] = "GAME IS FINISH"
+            flash[:winner] = "#{@defender.name} is winner"
+            redirect_to :back
+        else
+            flash[:danger] = "Failed surrender"
+            redirect_to :back
+        end
+        
+    end
 
     private
       # Use callbacks to share common setup or constraints between actions.
@@ -104,5 +110,19 @@ class PokemonBattlesController < ApplicationController
       def pokemon_battle_params
           params.permit(:pokemon1_id, :pokemon2_id)
       end 
+
+      def turn
+        pokemon1 = Pokemon.find(@pokemon_battle.pokemon1_id)
+        pokemon2 = Pokemon.find(@pokemon_battle.pokemon2_id)
+        @current_turn = @pokemon_battle.current_turn         
+        if @current_turn%2==1
+            @attacker = pokemon1
+            @defender = pokemon2
+        else
+            @attacker = pokemon2
+            @defender = pokemon1
+        end
+          
+      end
 
 end

@@ -3,9 +3,9 @@
     <div class="panel panel-info">
         <div class="panel-heading">Battle</div>
         <div class="panel-body">
-            <% if @pokemon_battle.state == "finish" %>
+            <% if  flash[:danger].present? %>
                 <div class="alert alert-danger">
-                    <strong>GAME IS FINISH...</strong>
+                    <strong><%= flash[:danger] %></strong>
                 </div>
             <% end %>
             <p class='text-primary'><%= flash[:winner] if flash[:winner].present? %></p>
@@ -47,17 +47,16 @@
                             </td>
                         </tr>
                     </table>
-                    <p id="notice"><%= flash[:notice1] %></p>
                     <center>
                                     <% if (@pokemon_battle.current_turn%2==1)&(@pokemon_battle.state != "finish") %>
                                          <%= submit_tag 'Attack', class: "btn btn-danger btn-sm" %>
-                                         <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
-                                     <% else %>
+                                         <%= link_to 'Surrender', surrender_path(@pokemon_battle,@pokemon1) , :class=>"btn btn-primary btn-sm" %>
+                                    <% else %>
                                          <%= submit_tag 'Attack', class: "btn btn-danger btn-sm", disabled: true %>
                                          <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm", disabled: true %>
-                                     <% end %>
+                                    <% end %>
                                 <% end %>
-                            
+                           
                     </center>            
                 </div>
                 <div class="col-sm-2">
@@ -80,11 +79,10 @@
                         </td>
                     </tr>
                 </table>
-                <p id="notice"><%= flash[:notice2] %></p>
                 <center>
                             <% if (@pokemon_battle.current_turn%2==0)&(@pokemon_battle.state != "finish") %>
                                 <%= submit_tag 'Attack', class: "btn btn-danger btn-sm" %>
-                                <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm" %>
+                                <%= link_to 'Surrender', surrender_path(@pokemon_battle,@pokemon2) , :class=>"btn btn-primary btn-sm" %>
                             <% else %>
                                 <%= submit_tag 'Attack', class: "btn btn-danger btn-sm", disabled: true %>
                                 <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm", disabled: true %>

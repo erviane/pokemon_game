@@ -12,7 +12,7 @@
   <div class="form-group">
     <%= label_tag 'pokedex_id', nil, class: 'control-label col-sm-2' %>
     <div class="col-sm-10">
-     <%= select_tag('pokemon[pokedex_id]',  options_for_select(Pokedex.all.collect {|p| [ p.name, p.id ] }) , class: "form-control") %>
+     <%= select_tag('pokemon[pokedex_id]',  options_for_select(@pokedex_select) , class: "form-control") %>
      <%= content_tag(:div, "#{ @pokemon.errors[:pokedex_id].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon.errors.any?%>
     </div>
   </div>

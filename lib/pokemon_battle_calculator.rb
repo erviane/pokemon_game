@@ -396,4 +396,13 @@ class PokemonBattleCalculator
 			return false
 		end		
 	end
+
+	def self.calculate_level_up_extra_stats
+		health_point = rand(10..20)
+		attack_point = rand(1..5)
+		defence_point = rand(1..5)
+		speed_point = rand(1..5)
+		extra_point = Struct.new(:health, :attack, :defence, :speed)
+		winner_extra_point = extra_point.new(health_point, attack_point, defence_point, speed_point)
+	end
 end

@@ -126,10 +126,24 @@ class PokemonBattlesController < ApplicationController
             winner_experience = winner.current_experience + experience_gain
             winner.update(current_experience: winner_experience)
             if PokemonBattleCalculator.level_up?(winner.level, winner.current_experience)
+                level_up(winner)
+                extra_point = PokemonBattleCalculator.calculate_level_up_extra_stats
                 flash[:success] = "#{winner.name} level up"
-                winner_level = winner.level + 1
-                winner.update(level: winner_level)
+                winner_max_hp = winner.max_health_point.to_i + extra_point[:health]
+                winner_attack = winner.attack + extra_point[:attack]
+                winner_defence = winner.defence + extra_point[:defence]
+                winner_speed = winner.speed + extra_point[:speed]
+                winner.update( max_health_point: winner_max_hp,
+                              attack: winner_attack, 
+                              defence: winner_defence, 
+                              speed: winner_speed)
             end
+      end
+
+      def level_up(winner)
+          level_pass =  Math.log((winner.current_experience/100),2).to_i
+          level_now = level_pass + 1
+          winner.update(level: level_now)
       end
 
 end

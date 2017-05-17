@@ -5,12 +5,17 @@
     <div class="panel panel-info">
       <div class="panel-heading">Detail Pokedex</div>
         <div class="panel-body">
+            <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Pokemons', pokemons_path%></li>
+                  <li class="active">Pokemon Show</li>
+            </ol>
           <div class="panel-body-show">
           <% flash.each do |key, value| %>
                 <div class="alert alert-<%= key %>"><%= value %></div>
             <% end %> 
               <div class="button">
-                <%= link_to 'Heal', "#", class: "btn btn-warning" %>
+                <%= link_to 'Heal', heal_path(@pokemon), class: "btn btn-warning" %>
                 <%= link_to 'Edit', edit_pokemon_path(@pokemon), class: "btn btn-success" %>
                 <%= link_to 'Destroy', @pokemon, :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
               </div>

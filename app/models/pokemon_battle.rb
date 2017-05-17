@@ -1,6 +1,7 @@
 class PokemonBattle < ApplicationRecord
 	belongs_to :pokemon1, class_name: 'Pokemon'
 	belongs_to :pokemon2, class_name: 'Pokemon'
+	has_many :pokemon_battle_logs, dependent: :destroy
 	validates :pokemon1_id, presence: true,
 							allow_blank: false
 	validates :pokemon2_id, presence: true,

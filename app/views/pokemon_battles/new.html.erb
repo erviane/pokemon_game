@@ -4,6 +4,11 @@
       <div class="panel panel-info">
       <div class="panel-heading">New Pokemon Battle</div>
         <div class="panel-body">
+            <ol class="breadcrumb">
+              <li><%= link_to 'Home', root_path%></li>
+              <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
+              <li class="active">Battle New</li>
+            </ol>
         <center><h2><strong>SELECT POKEMON</strong></h2></center>
         <br><br>
         <%= form_for @pokemon_battle do |f| %>

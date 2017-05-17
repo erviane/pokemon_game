@@ -1,0 +1,28 @@
+<%= render 'pages/nav' %>
+    <div class="container">
+
+      <div class="panel panel-info">
+        <div class="panel-heading">Pokemon Battle Logs</div>
+        <div class="panel-body">
+            <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
+                  <li class="active">Battle Logs</li>
+            </ol>
+            <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>"><%= value %></div>
+            <% end %> 
+            <br>
+            <h3> Log For Pokemon Battle ID : <%= params[:pokemon_battle_id] %>
+            </h3>
+            <br>
+            <%= render 'pokemon_battle_logs/table_log' %>
+            <br>
+            <%= will_paginate @pokemon_battle_logs, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>            
+          </div>
+        </div>
+
+
+
+    </div> <!-- /container -->
+<%= render 'pages/footer' %>

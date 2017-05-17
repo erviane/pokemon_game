@@ -5,6 +5,11 @@
       <div class="panel panel-info">
       <div class="panel-heading">New Skill</div>
         <div class="panel-body">
+            <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Skills', skills_path%></li>
+                  <li class="active">Skill New</li>
+            </ol>
             <%= render 'form', skill: @skill %>
         </div>
       </div>

@@ -1,10 +1,10 @@
 class PokemonsController < ApplicationController
-  before_action :set_pokemon, only: [:show, :edit, :update, :destroy, :destroy_skill]
+  before_action :set_pokemon, only: [:show, :edit, :update, :destroy, :destroy_skill, :heal]
   before_action :select_pokedex, only: [:new, :create]
 
   # GET /pokemons
   def index
-    @pokemons = Pokemon.all.order("created_at DESC").paginate(page: params[:page], per_page: 20)
+    @pokemons = Pokemon.all.order("created_at ASC").paginate(page: params[:page], per_page: 20)
   end
 
   # GET /pokemons/1
@@ -48,7 +48,7 @@ class PokemonsController < ApplicationController
   # PATCH/PUT /pokemons/1
   def update
       if @pokemon.update(pokemon_params_edit)
-        redirect_to pokemons_url
+        redirect_to pokemon_url
         flash[:success] = "Pokemon was successfully updated"
       else
         render :edit
@@ -60,6 +60,38 @@ class PokemonsController < ApplicationController
     @pokemon.destroy
       redirect_to pokemons_url
       flash[:success] = "Pokemon was successfully deleted"
+  end
+
+  def heal
+    pokemon1 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon1_id}
+    pokemon2 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon2_id}
+    ongoing_pokemon = pokemon1 + pokemon2
+    if ongoing_pokemon.include?(params[:pokemon_id])
+      flash[:danger] = "Heal failed. Pokemon is ongoing on battle"
+    else
+      @pokemon.update(current_health_point: @pokemon.max_health_point)
+      @pokemon.pokemon_skills.each do |pokemon_skill|
+        pokemon_skill.update(current_pp: pokemon_skill.skill_max_pp)
+      end
+      redirect_to :back
+      flash[:success] = "Heal was Successfully"
+    end
+  end
+
+  def heal_all
+    pokemon1 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon1_id}
+    pokemon2 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon2_id}
+    ongoing_pokemon = pokemon1 + pokemon2
+    Pokemon.all.each do |pokemon|
+      if !ongoing_pokemon.include?(pokemon.id)
+          pokemon.update(current_health_point: pokemon.max_health_point)
+          pokemon.pokemon_skills.each do |pokemon_skill|
+              pokemon_skill.update(current_pp: pokemon_skill.skill_max_pp)
+          end
+      end
+    end
+      redirect_to pokemons_url
+      flash[:success] = "Heal All was Successfully"
   end
 
   private

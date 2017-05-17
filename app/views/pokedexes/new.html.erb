@@ -5,6 +5,11 @@
       <div class="panel panel-info">
       <div class="panel-heading">New Pokedex</div>
         <div class="panel-body">
+             <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Pokedexes', pokedexes_path%></li>
+                  <li class="active">Pokedex New</li>
+            </ol>
             <%= render 'form', pokedex: @pokedex %>
         </div>
       </div>

@@ -44,6 +44,7 @@ gem 'active_median', '~> 0.1.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem "rspec-rails"
 
 end
 
@@ -58,7 +59,15 @@ group :development do
   gem "binding_of_caller"
 end
 
+group :test do
+  gem "factory_girl_rails"
+  gem "capybara"
+  gem "guard-rspec"
+  gem 'pry'
+  gem 'pry-byebug'
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem  'will_paginate', '~> 3.0.7'
-gem 'will_paginate-bootstrap', group: :assets
+gem 'will_paginate-bootstrap'

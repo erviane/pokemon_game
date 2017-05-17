@@ -4,6 +4,11 @@
       <div class="panel panel-info">
       <div class="panel-heading">Detail Pokedex</div>
         <div class="panel-body">
+            <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Pokedexes', pokedexes_path%></li>
+                  <li class="active">Pokedex Show</li>
+            </ol>
         <div class="panel-body-show">
         <div class="button">
             <%= link_to 'Edit', edit_pokedex_path(@pokedex), class: "btn btn-success" %>

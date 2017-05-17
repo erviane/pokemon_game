@@ -3,9 +3,14 @@
     <div class="panel panel-info">
         <div class="panel-heading">Battle</div>
         <div class="panel-body">
+            <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
+                  <li class="active">Battle Show</li>
+            </ol>
             <% if  @pokemon_battle.state == "finish" %>
                 <div class="alert alert-danger">
-                    <strong> GAME IS FINISHED... </strong>
+                    <strong> GAME HAS FINISHED... </strong>
                 </div>
             <% end %>
 
@@ -49,6 +54,7 @@
                             <td bgcolor="#d9edf7">Attack</td>
                             <td>
                                 <%= form_tag attack_path(@pokemon_battle) do %>
+                                    <%= hidden_field_tag('pokemon_id', @pokemon1.id) %>
                                     <%= select_tag('attack',  options_for_select(@pokemon1_skills), prompt: '--- Choose Attack ---' , class: "form-control", required: true)%>
                             </td>
                         </tr>
@@ -81,6 +87,7 @@
                         <td bgcolor="#d9edf7">Attack</td>
                         <td>
                         <%= form_tag attack_path(@pokemon_battle) do %>
+                            <%= hidden_field_tag('pokemon_id', @pokemon2.id) %>
                             <%= select_tag('attack',  options_for_select(@pokemon2_skills), prompt: '--- Choose Attack ---' , class: "form-control", required: true) %>
                         </td>
                     </tr>
@@ -98,6 +105,11 @@
                 </center>
                 </div>
             </div>
+            <br>
+            <h3>Battle Logs</h3>
+            <%= render 'pokemon_battle_logs/table_log' %>
+            <br>
+            <%= will_paginate @pokemon_battle_logs, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>
         </div>
     </div>
 </div> <!-- /container -->

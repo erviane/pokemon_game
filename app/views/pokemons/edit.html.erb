@@ -4,6 +4,12 @@
       <div class="panel panel-info">
       <div class="panel-heading">Editing Pokemon</div>
         <div class="panel-body">
+             <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Pokemons', pokemons_path%></li>
+                  <li><%= link_to 'Pokemon Show', pokemon_path%></li>
+                  <li class="active">Pokemon Edit</li>
+            </ol>
             <%= render 'form_edit', pokemon: @pokemon %>
         </div>
       </div>

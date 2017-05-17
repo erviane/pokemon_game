@@ -1,5 +1,6 @@
 class PokemonBattlesController < ApplicationController
     before_action :set_pokemon_battle, only: [:show, :destroy, :attack, :surrender]
+    before_action :set_pokemon, only: [:attack, :surrender]
 #    before_action :turn, only: [:attack, :surrender]
 
     # GET /pokemon_battles
@@ -17,7 +18,7 @@ class PokemonBattlesController < ApplicationController
         pokemon2_select_skill =  @pokemon2.pokemon_skills.where("current_pp >?", 0)
         @pokemon1_skills = pokemon1_select_skill.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
         @pokemon2_skills = pokemon2_select_skill.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
-        
+        @pokemon_battle_logs = PokemonBattleLog.where("pokemon_battle_id=?", params[:id]).order("created_at ASC").paginate(page: params[:page], per_page: 10)
     end 
 
     # GET /pokemon_battles/new
@@ -59,29 +60,38 @@ class PokemonBattlesController < ApplicationController
 
     def attack
         attacker_skill = PokemonSkill.find(params[:attack])
-        battle = BattleEngine.new(pokemon_battle: @pokemon_battle, skill: attacker_skill)        
-        battle.attack        
-        flash[:success] = battle.flash[:success]
-        if battle.valid_next_turn?            
-            battle.next_turn!
+        battle = BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon_skill: attacker_skill, pokemon: @pokemon)
+        if battle.valid_next_turn?
+            battle.attack        
+            flash[:success] = battle.flash[:success]
+            redirect_to :back
         else
-            flash[:danger] = "Failed attack. Try again"
+            flash[:danger] ="Can't attack"
+            redirect_to :back
         end
-        redirect_to :back
     end 
 
 
     def surrender
-        battle = BattleEngine.new(pokemon_battle: @pokemon_battle)
-        battle.surrender
-        flash[:success] = battle.flash[:success]
-        redirect_to :back        
+        battle = BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon: @pokemon)
+        if battle.valid_surrender?
+            battle.surrender        
+            flash[:success] = battle.flash[:success]
+            redirect_to :back
+        else
+            flash[:danger] ="Can't surrender"
+            redirect_to :back
+        end     
     end
 
     private
 
     def set_pokemon_battle
         @pokemon_battle = PokemonBattle.find(params[:id])
+    end
+
+    def set_pokemon
+        @pokemon = Pokemon.find(params[:pokemon_id])         
     end     
 
     def pokemon_battle_params

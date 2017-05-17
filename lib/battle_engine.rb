@@ -1,17 +1,33 @@
+require 'pry'
+
 class BattleEngine
 	attr_accessor :flash
+    attr_accessor :pokemon_battle
+    attr_accessor :attacker_skill
+    attr_accessor :pokemon
+    attr_reader :damage
+    attr_reader :attacker
+    attr_reader :defender
 
-	def initialize(pokemon_battle:, skill:nil)
+	def initialize(pokemon_battle:, pokemon_skill:nil, pokemon:)
 		@pokemon_battle = pokemon_battle
-		@attacker_skill = skill
+		@attacker_skill = pokemon_skill
+    @pokemon = pokemon
 		@flash = {}
 	end
 
-	def valid_next_turn?
-		attacker_current_pp = @attacker_skill.current_pp - 1
-	    @attacker_skill.update(current_pp: attacker_current_pp)
-	    attack_success = @defender.update(current_health_point: @hp_defender)
-	end
+  def valid_next_turn?
+    player
+    @pokemon_battle.state == "ongoing" &&
+    @attacker.id == @pokemon.id &&
+    (@pokemon.pokemon_skills.include?attacker_skill)
+  end
+
+  def valid_surrender?
+    player
+    @pokemon_battle.state == "ongoing" &&
+    @attacker.id == @pokemon.id
+  end
 
 	def next_turn!
 	    @current_turn += 1
@@ -19,24 +35,45 @@ class BattleEngine
 	end
 
 	def attack
-		player
-        damage = PokemonBattleCalculator.calculate_damage(@attacker, @defender, @attacker_skill.skill)
+        @damage = PokemonBattleCalculator.calculate_damage(@attacker, @defender, @attacker_skill.skill)
         @hp_defender = @defender.current_health_point - damage.to_i
         @hp_defender = 0 if @hp_defender < 0
+        attacker_current_pp = @attacker_skill.current_pp - 1
+        @attacker_skill.update(current_pp: attacker_current_pp)
+        attack_success = @defender.update(current_health_point: @hp_defender)
+        
         if @hp_defender == 0
            result(@attacker, @defender)
-        end        
+        end
+        PokemonBattleLog.create(pokemon_battle_id: @pokemon_battle.id,
+                                turn: @pokemon_battle.current_turn,
+                                skill_id: @attacker_skill.skill.id,
+                                damage: @damage,
+                                attacker_id: @attacker.id,
+                                attacker_current_health_point: @attacker.current_health_point,
+                                defender_id: @defender.id,
+                                defender_current_health_point: @hp_defender,
+                                action_type: "attack")  
+      next_turn!      
 	end
 
 	def surrender
 		player
 		result(@defender, @attacker)
+        @action_type = "surrender"
+        PokemonBattleLog.create(pokemon_battle_id: @pokemon_battle.id,
+                         turn: @pokemon_battle.current_turn,
+                         attacker_id: @attacker.id,
+                         attacker_current_health_point: @attacker.current_health_point,
+                         defender_id: @defender.id,
+                         defender_current_health_point: @defender.current_health_point,
+                         action_type: "surrender")
 	end
 
     private
 
     def player
-		pokemon1 = Pokemon.find(@pokemon_battle.pokemon1_id)
+        pokemon1 = Pokemon.find(@pokemon_battle.pokemon1_id)
         pokemon2 = Pokemon.find(@pokemon_battle.pokemon2_id)
         @current_turn = @pokemon_battle.current_turn         
         if @current_turn%2==1
@@ -46,7 +83,7 @@ class BattleEngine
             @attacker = pokemon2
             @defender = pokemon1
         end 
-	end
+    end
 
     def result(winner, loser)
     	experience_gain = PokemonBattleCalculator.calculate_experience(loser.level)
@@ -57,13 +94,13 @@ class BattleEngine
     end
 
     def save!(pokemon_battle, winner, loser, experience_gain)
-		pokemon_battle.update(state: "finish", 
+		    pokemon_battle.update(state: "finish", 
                                 pokemon_winner_id: winner.id, 
                                 pokemon_loser_id: loser.id,
                                 experience_gain: experience_gain)
         winner_experience = winner.current_experience + experience_gain
         winner.update(current_experience: winner_experience)		
-	end
+	 end
 
     def save_extra_point(winner, extra_point)
     	winner_max_hp = winner.max_health_point.to_i + extra_point[:health]
@@ -87,5 +124,15 @@ class BattleEngine
 	    level_pass =  Math.log((winner.current_experience/100),2).to_i
 	    level_now = level_pass + 1
 	    winner.update(level: level_now)
+    end
+
+    def battle_log_save
+    PokemonBattleLog.create(pokemon_battle_id: @pokemon_battle.id,
+                  turn: @pokemon_battle.current_turn,
+                  attacker_id: @attacker.id,
+                  attacker_current_health_point: @attacker.current_health_point,
+                  defender_id: @defender.id,
+                  defender_current_health_point: @defender.current_health_point,
+                  action_type: @action_type)     
     end
 end

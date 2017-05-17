@@ -45,11 +45,8 @@ class PokemonBattlesController < ApplicationController
         end
         if @pokemon_battle.save
             if params[:commit] == "Auto Battle"
-                while @pokemon_battle.state == "ongoing"
-                    auto_battle
-                end
+                run_auto_battle
             end
-            sleep 2
             redirect_to pokemon_battle_url(@pokemon_battle)
         else
             select_pokemon
@@ -68,31 +65,13 @@ class PokemonBattlesController < ApplicationController
         attacker_skill = PokemonSkill.find(params[:attack])       
         battle = BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon_skill: attacker_skill, pokemon: @pokemon)
         if battle.valid_next_turn?
-            battle.attack
-            if (@pokemon_battle.battle_type) == "Player VS AI" && (@pokemon_battle.current_turn%2 == 0) && (@pokemon_battle.state == "ongoing")
-                ai_do_attack
-            end        
+            battle.attack        
             flash[:success] = battle.flash[:success]
         else
             flash[:danger] ="Can't attack"
         end
         redirect_to :back
     end
-
-    def ai_do_attack 
-        @pokemon_ai = Pokemon.find(@pokemon_battle.pokemon2_id)
-        pokemon_ai_skill = @pokemon_ai.pokemon_skills.where("current_pp>?", 0)
-        if !pokemon_ai_skill.empty?
-            skill_attack = pokemon_ai_skill.sample
-            battle = BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon_skill: skill_attack, pokemon: @pokemon_ai)
-            if battle.valid_next_turn?
-                battle.attack
-                sleep 1
-            end
-        else
-            ai_do_surrender
-        end 
-    end 
 
 
     def surrender
@@ -107,37 +86,6 @@ class PokemonBattlesController < ApplicationController
         end     
     end
 
-    def ai_do_surrender
-        battle = BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon: @pokemon_ai)
-        if battle.valid_surrender?
-            battle.surrender        
-        end 
-    end
-
-    def auto_battle
-        @auto_battle = BattleEngine.new(pokemon_battle: @pokemon_battle)
-        @auto_battle.player
-        attacker_skill = @auto_battle.attacker.pokemon_skills.where("current_pp>?", 0)
-        if !attacker_skill.empty?            
-            attacker_skill_sample = attacker_skill.sample
-            battle = BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon_skill: attacker_skill_sample, pokemon: @auto_battle.attacker)
-            if battle.valid_next_turn?
-                battle.attack
-                flash[:success] = battle.flash[:success]
-            else
-                flash[:danger] == "Can't attack"
-            end
-        else
-            auto_battle_surrender
-        end
-    end
-
-    def auto_battle_surrender
-        battle =  BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon: @auto_battle.attacker)
-        if battle.valid_surrender?
-            battle.surrender        
-        end
-    end 
 
     private
 
@@ -153,10 +101,18 @@ class PokemonBattlesController < ApplicationController
           params.permit(:pokemon1_id, :pokemon2_id)
     end   
 
-
     def select_pokemon
         available_pokemon = Pokemon.where("current_health_point>?",0)
         @pokemon_select = available_pokemon.all.collect {|p| [ p.name, p.id ] }
+    end
+
+    def run_auto_battle
+        while @pokemon_battle.state == "ongoing"
+            battle = BattleEngine.new(pokemon_battle: @pokemon_battle)
+            battle.auto_battle
+            flash[:success] = battle.flash[:success]
+        end
+        sleep 2
     end
 
 end

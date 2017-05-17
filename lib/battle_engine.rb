@@ -54,8 +54,34 @@ class BattleEngine
                                 defender_id: @defender.id,
                                 defender_current_health_point: @hp_defender,
                                 action_type: "attack")
-        next_turn!     
+        next_turn!
+        if (@pokemon_battle.battle_type) == "Player VS AI" && (@pokemon_battle.current_turn%2 == 0) && (@pokemon_battle.state == "ongoing")
+            ai_do_attack
+        end     
 	end
+
+    def ai_do_attack
+        player 
+        pokemon_ai_skill = @attacker.pokemon_skills.where("current_pp>?", 0)
+        if !pokemon_ai_skill.empty?
+            @attacker_skill = pokemon_ai_skill.sample
+            attack
+            sleep 1
+        else
+            surrender
+        end 
+    end
+
+    def auto_battle
+        player
+        @attacker_skill_all = @attacker.pokemon_skills.where("current_pp>?", 0)
+        if !@attacker_skill_all.empty?
+            @attacker_skill = @attacker_skill_all.sample
+            attack
+        else
+            surrender
+        end
+    end 
 
 	def surrender
 		player

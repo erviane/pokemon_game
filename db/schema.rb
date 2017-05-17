@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170515062339) do
+ActiveRecord::Schema.define(version: 20170517040154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170515062339) do
     t.integer  "pokemon2_max_health_point", null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "battle_type"
     t.index ["pokemon1_id"], name: "index_pokemon_battles_on_pokemon1_id", using: :btree
     t.index ["pokemon2_id"], name: "index_pokemon_battles_on_pokemon2_id", using: :btree
   end

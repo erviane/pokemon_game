@@ -9,25 +9,25 @@ class BattleEngine
     attr_reader :attacker
     attr_reader :defender
 
-	def initialize(pokemon_battle:, pokemon_skill:nil, pokemon:)
+	def initialize(pokemon_battle:, pokemon_skill:nil, pokemon:nil)
 		@pokemon_battle = pokemon_battle
 		@attacker_skill = pokemon_skill
-    @pokemon = pokemon
+        @pokemon = pokemon
 		@flash = {}
 	end
 
-  def valid_next_turn?
-    player
-    @pokemon_battle.state == "ongoing" &&
-    @attacker.id == @pokemon.id &&
-    (@pokemon.pokemon_skills.include?attacker_skill)
-  end
+    def valid_next_turn?
+        player
+      @pokemon_battle.state == "ongoing" &&
+      @attacker.id == @pokemon.id &&
+      (@pokemon.pokemon_skills.include?attacker_skill)
+    end  
 
-  def valid_surrender?
-    player
-    @pokemon_battle.state == "ongoing" &&
-    @attacker.id == @pokemon.id
-  end
+    def valid_surrender?
+      player
+      @pokemon_battle.state == "ongoing" &&
+      @attacker.id == @pokemon.id
+    end
 
 	def next_turn!
 	    @current_turn += 1
@@ -53,24 +53,21 @@ class BattleEngine
                                 attacker_current_health_point: @attacker.current_health_point,
                                 defender_id: @defender.id,
                                 defender_current_health_point: @hp_defender,
-                                action_type: "attack")  
-      next_turn!      
+                                action_type: "attack")
+        next_turn!     
 	end
 
 	def surrender
 		player
 		result(@defender, @attacker)
-        @action_type = "surrender"
         PokemonBattleLog.create(pokemon_battle_id: @pokemon_battle.id,
-                         turn: @pokemon_battle.current_turn,
-                         attacker_id: @attacker.id,
-                         attacker_current_health_point: @attacker.current_health_point,
-                         defender_id: @defender.id,
-                         defender_current_health_point: @defender.current_health_point,
-                         action_type: "surrender")
+                     turn: @pokemon_battle.current_turn,
+                     attacker_id: @attacker.id,
+                     attacker_current_health_point: @attacker.current_health_point,
+                     defender_id: @defender.id,
+                     defender_current_health_point: @defender.current_health_point,
+                     action_type: "surrender")
 	end
-
-    private
 
     def player
         pokemon1 = Pokemon.find(@pokemon_battle.pokemon1_id)
@@ -84,6 +81,9 @@ class BattleEngine
             @defender = pokemon1
         end 
     end
+
+    private
+
 
     def result(winner, loser)
     	experience_gain = PokemonBattleCalculator.calculate_experience(loser.level)
@@ -124,15 +124,5 @@ class BattleEngine
 	    level_pass =  Math.log((winner.current_experience/100),2).to_i
 	    level_now = level_pass + 1
 	    winner.update(level: level_now)
-    end
-
-    def battle_log_save
-    PokemonBattleLog.create(pokemon_battle_id: @pokemon_battle.id,
-                  turn: @pokemon_battle.current_turn,
-                  attacker_id: @attacker.id,
-                  attacker_current_health_point: @attacker.current_health_point,
-                  defender_id: @defender.id,
-                  defender_current_health_point: @defender.current_health_point,
-                  action_type: @action_type)     
     end
 end

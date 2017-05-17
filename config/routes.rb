@@ -19,4 +19,5 @@ post '/pokemon_battles/:id/pokemon_skills/', to: 'pokemon_battles#attack', as: '
 get 'pokemon_battles/:id/surrender/:pokemon_id', to: 'pokemon_battles#surrender', as: 'surrender'
 get 'heal/:id', to: 'pokemons#heal', as: 'heal'
 get 'heal_all', to: 'pokemons#heal_all', as: 'heal_all'
+
 end

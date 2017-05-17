@@ -10,6 +10,7 @@ class PokemonBattle < ApplicationRecord
 	validates :state, presence: true
 	validates :pokemon1_max_health_point, presence: true
 	validates :pokemon2_max_health_point, presence: true
+	validates :battle_type, presence: true
 	validate :check_pokemon2
 
 	def check_pokemon2

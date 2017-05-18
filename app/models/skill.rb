@@ -3,7 +3,7 @@ class Skill < ApplicationRecord
   		has_many :pokemons, through: :pokemon_skills
   		has_many :pokemon_battle_logs, dependent: :destroy
 
-  		ELEMENT_TYPE = ['Normal','Fire','Fighting','Water','Flying','Grass','Poison','Ground','Psychic','Rock','Ice','Bug','Dragon','Ghost','Dark','Steel','Fairy']
+  		ELEMENT_TYPE = ['Normal','Fire','Fighting','Water','Flying','Grass','Poison','Ground','Psychic','Rock','Ice','Bug','Dragon','Ghost','Dark','Steel','Fairy','Electric']
   		
 		validates :name, presence: true,
 					length: {maximum: 45},

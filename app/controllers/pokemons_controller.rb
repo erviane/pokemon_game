@@ -10,6 +10,8 @@ class PokemonsController < ApplicationController
   # GET /pokemons/1
   def show
     @pokemon_skills = PokemonSkill.new
+    @number_of_win = PokemonBattle.where("pokemon_winner_id=?", @pokemon.id).count
+    @number_of_lose = PokemonBattle.where("pokemon_loser_id=?", @pokemon.id).count
     @skill_list = Skill.all.collect {|p| [ p.name, p.id ] }
   end
 

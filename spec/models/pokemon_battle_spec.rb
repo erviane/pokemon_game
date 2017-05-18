@@ -35,12 +35,10 @@ RSpec.describe PokemonBattle, :type => :model do
         pokemon_battle =PokemonBattle.create(   pokemon1_id: pokemon1.id, 
                                                 pokemon2_id: pokemon2.id, 
                                                 current_turn:1, 
-                                                state: "ongoing", 
-                                                pokemon_winner_id: pokemon1.id, 
-                                                pokemon_loser_id: pokemon2.id, 
-                                                experience_gain: 10, 
+                                                state: "ongoing",
                                                 pokemon1_max_health_point: pokemon1.max_health_point, 
-                                                pokemon2_max_health_point: pokemon2.max_health_point
+                                                pokemon2_max_health_point: pokemon2.max_health_point,
+                                                battle_type: "Manual Battle"
                                             )
         expect(pokemon_battle).to be_valid
     end 
@@ -77,12 +75,10 @@ RSpec.describe PokemonBattle, :type => :model do
         pokemon_battle =PokemonBattle.create(   pokemon1_id: nil, 
                                                 pokemon2_id: pokemon2.id, 
                                                 current_turn:1, 
-                                                state: "ongoing", 
-                                                pokemon_winner_id: pokemon1.id, 
-                                                pokemon_loser_id: pokemon2.id, 
-                                                experience_gain: 10, 
+                                                state: "ongoing",
                                                 pokemon1_max_health_point: pokemon1.max_health_point, 
-                                                pokemon2_max_health_point: pokemon2.max_health_point
+                                                pokemon2_max_health_point: pokemon2.max_health_point,
+                                                battle_type: "Manual Battle"
                                             )
         expect(pokemon_battle).to_not be_valid
     end  
@@ -119,12 +115,10 @@ RSpec.describe PokemonBattle, :type => :model do
         pokemon_battle =PokemonBattle.create(   pokemon1_id: pokemon1.id, 
                                                 pokemon2_id: nil, 
                                                 current_turn:1, 
-                                                state: "ongoing", 
-                                                pokemon_winner_id: pokemon1.id, 
-                                                pokemon_loser_id: pokemon2.id, 
-                                                experience_gain: 10, 
+                                                state: "ongoing",
                                                 pokemon1_max_health_point: pokemon1.max_health_point, 
-                                                pokemon2_max_health_point: pokemon2.max_health_point
+                                                pokemon2_max_health_point: pokemon2.max_health_point,
+                                                battle_type: "Manual Battle"
                                             )
         expect(pokemon_battle).to_not be_valid
     end 
@@ -161,12 +155,10 @@ RSpec.describe PokemonBattle, :type => :model do
         pokemon_battle =PokemonBattle.create(   pokemon1_id: pokemon1.id, 
                                                 pokemon2_id: pokemon2.id, 
                                                 current_turn: nil, 
-                                                state: "ongoing", 
-                                                pokemon_winner_id: pokemon1.id, 
-                                                pokemon_loser_id: pokemon2.id, 
-                                                experience_gain: 10, 
+                                                state: "ongoing",
                                                 pokemon1_max_health_point: pokemon1.max_health_point, 
-                                                pokemon2_max_health_point: pokemon2.max_health_point
+                                                pokemon2_max_health_point: pokemon2.max_health_point,
+                                                battle_type: "Manual Battle"
                                             )
        expect(pokemon_battle).to_not be_valid
     end
@@ -203,12 +195,10 @@ RSpec.describe PokemonBattle, :type => :model do
         pokemon_battle =PokemonBattle.create(   pokemon1_id: pokemon1.id, 
                                                 pokemon2_id: pokemon2.id, 
                                                 current_turn:1, 
-                                                state: nil, 
-                                                pokemon_winner_id: pokemon1.id, 
-                                                pokemon_loser_id: pokemon2.id, 
-                                                experience_gain: 10, 
+                                                state: nil,
                                                 pokemon1_max_health_point: pokemon1.max_health_point, 
-                                                pokemon2_max_health_point: pokemon2.max_health_point
+                                                pokemon2_max_health_point: pokemon2.max_health_point,
+                                                battle_type: "Manual Battle"
                                             )
         expect(pokemon_battle).to_not be_valid
     end
@@ -245,12 +235,10 @@ RSpec.describe PokemonBattle, :type => :model do
         pokemon_battle =PokemonBattle.create(   pokemon1_id: pokemon1.id, 
                                                 pokemon2_id: pokemon2.id, 
                                                 current_turn:1, 
-                                                state: "ongoing", 
-                                                pokemon_winner_id: pokemon1.id, 
-                                                pokemon_loser_id: pokemon2.id, 
-                                                experience_gain: 10, 
+                                                state: "ongoing",
                                                 pokemon1_max_health_point: nil, 
-                                                pokemon2_max_health_point: pokemon2.max_health_point
+                                                pokemon2_max_health_point: pokemon2.max_health_point,
+                                                battle_type: "Manual Battle"
                                             )        
         expect(pokemon_battle).to_not be_valid
     end
@@ -287,12 +275,10 @@ RSpec.describe PokemonBattle, :type => :model do
         pokemon_battle =PokemonBattle.create(   pokemon1_id: pokemon1.id, 
                                                 pokemon2_id: pokemon2.id, 
                                                 current_turn:1, 
-                                                state: "ongoing", 
-                                                pokemon_winner_id: pokemon1.id, 
-                                                pokemon_loser_id: pokemon2.id, 
-                                                experience_gain: 10, 
+                                                state: "ongoing",
                                                 pokemon1_max_health_point: pokemon1.max_health_point, 
-                                                pokemon2_max_health_point: nil
+                                                pokemon2_max_health_point: nil,
+                                                battle_type: "Manual Battle"
                                             )
         expect(pokemon_battle).to_not be_valid
     end

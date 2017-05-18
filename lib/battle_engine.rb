@@ -18,15 +18,15 @@ class BattleEngine
 
     def valid_next_turn?
         player
-      @pokemon_battle.state == "ongoing" &&
-      @attacker.id == @pokemon.id &&
-      (@pokemon.pokemon_skills.include?attacker_skill)
+        @pokemon_battle.state == "ongoing" &&
+        @attacker.id == @pokemon.id &&
+        (@pokemon.pokemon_skills.include?attacker_skill)
     end  
 
     def valid_surrender?
-      player
-      @pokemon_battle.state == "ongoing" &&
-      @attacker.id == @pokemon.id
+       player
+       @pokemon_battle.state == "ongoing" &&
+       @attacker.id == @pokemon.id
     end
 
 	def next_turn!
@@ -55,7 +55,7 @@ class BattleEngine
                                 defender_current_health_point: @hp_defender,
                                 action_type: "attack")
         next_turn!
-        if (@pokemon_battle.battle_type) == "Player VS AI" && (@pokemon_battle.current_turn%2 == 0) && (@pokemon_battle.state == "ongoing")
+        if (@pokemon_battle.battle_type == "Player VS AI") && (@pokemon_battle.current_turn%2 == 0) && (@pokemon_battle.state == "ongoing")
             ai_do_attack
         end     
 	end
@@ -73,6 +73,7 @@ class BattleEngine
     end
 
     def auto_battle
+        while @pokemon_battle.state == "ongoing"
         player
         @attacker_skill_all = @attacker.pokemon_skills.where("current_pp>?", 0)
         if !@attacker_skill_all.empty?
@@ -81,6 +82,7 @@ class BattleEngine
         else
             surrender
         end
+    end
     end 
 
 	def surrender
@@ -109,7 +111,6 @@ class BattleEngine
     end
 
     private
-
 
     def result(winner, loser)
     	experience_gain = PokemonBattleCalculator.calculate_experience(loser.level)

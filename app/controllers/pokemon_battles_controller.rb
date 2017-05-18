@@ -44,7 +44,7 @@ class PokemonBattlesController < ApplicationController
                                               :battle_type => params[:commit]})
         end
         if @pokemon_battle.save
-            if params[:commit] == "Auto Battle"
+            if @pokemon_battle.battle_type == "Auto Battle"
                 run_auto_battle
             end
             redirect_to pokemon_battle_url(@pokemon_battle)
@@ -107,11 +107,9 @@ class PokemonBattlesController < ApplicationController
     end
 
     def run_auto_battle
-        while @pokemon_battle.state == "ongoing"
-            battle = BattleEngine.new(pokemon_battle: @pokemon_battle)
-            battle.auto_battle
-            flash[:success] = battle.flash[:success]
-        end
+        battle = BattleEngine.new(pokemon_battle: @pokemon_battle)
+        battle.auto_battle
+        flash[:success] = battle.flash[:success]        
         sleep 2
     end
 

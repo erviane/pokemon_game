@@ -37,6 +37,9 @@ class TrainersController < ApplicationController
   end
 
   def destroy
+      @trainer.pokemons.each do |x|
+        x.update(trainer_id: nil)
+      end
       @trainer.destroy
       redirect_to trainers_url
       flash[:success] = "trainer was successfully destroyed"

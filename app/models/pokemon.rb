@@ -19,12 +19,7 @@ class Pokemon < ApplicationRecord
 	validates :level, numericality: { :greater_than => 0 }
 	validate :check_current_health_point
 	validate :check_pokedex_id
-	validate :max_pokemon_have
-
-	def max_pokemon_have
-		errors.add(:trainer_id, "can't have more than 5 Pokemons") if Trainer.find(trainer_id).pokemons.count >= 5
-	end
-
+	
 	def check_current_health_point
   		errors.add(:current_health_point, "should be greater than or equal to max health point") if current_health_point.to_i > max_health_point.to_i
 	end

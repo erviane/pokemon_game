@@ -30,35 +30,36 @@ class PokemonsController < ApplicationController
   def create
       @pokemon = Pokemon.new(pokemon_params_create)
       if @trainer.present?
-          @pokemon.trainer_id = params[:trainer_id]
-      end         
-      if Pokedex.ids.include?params[:pokemon][:pokedex_id].to_i
-          pokedex = Pokedex.find(params[:pokemon][:pokedex_id])
-          @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
-                                     :current_experience => 0, 
-                                     :max_health_point => pokedex.base_health_point,
-                                     :attack => pokedex.base_attack, 
-                                     :defence => pokedex.base_defence, 
-                                     :speed => pokedex.base_speed, 
-                                     :level => 1 })
-      end
-    
-
-      if @pokemon.save
-          if @trainer.present?
-              redirect_to trainer_url(@trainer)
-          else
-              redirect_to pokemons_url
-          end
-          flash[:success] = "New pokemon was successfully created" 
+          create_with_trainer
       else
-          if @pokemon.errors.messages[:trainer_id]
-            flash[:danger] = @pokemon.errors.messages[:trainer_id].to_sentence
-            redirect_to trainer_url(@trainer)
+          assign_attribute         
+
+          if @pokemon.save
+              redirect_to pokemons_url
+              flash[:success] = "New pokemon was successfully created" 
           else
-            render :new
+              render :new
+          end 
+      end        
+  end
+
+  def create_with_trainer
+      @pokemon = Pokemon.new(pokemon_params_create)
+      @pokemon.trainer_id = params[:trainer_id]
+      if @trainer.pokemons.count >= 5
+        flash[:danger] = "More Than 5"
+        redirect_to trainer_url(@trainer)
+      else
+          assign_attribute            
+
+          if @pokemon.save
+              redirect_to trainer_url(@trainer)
+              flash[:success] = "New pokemon was successfully created" 
+          else
+              flash[:danger] = @pokemon.errors.messages[:trainer_id].to_sentence
+              redirect_to trainer_url(@trainer)
           end
-      end
+      end 
   end
 
   # PATCH/PUT /pokemons/1
@@ -152,5 +153,18 @@ class PokemonsController < ApplicationController
 
     def set_trainer
       @trainer = Trainer.find(params[:trainer_id]) if params[:trainer_id].present?
+    end
+
+    def assign_attribute
+      if Pokedex.ids.include?params[:pokemon][:pokedex_id].to_i
+              pokedex = Pokedex.find(params[:pokemon][:pokedex_id])
+              @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
+                                         :current_experience => 0, 
+                                         :max_health_point => pokedex.base_health_point,
+                                         :attack => pokedex.base_attack, 
+                                         :defence => pokedex.base_defence, 
+                                         :speed => pokedex.base_speed, 
+                                         :level => 1 })
+      end
     end
 end

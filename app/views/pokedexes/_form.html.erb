@@ -43,7 +43,7 @@
   <div class="form-group">
     <%= f.label :element_type, class: "control-label col-sm-2" %>
     <div class="col-sm-10">
-    <%= select_tag('pokedex[element_type]',  options_for_select(@pokedex_select), class: "form-control") %>
+    <%= select_tag('pokedex[element_type]',  options_for_select(@pokedex_select, selected: @pokedex.element_type), prompt: "Select Element Type", class: "form-control") %>
     <%= content_tag(:div, "#{ pokedex.errors[:element_type].join(', ')}", class: ["field_with_errors_pokemon"]) if pokedex.errors.any?%>
     </div>
   </div>

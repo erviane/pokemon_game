@@ -15,7 +15,7 @@ class CreatePokemonBattleLogs < ActiveRecord::Migration[5.0]
     end
     add_index :pokemon_battle_logs, :pokemon_battle_id
     add_index :pokemon_battle_logs, :skill_id
-    add_foreign_key :pokemon_battle_logs, :pokemon_battles
-    add_foreign_key :pokemon_battle_logs, :skills
+    add_foreign_key :pokemon_battle_logs, :pokemon_battles, on_delete: :cascade
+    add_foreign_key :pokemon_battle_logs, :skills, on_delete: :cascade
  end
 end

@@ -6,7 +6,11 @@
         <div class="panel-body">
             <ol class="breadcrumb">
                   <li><%= link_to 'Home', root_path%></li>
-                  <li><%= link_to 'Pokemons', pokemons_path%></li>
+                  <% if @trainer.present? %>
+                      <li><%= link_to 'Trainer Show', trainer_path(@trainer)%></li>
+                  <% else %>
+                      <li><%= link_to 'Pokemons', pokemons_path%></li>
+                  <% end %>
                   <li class="active">Pokemon New</li>
             </ol>
             <%= render 'form', pokemon: @pokemon %>

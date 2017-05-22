@@ -1,0 +1,45 @@
+<%= render 'pages/nav' %>
+    <div class="container">
+
+      <div class="panel panel-info">
+        <div class="panel-heading">Trainers</div>
+        <div class="panel-body">
+            <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li class="active">Trainers</li>
+            </ol>
+            <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>"><%= value %></div>
+            <% end %>         
+            <%= link_to 'New Trainer', new_trainer_path, :class=>"btn btn-default" %>
+            <br><br>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>email</th>
+                  <th width="200px;">Action</th>
+                </tr>
+              </thead>            
+
+              <tbody>
+                <% @trainers.each do |trainer| %>
+                  <tr>
+                    <td><%= trainer.name %></td>
+                    <td><%= trainer.email %></td>
+                    <td><%= link_to 'Show', trainer, :class=>"btn btn-info btn-sm" %>
+                    <%= link_to 'Edit', edit_trainer_path(trainer), :class=>"btn btn-success btn-sm" %>
+                    <%= link_to 'Destroy', trainer, :class=>"btn btn-danger btn-sm", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>      
+            <br>
+            <%= will_paginate @trainers, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>            
+          </div>
+        </div>
+
+
+
+    </div> <!-- /container -->
+<%= render 'pages/footer' %>

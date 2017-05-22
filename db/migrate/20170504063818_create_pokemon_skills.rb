@@ -9,7 +9,7 @@ class CreatePokemonSkills < ActiveRecord::Migration[5.0]
     end
     add_index :pokemon_skills, :skill_id
     add_index :pokemon_skills, :pokemon_id
-    add_foreign_key :pokemon_skills, :skills
-    add_foreign_key :pokemon_skills, :pokemons
+    add_foreign_key :pokemon_skills, :skills, on_delete: :cascade
+    add_foreign_key :pokemon_skills, :pokemons, on_delete: :cascade
   end
 end

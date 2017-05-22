@@ -1,0 +1,113 @@
+<%= render 'pages/nav' %>
+    <div class="container">
+
+      <div class="panel panel-info">
+      <div class="panel-heading">Detail Trainer</div>
+        <div class="panel-body">
+            <ol class="breadcrumb">
+                  <li><%= link_to 'Home', root_path%></li>
+                  <li><%= link_to 'Trainers', trainers_path%></li>
+                  <li class="active">Trainer Show</li>
+            </ol>
+            <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>"><%= value %></div>
+            <% end %>
+          <br>
+          <h3>Data Trainer </h3>
+            <%= link_to 'Edit', edit_trainer_path(@trainer), class: "btn btn-success" %>
+            <%= link_to 'Destroy', @trainer, :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
+            <br><br>
+            <table class="table table-bordered" cellpadding="10px">
+              <tr>
+                <td width="35%" bgcolor="#d9edf7"><strong>Name </strong></td>
+                <td><%= @trainer.name %></td>
+              </tr>
+              <tr>
+                <td bgcolor="#d9edf7"><strong>Email</strong></td>
+                <td><%= @trainer.email %></td>
+              </tr>
+            </table>
+            <br>
+            <hr>
+            <h3>Pokemons</h3>
+            <%= link_to 'Heal All', heal_all_trainer_pokemon_path(@trainer) ,:class=>"btn btn-warning" %>       
+            <%= link_to 'New Pokemon', new_trainer_pokemon_path(@trainer), :class=>"btn btn-default" %>
+            <br><br>
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Pokedex</th>
+                    <th>Level</th>
+                    <th>Max health point</th>
+                    <th>Current health point</th>
+                    <th>Attack</th>
+                    <th>Defence</th>
+                    <th>Speed</th>
+                    <th>Current experience</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>              
+
+                <tbody>
+                  <% @pokemons.each do |pokemon| %>
+                    <tr>
+                      <td><%= pokemon.name %></td>
+                      <td><%= pokemon.pokedex.name %></td>
+                      <td><%= pokemon.level %></td>
+                      <td><%= pokemon.max_health_point %></td>
+                      <td><%= pokemon.current_health_point %></td>
+                      <td><%= pokemon.attack %></td>
+                      <td><%= pokemon.defence %></td>
+                      <td><%= pokemon.speed %></td>
+                      <td><%= pokemon.current_experience %></td>
+                      <td><%= link_to 'Heal', heal_path(pokemon), :class=>"btn btn-warning btn-sm" %>
+                        <%= link_to 'Show', trainer_pokemon_path(@trainer,pokemon.id), :class=>"btn btn-info btn-sm" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+            </table> 
+            <br>
+            <hr>
+            <h3>Statistic </h3>
+            <table class="table table-bordered" cellpadding="10px">
+              <tr>
+                <td width="35%" bgcolor="#d9edf7"><strong>Most Pokemon Win </strong></td>
+                <td><%= @display_most_pokemon_win %></td>
+              </tr>
+              <tr>
+                <td bgcolor="#d9edf7"><strong>Most Pokemon Lose</strong></td>
+                <td><%= @display_most_pokemon_lose %></td>
+              </tr>
+              <tr>
+                <td bgcolor="#d9edf7"><strong>Most Pokemon Choose To Battle</strong></td>
+                <td><%= @display_most_pokemon_used %></td>
+              </tr>
+            </table>
+
+            <br>
+            <h4>Win Rate By Element Type</h4>
+            <table class="table table-bordered" cellpadding="10px">
+              <% @pokemon_win_rate_element.keys.each do |x| %>
+                  <tr>
+                    <td colspan="2"><%= "Element Type : #{x}" %></td>
+                  </tr>
+                  <% @pokemon_win_rate_element[x].each do |key, value| %>
+                  <tr>
+                    <td width="35%" bgcolor="#d9edf7"><strong><%= key %></strong></td>
+                    <td><%= "#{value} %" %></td>
+                  </tr>
+                  <% end %>
+              <% end %>
+            </table>
+            <div class="panel panel-info panel_statistic" id="win_rate_pokemon">
+                <div class="panel-heading">Pokemon List By Win Rate</div>
+                <div class="panel-body">
+                    <%= column_chart @display_pokemon_win_rate %>
+                </div>
+            </div>  
+        </div>
+      </div>
+    </div> <!-- /container -->
+<%= render 'pages/footer' %>

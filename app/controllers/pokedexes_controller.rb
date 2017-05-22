@@ -65,6 +65,6 @@ class PokedexesController < ApplicationController
     end
 
     def pokedex_select
-      @pokedex_select = Skill::ELEMENT_TYPE.collect {|p| [ p, p ] }
+      @pokedex_select = Skill::ELEMENT_TYPE.collect {|p| [ p, p ]}
     end
 end

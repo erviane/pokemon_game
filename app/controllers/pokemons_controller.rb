@@ -1,6 +1,7 @@
 class PokemonsController < ApplicationController
   before_action :set_pokemon, only: [:show, :edit, :update, :destroy, :destroy_skill, :heal]
   before_action :select_pokedex, only: [:new, :create]
+  before_action :set_trainer, only: [:new, :create, :show, :edit, :update, :destroy, :heal_all]
 
   # GET /pokemons
   def index
@@ -28,30 +29,47 @@ class PokemonsController < ApplicationController
   # POST /pokemons
   def create
       @pokemon = Pokemon.new(pokemon_params_create)
+      if @trainer.present?
+          @pokemon.trainer_id = params[:trainer_id]
+      end         
       if Pokedex.ids.include?params[:pokemon][:pokedex_id].to_i
-        pokedex = Pokedex.find(params[:pokemon][:pokedex_id])
-        @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
-                                   :current_experience => 0, 
-                                   :max_health_point => pokedex.base_health_point,
-                                   :attack => pokedex.base_attack, 
-                                   :defence => pokedex.base_defence, 
-                                   :speed => pokedex.base_speed, 
-                                   :level => 1 })
+          pokedex = Pokedex.find(params[:pokemon][:pokedex_id])
+          @pokemon.assign_attributes({ :current_health_point => pokedex.base_health_point,
+                                     :current_experience => 0, 
+                                     :max_health_point => pokedex.base_health_point,
+                                     :attack => pokedex.base_attack, 
+                                     :defence => pokedex.base_defence, 
+                                     :speed => pokedex.base_speed, 
+                                     :level => 1 })
       end
     
+
       if @pokemon.save
-        redirect_to pokemons_url
-        flash[:success] = "New pokemon was successfully created" 
+          if @trainer.present?
+              redirect_to trainer_url(@trainer)
+          else
+              redirect_to pokemons_url
+          end
+          flash[:success] = "New pokemon was successfully created" 
       else
-        render :new
+          if @pokemon.errors.messages[:trainer_id]
+            flash[:danger] = @pokemon.errors.messages[:trainer_id].to_sentence
+            redirect_to trainer_url(@trainer)
+          else
+            render :new
+          end
       end
   end
 
   # PATCH/PUT /pokemons/1
   def update
       if @pokemon.update(pokemon_params_edit)
-        redirect_to pokemon_url
-        flash[:success] = "Pokemon was successfully updated"
+          if @trainer.present?
+              redirect_to trainer_url(@trainer)
+          else
+              redirect_to pokemons_url
+          end
+          flash[:success] = "Pokemon was successfully updated"
       else
         render :edit
       end
@@ -60,7 +78,11 @@ class PokemonsController < ApplicationController
   # DELETE /pokemons/1
   def destroy
     @pokemon.destroy
-      redirect_to pokemons_url
+      if @trainer.present?
+          redirect_to trainer_url(@trainer)
+      else
+          redirect_to pokemons_url
+      end
       flash[:success] = "Pokemon was successfully deleted"
   end
 
@@ -81,10 +103,15 @@ class PokemonsController < ApplicationController
   end
 
   def heal_all
-    pokemon1 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon1_id}
-    pokemon2 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon2_id}
+    pokemon1 = PokemonBattle.where("state=?", "ongoing").map{|x| x.pokemon1_id}
+    pokemon2 = PokemonBattle.where("state=?", "ongoing").map{|x| x.pokemon2_id}
     ongoing_pokemon = pokemon1 + pokemon2
-    Pokemon.all.each do |pokemon|
+    if @trainer.present?
+        @pokemon = Pokemon.where("trainer_id=?", @trainer.id)
+    else
+      @pokemon = Pokemon.all
+    end
+    @pokemon.each do |pokemon|
       if !ongoing_pokemon.include?(pokemon.id)
           pokemon.update(current_health_point: pokemon.max_health_point)
           pokemon.pokemon_skills.each do |pokemon_skill|
@@ -92,11 +119,19 @@ class PokemonsController < ApplicationController
           end
       end
     end
-      redirect_to pokemons_url
+      redirect_to :back
       flash[:success] = "Heal All was Successfully"
   end
 
   private
+    def trainer_present_and_valid?
+      if @trainer.present?
+        @trainer.valid?
+      else
+        true
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_pokemon
       @pokemon = Pokemon.find(params[:id])
@@ -104,7 +139,7 @@ class PokemonsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pokemon_params_create
-      params.require(:pokemon).permit(:pokedex_id, :name)
+        params.require(:pokemon).permit(:pokedex_id, :name)
     end
 
     def pokemon_params_edit
@@ -113,5 +148,9 @@ class PokemonsController < ApplicationController
 
     def select_pokedex
       @pokedex_select = Pokedex.all.map {|p| [ p.name, p.id ] }
+    end
+
+    def set_trainer
+      @trainer = Trainer.find(params[:trainer_id]) if params[:trainer_id].present?
     end
 end

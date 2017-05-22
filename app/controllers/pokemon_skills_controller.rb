@@ -17,7 +17,7 @@ class PokemonSkillsController < ApplicationController
 			if 	@pokemon_skill.save		
 				redirect_to :back			
 			else
-				flash[:danger] = @pokemon_skill.errors.messages[:skill_id].first
+				flash[:danger] = @pokemon_skill.errors.full_messages.first
 				redirect_to :back
 			end
 		else

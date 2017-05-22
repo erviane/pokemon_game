@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517040154) do
+ActiveRecord::Schema.define(version: 20170518100708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,7 +82,9 @@ ActiveRecord::Schema.define(version: 20170517040154) do
     t.integer  "current_experience",   null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "trainer_id"
     t.index ["pokedex_id"], name: "index_pokemons_on_pokedex_id", using: :btree
+    t.index ["trainer_id"], name: "index_pokemons_on_trainer_id", using: :btree
   end
 
   create_table "skills", force: :cascade do |t|
@@ -94,11 +96,20 @@ ActiveRecord::Schema.define(version: 20170517040154) do
     t.datetime "updated_at",   null: false
   end
 
-  add_foreign_key "pokemon_battle_logs", "pokemon_battles"
-  add_foreign_key "pokemon_battle_logs", "skills"
+  create_table "trainers", force: :cascade do |t|
+    t.string   "name",            null: false
+    t.string   "email",           null: false
+    t.string   "password_digest", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_foreign_key "pokemon_battle_logs", "pokemon_battles", on_delete: :cascade
+  add_foreign_key "pokemon_battle_logs", "skills", on_delete: :cascade
   add_foreign_key "pokemon_battles", "pokemons", column: "pokemon1_id", on_delete: :cascade
   add_foreign_key "pokemon_battles", "pokemons", column: "pokemon2_id", on_delete: :cascade
-  add_foreign_key "pokemon_skills", "pokemons"
-  add_foreign_key "pokemon_skills", "skills"
-  add_foreign_key "pokemons", "pokedexes"
+  add_foreign_key "pokemon_skills", "pokemons", on_delete: :cascade
+  add_foreign_key "pokemon_skills", "skills", on_delete: :cascade
+  add_foreign_key "pokemons", "pokedexes", on_delete: :cascade
+  add_foreign_key "pokemons", "trainers", on_delete: :cascade
 end

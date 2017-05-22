@@ -1,10 +1,10 @@
 class Pokemon < ApplicationRecord
 	belongs_to :pokedex
+	belongs_to :trainer
 	has_many :pokemon_skills, dependent: :destroy
-  	has_many :skills, through: :pokemon_skills
+  	has_many :skills, through: :pokemon_skills, dependent: :destroy
   	has_many :pokemon_battles, foreign_key: :pokemon1_id, dependent: :destroy
   	has_many :pokemon_battles, foreign_key: :pokemon2_id, dependent: :destroy
-	
 	validates :name, presence: true,
 						length: {maximum: 45},
 						uniqueness: true
@@ -19,6 +19,11 @@ class Pokemon < ApplicationRecord
 	validates :level, numericality: { :greater_than => 0 }
 	validate :check_current_health_point
 	validate :check_pokedex_id
+	validate :max_pokemon_have
+
+	def max_pokemon_have
+		errors.add(:trainer_id, "can't have more than 5 Pokemons") if Trainer.find(trainer_id).pokemons.count >= 5
+	end
 
 	def check_current_health_point
   		errors.add(:current_health_point, "should be greater than or equal to max health point") if current_health_point.to_i > max_health_point.to_i

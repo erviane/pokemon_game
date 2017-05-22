@@ -7,17 +7,25 @@
         <div class="panel-body">
             <ol class="breadcrumb">
                   <li><%= link_to 'Home', root_path%></li>
-                  <li><%= link_to 'Pokemons', pokemons_path%></li>
+                  <% if @trainer.present? %>
+                      <li><%= link_to 'Trainer Show', trainer_path(@trainer)%></li>
+                  <% else %>
+                      <li><%= link_to 'Pokemons', pokemons_path%></li>
+                  <% end %>
                   <li class="active">Pokemon Show</li>
             </ol>
-          <div class="panel-body-show">
           <% flash.each do |key, value| %>
                 <div class="alert alert-<%= key %>"><%= value %></div>
             <% end %> 
               <div class="button">
                 <%= link_to 'Heal', heal_path(@pokemon), class: "btn btn-warning" %>
-                <%= link_to 'Edit', edit_pokemon_path(@pokemon), class: "btn btn-success" %>
-                <%= link_to 'Destroy', @pokemon, :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% if @trainer.present?%>
+                    <%= link_to 'Edit', edit_trainer_pokemon_path(@trainer,@pokemon), class: "btn btn-success" %>
+                    <%= link_to 'Destroy', [@trainer,@pokemon], :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% else %>
+                    <%= link_to 'Edit', edit_pokemon_path(@pokemon), class: "btn btn-success" %>
+                    <%= link_to 'Destroy', @pokemon, :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% end %>
               </div>
           
             <br><br>
@@ -38,6 +46,10 @@
               <tr>
                 <td bgcolor="#d9edf7"><strong>Pokedex</strong></td>
                 <td><%= @pokemon.pokedex.name %></td>
+              </tr>
+              <tr>
+                <td bgcolor="#d9edf7"><strong>Element Type</strong></td>
+                <td><%= @pokemon.pokedex.element_type %></td>
               </tr>
               <tr>
                 <td bgcolor="#d9edf7"><strong>Level</strong></td>
@@ -104,10 +116,9 @@
                 </tbody>                
               </table>
               <%= form_for ([@pokemon, @pokemon.pokemon_skills.build]),:html => {:class => 'form-inline'} do %>
-              <%= select_tag('skill_id',  options_for_select(@skill_list), class: "form-control") %>
+              <%= select_tag('skill_id',  options_for_select(@skill_list), class: "form-control", required: true) %>
               <%= submit_tag "Add Skill", class: "btn btn-primary"%>
             <% end %>
-          </div>
         </div>
       </div>
 

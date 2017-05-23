@@ -4,9 +4,9 @@
         <div class="panel-heading">Battle</div>
         <div class="panel-body">
             <ol class="breadcrumb">
-                  <li><%= link_to 'Home', root_path%></li>
-                  <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
-                  <li class="active">Battle Show</li>
+                <li><%= link_to 'Home', root_path%></li>
+                <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
+                <li class="active">Battle Show</li>
             </ol>
             <% if  @pokemon_battle.state == "finish" %>
                 <div class="alert alert-danger">

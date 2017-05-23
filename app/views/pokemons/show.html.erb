@@ -1,128 +1,123 @@
 
 <%= render 'pages/nav' %>
     <div class="container">
-
-    <div class="panel panel-info">
-      <div class="panel-heading">Detail Pokedex</div>
-        <div class="panel-body">
-            <ol class="breadcrumb">
-                  <li><%= link_to 'Home', root_path%></li>
-                  <% if @trainer.present? %>
-                      <li><%= link_to 'Trainer Show', trainer_path(@trainer)%></li>
-                  <% else %>
-                      <li><%= link_to 'Pokemons', pokemons_path%></li>
-                  <% end %>
-                  <li class="active">Pokemon Show</li>
-            </ol>
-          <% flash.each do |key, value| %>
-                <div class="alert alert-<%= key %>"><%= value %></div>
-            <% end %> 
-              <div class="button">
-                <%= link_to 'Heal', heal_path(@pokemon), class: "btn btn-warning" %>
-                <% if @trainer.present?%>
-                    <%= link_to 'Edit', edit_trainer_pokemon_path(@trainer,@pokemon), class: "btn btn-success" %>
-                    <%= link_to 'Destroy', [@trainer,@pokemon], :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
-                <% else %>
-                    <%= link_to 'Edit', edit_pokemon_path(@pokemon), class: "btn btn-success" %>
-                    <%= link_to 'Destroy', @pokemon, :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
-                <% end %>
-              </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">Detail Pokedex</div>
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><%= link_to 'Home', root_path%></li>
+                    <% if @trainer.present? %>
+                        <li><%= link_to 'Trainer Show', trainer_path(@trainer)%></li>
+                    <% else %>
+                        <li><%= link_to 'Pokemons', pokemons_path%></li>
+                    <% end %>
+                    <li class="active">Pokemon Show</li>
+                </ol>
+                <% flash.each do |key, value| %>
+                    <div class="alert alert-<%= key %>"><%= value %></div>
+                <% end %> 
+                <div class="button">
+                    <%= link_to 'Heal', heal_path(@pokemon), class: "btn btn-warning" %>
+                    <% if @trainer.present?%>
+                        <%= link_to 'Edit', edit_trainer_pokemon_path(@trainer,@pokemon), class: "btn btn-success" %>
+                        <%= link_to 'Destroy', [@trainer,@pokemon], :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% else %>
+                        <%= link_to 'Edit', edit_pokemon_path(@pokemon), class: "btn btn-success" %>
+                        <%= link_to 'Destroy', @pokemon, :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% end %>
+                </div>
           
-            <br><br>
-            <div class="row">
-            <div class="col-md-3">
-              <center>
-              <div class="photo">
-                <%= image_tag @pokemon.pokedex.image_url %>
-              </div>
-              </center>
-            </div>
-            <div class="col-md-9">
-            <table class="table table-bordered">
-              <tr>
-                <td width="35%" bgcolor="#d9edf7"><strong>Name </strong></td>
-                <td><%= @pokemon.name %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Pokedex</strong></td>
-                <td><%= @pokemon.pokedex.name %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Element Type</strong></td>
-                <td><%= @pokemon.pokedex.element_type %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Level</strong></td>
-                <td><%= @pokemon.level %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Max Health Point</strong></td>
-                <td><%= @pokemon.max_health_point %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Current Health Point</strong></td>
-                <td><%= @pokemon.current_health_point %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Attack</strong></td>
-                <td><%= @pokemon.attack %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Defense</strong></td>
-                <td><%= @pokemon.defence %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Speed</strong></td>
-                <td><%= @pokemon.speed %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Current Experience</strong></td>
-                <td><%= @pokemon.current_experience %></td>
-              </tr>
-              <tr>
-                <td bgcolor="#d9edf7"><strong>Number of Win</strong></td>
-                <td><%= @number_of_win %></td>
-              </tr>
+                <br><br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <center>
+                            <div class="photo">
+                                <%= image_tag @pokemon.pokedex.image_url %>
+                            </div>
+                        </center>
+                    </div>
+                    <div class="col-md-9">
+                        <table class="table table-bordered">
                             <tr>
-                <td bgcolor="#d9edf7"><strong>Number of Lose</strong></td>
-                <td><%= @number_of_lose %></td>
-              </tr>
-            </table>
-
-          </div>
-            
-            <br>
-            </div><br>
-              <table class="table table-bordered" id="table_skill">
-                <thead>
-                  <th>Skill Name</th>
-                  <th>Power</th>
-                  <th>Max PP</th>
-                  <th>Element Type</th>
-                  <th>Current PP</th>
-                  <th>Action</th>
-                </thead>
-                <tbody>
-                <% @pokemon.pokemon_skills.each do |f| %>
-                  <tr>
-                    <td><%= f.skill_name %></td>
-                    <td><%= f.skill_power %></td>
-                    <td><%= f.skill_max_pp %></td>
-                    <td><%= f.skill_element_type %></td>
-                    <td><%= f.current_pp %></td>
-                    <td><%= link_to image_tag('remove'), pokemon_skill_destroy_path(@pokemon,f), method: :delete %></td>
-                  </tr>
+                                <td width="35%" bgcolor="#d9edf7"><strong>Name </strong></td>
+                                <td><%= @pokemon.name %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Pokedex</strong></td>
+                                <td><%= @pokemon.pokedex.name %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Element Type</strong></td>
+                                <td><%= @pokemon.pokedex.element_type %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Level</strong></td>
+                                <td><%= @pokemon.level %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Max Health Point</strong></td>
+                                <td><%= @pokemon.max_health_point %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Current Health Point</strong></td>
+                                <td><%= @pokemon.current_health_point %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Attack</strong></td>
+                                <td><%= @pokemon.attack %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Defense</strong></td>
+                                <td><%= @pokemon.defence %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Speed</strong></td>
+                                <td><%= @pokemon.speed %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Current Experience</strong></td>
+                                <td><%= @pokemon.current_experience %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Number of Win</strong></td>
+                                <td><%= @number_of_win %></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#d9edf7"><strong>Number of Lose</strong></td>
+                                <td><%= @number_of_lose %></td>
+                            </tr>
+                        </table>
+                    </div>            
+                <br>
+                </div>
+                <br>
+                <table class="table table-bordered" id="table_skill">
+                    <thead>
+                        <th>Skill Name</th>
+                        <th>Power</th>
+                        <th>Max PP</th>
+                        <th>Element Type</th>
+                        <th>Current PP</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <% @pokemon.pokemon_skills.each do |f| %>
+                            <tr>
+                                <td><%= f.skill_name %></td>
+                                <td><%= f.skill_power %></td>
+                                <td><%= f.skill_max_pp %></td>
+                                <td><%= f.skill_element_type %></td>
+                                <td><%= f.current_pp %></td>
+                                <td><%= link_to image_tag('remove'), pokemon_skill_destroy_path(@pokemon,f), method: :delete %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>                
+                </table>
+                <%= form_for ([@pokemon, @pokemon.pokemon_skills.build]),:html => {:class => 'form-inline'} do %>
+                    <%= select_tag('skill_id',  options_for_select(@skill_list), class: "form-control", required: true) %>
+                    <%= submit_tag "Add Skill", class: "btn btn-primary"%>
                 <% end %>
-                </tbody>                
-              </table>
-              <%= form_for ([@pokemon, @pokemon.pokemon_skills.build]),:html => {:class => 'form-inline'} do %>
-              <%= select_tag('skill_id',  options_for_select(@skill_list), class: "form-control", required: true) %>
-              <%= submit_tag "Add Skill", class: "btn btn-primary"%>
-            <% end %>
+            </div>
         </div>
-      </div>
-
-
-
     </div> <!-- /container -->
 <%= render 'pages/footer' %>

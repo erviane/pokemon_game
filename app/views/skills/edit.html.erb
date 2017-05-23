@@ -1,20 +1,16 @@
 <%= render 'pages/nav' %>
     <div class="container">
-
-      <div class="panel panel-info">
-      <div class="panel-heading">Editing Skill</div>
-        <div class="panel-body">
-             <ol class="breadcrumb">
-                  <li><%= link_to 'Home', root_path%></li>
-                  <li><%= link_to 'Skill', skills_path%></li>
-                  <li><%= link_to 'Skill Show', skill_path%></li>
-                  <li class="active">Skill Edit</li>
-            </ol>
-            <%= render 'form', skill: @skill %>
+        <div class="panel panel-info">
+            <div class="panel-heading">Editing Skill</div>
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><%= link_to 'Home', root_path%></li>
+                    <li><%= link_to 'Skill', skills_path%></li>
+                    <li><%= link_to 'Skill Show', skill_path%></li>
+                    <li class="active">Skill Edit</li>
+                </ol>
+                <%= render 'form', skill: @skill %>
+            </div>
         </div>
-      </div>
-
-
-
     </div> <!-- /container -->
 <%= render 'pages/footer' %>

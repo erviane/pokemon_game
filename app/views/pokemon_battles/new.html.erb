@@ -1,45 +1,45 @@
 <%= render 'pages/nav' %>
     <div class="container">
-
-      <div class="panel panel-info">
-      <div class="panel-heading">New Pokemon Battle</div>
-        <div class="panel-body">
-            <ol class="breadcrumb">
-              <li><%= link_to 'Home', root_path%></li>
-              <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
-              <li class="active">Battle New</li>
-            </ol>
-        <center><h2><strong>SELECT POKEMON</strong></h2></center>
-        <br><br>
-        <%= form_for @pokemon_battle do |f| %>
-        <div class="row">
-        	<div class="col-sm-6">
-        		<div class="battle"><h4>Pokemon 1</h4>
-        		<br>
-        			<%= select_tag('pokemon1_id',  options_for_select(@pokemon_select),prompt: "Select Pokemon", :style => "width:200px") %>
-                    <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon1_id].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.present?%>
-        		</div>
-        	</div>
-        	<div class="col-sm-6">
-        		<div class="battle"><h4>Pokemon 2</h4>
-        		<br>
-        			<%= select_tag('pokemon2_id',  options_for_select(@pokemon_select),prompt: "Select Pokemon", :style => "width:200px") %>
-                    <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon2_id].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.present?%>
-        		</div>
-        	</div>
+        <div class="panel panel-info">
+            <div class="panel-heading">New Pokemon Battle</div>
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><%= link_to 'Home', root_path%></li>
+                    <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
+                    <li class="active">Battle New</li>
+                </ol>
+                <center>
+                    <h2>
+                        <strong>SELECT POKEMON</strong>
+                    </h2>
+                </center>
+                <br><br>
+                <%= form_for @pokemon_battle do |f| %>
+                    <div class="row">
+          	             <div class="col-sm-6">
+          		                <div class="battle"><h4>Pokemon 1</h4>
+          		                    <br>
+          			                  <%= select_tag('pokemon1_id',  options_for_select(@pokemon_select),prompt: "Select Pokemon", :style => "width:200px") %>
+                                  <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon1_id].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.present?%>
+          		                </div>
+          	             </div>
+                        	<div class="col-sm-6">
+                          		<div class="battle"><h4>Pokemon 2</h4>
+                          		    <br>
+                          			  <%= select_tag('pokemon2_id',  options_for_select(@pokemon_select),prompt: "Select Pokemon", :style => "width:200px") %>
+                                  <%= content_tag(:div, "#{@pokemon_battle.errors[:pokemon2_id].join(', ')}", class: ["field_with_errors_pokemon"]) if @pokemon_battle.errors.present?%>
+                          		</div>
+                        	</div>
+                      </div>
+                      <center>
+                          <div class="actions">
+                  		        <%= submit_tag 'Manual Battle', class: 'btn btn-primary', :style => "width:150px;"%>
+                              <%= submit_tag 'Player VS AI', class: 'btn btn-success', :style => "width:150px;" %>
+                              <%= submit_tag 'Auto Battle', class: 'btn btn-danger', :style => "width:150px;" %>
+      		                </div>
+  		                </center>
+                <% end %>
+            </div>
         </div>
-        <center>
-        <div class="actions">
-		    <%= submit_tag 'Manual Battle', class: 'btn btn-primary', :style => "width:150px;"%>
-            <%= submit_tag 'Player VS AI', class: 'btn btn-success', :style => "width:150px;" %>
-            <%= submit_tag 'Auto Battle', class: 'btn btn-danger', :style => "width:150px;" %>
-		</div>
-		</center>
-        <% end %>
-        </div>
-      </div>
-
-
-
     </div> <!-- /container -->
 <%= render 'pages/footer' %>

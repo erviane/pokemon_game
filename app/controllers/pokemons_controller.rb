@@ -5,25 +5,25 @@ class PokemonsController < ApplicationController
 
   # GET /pokemons
   def index
-    @pokemons = Pokemon.all.order("created_at ASC").paginate(page: params[:page], per_page: 20)
+      @pokemons = Pokemon.all.order("created_at ASC").paginate(page: params[:page], per_page: 20)
   end
 
   # GET /pokemons/1
   def show
-    @pokemon_skills = PokemonSkill.new
-    @number_of_win = PokemonBattle.where("pokemon_winner_id=?", @pokemon.id).count
-    @number_of_lose = PokemonBattle.where("pokemon_loser_id=?", @pokemon.id).count
-    @skill_list = Skill.all.collect {|p| [ p.name, p.id ] }
+      @pokemon_skills = PokemonSkill.new
+      @number_of_win = PokemonBattle.where("pokemon_winner_id=?", @pokemon.id).count
+      @number_of_lose = PokemonBattle.where("pokemon_loser_id=?", @pokemon.id).count
+      @skill_list = Skill.all.collect {|p| [ p.name, p.id ] }
   end
 
   # GET /pokemons/new
   def new
-    @pokemon = Pokemon.new
+      @pokemon = Pokemon.new
   end
 
   # GET /pokemons/1/edit
   def edit
-    @pokemon_skills = @pokemon.pokemon_skills
+      @pokemon_skills = @pokemon.pokemon_skills
   end
 
   # POST /pokemons
@@ -47,7 +47,7 @@ class PokemonsController < ApplicationController
       @pokemon = Pokemon.new(pokemon_params_create)
       @pokemon.trainer_id = params[:trainer_id]
       if @trainer.pokemons.count >= 5
-        flash[:danger] = "More Than 5"
+        flash[:danger] = "Can't Have More Than 5 Pokemons"
         redirect_to trainer_url(@trainer)
       else
           assign_attribute            

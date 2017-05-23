@@ -1,24 +1,20 @@
 <%= render 'pages/nav' %>
     <div class="container">
-
-      <div class="panel panel-info">
-      <div class="panel-heading">Editing Pokemon</div>
-        <div class="panel-body">
-             <ol class="breadcrumb">
-                  <li><%= link_to 'Home', root_path%></li>
-                  <% if @trainer.present? %>
-                      <li><%= link_to 'Trainer Show', trainer_path(@trainer)%></li>
-                  <% else %>
-                      <li><%= link_to 'Pokemons', pokemons_path%></li>
-                  <% end %>
-                  <li><%= link_to 'Pokemon Show', pokemon_path%></li>
-                  <li class="active">Pokemon Edit</li>
-            </ol>
-            <%= render 'form_edit', pokemon: @pokemon %>
+        <div class="panel panel-info">
+            <div class="panel-heading">Editing Pokemon</div>
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                     <li><%= link_to 'Home', root_path%></li>
+                     <% if @trainer.present? %>
+                         <li><%= link_to 'Trainer Show', trainer_path(@trainer)%></li>
+                     <% else %>
+                         <li><%= link_to 'Pokemons', pokemons_path%></li>
+                     <% end %>
+                     <li><%= link_to 'Pokemon Show', pokemon_path%></li>
+                     <li class="active">Pokemon Edit</li>
+                </ol>
+                <%= render 'form_edit', pokemon: @pokemon %>
+            </div>
         </div>
-      </div>
-
-
-
     </div> <!-- /container -->
 <%= render 'pages/footer' %>

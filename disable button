@@ -1,7 +1,0 @@
-                            <% if (@pokemon_battle.current_turn%2==0)&(@pokemon_battle.state != "finish") %>
-                                <%= submit_tag 'Attack', class: "btn btn-danger btn-sm" %>
-                                <%= link_to 'Surrender', surrender_path(@pokemon_battle,@pokemon2) , :class=>"btn btn-primary btn-sm" %>
-                            <% else %>
-                                <%= submit_tag 'Attack', class: "btn btn-danger btn-sm", disabled: true %>
-                                <%= link_to 'Surrender', '#' , :class=>"btn btn-primary btn-sm", disabled: true %>
-                            <% end %>

@@ -1,56 +1,56 @@
 <%= render 'pages/nav' %>
     <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">Pokemons</div>
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><%= link_to 'Home', root_path%></li>
+                    <li class="active">Pokemons</li>
+                </ol>
+                <% flash.each do |key, value| %>
+                    <div class="alert alert-<%= key %>"><%= value %></div>
+                <% end %>  
+                <%= link_to 'Heal All', heal_all_path ,:class=>"btn btn-warning" %>       
+                <%= link_to 'New Pokemon', new_pokemon_path, :class=>"btn btn-default" %>
+                <br><br>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Pokedex</th>
+                            <th>Level</th>
+                            <th>Max health point</th>
+                            <th>Current health point</th>
+                            <th>Attack</th>
+                            <th>Defence</th>
+                            <th>Speed</th>
+                            <th>Current experience</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>                  
 
-      <div class="panel panel-info">
-        <div class="panel-heading">Pokemons</div>
-        <div class="panel-body">
-            <% flash.each do |key, value| %>
-                <div class="alert alert-<%= key %>"><%= value %></div>
-            <% end %>  
-            <%= link_to 'Heal All', "#" ,:class=>"btn btn-warning" %>       
-            <%= link_to 'New Pokemon', new_pokemon_path, :class=>"btn btn-default" %>
-            <br><br>
-            <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Pokedex</th>
-                    <th>Name</th>
-                    <th>Level</th>
-                    <th>Max health point</th>
-                    <th>Current health point</th>
-                    <th>Attack</th>
-                    <th>Defence</th>
-                    <th>Speed</th>
-                    <th>Current experience</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>              
-
-                <tbody>
-                  <% @pokemons.each do |pokemon| %>
-                    <tr>
-                      <td><%= pokemon.pokedex.name %></td>
-                      <td><%= pokemon.name %></td>
-                      <td><%= pokemon.level %></td>
-                      <td><%= pokemon.max_health_point %></td>
-                      <td><%= pokemon.current_health_point %></td>
-                      <td><%= pokemon.attack %></td>
-                      <td><%= pokemon.defence %></td>
-                      <td><%= pokemon.speed %></td>
-                      <td><%= pokemon.current_experience %></td>
-                      <td><%= link_to 'Heal', "#", :class=>"btn btn-warning btn-sm" %>
-                        <%= link_to 'Show', pokemon, :class=>"btn btn-info btn-sm" %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-            </table>      
-            <br>
-            <%= will_paginate @pokemons, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>            
-          </div>
+                    <tbody>
+                        <% @pokemons.each do |pokemon| %>
+                            <tr>
+                                <td><%= pokemon.name %></td>
+                                <td><%= pokemon.pokedex.name %></td>
+                                <td><%= pokemon.level %></td>
+                                <td><%= pokemon.max_health_point %></td>
+                                <td><%= pokemon.current_health_point %></td>
+                                <td><%= pokemon.attack %></td>
+                                <td><%= pokemon.defence %></td>
+                                <td><%= pokemon.speed %></td>
+                                <td><%= pokemon.current_experience %></td>
+                                <td><%= link_to 'Heal', heal_path(pokemon), :class=>"btn btn-warning btn-sm" %>
+                                  <%= link_to 'Show', pokemon, :class=>"btn btn-info btn-sm" %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>      
+                <br>
+                <%= will_paginate @pokemons, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>            
+            </div>
         </div>
-
-
-
     </div> <!-- /container -->
 <%= render 'pages/footer' %>

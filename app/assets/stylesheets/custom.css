@@ -29,7 +29,7 @@ body {
 }
 .index_page{
   text-align: center;
-  margin-top: 100px;
+  margin-top: 50px;
   margin-bottom: 100px;
 }
 .index_page h2{
@@ -96,9 +96,16 @@ a img{
 }
 .battle-img img{
   height: 200px; 
+  margin-bottom: 50px;
 }
 .col-sm-2 h2{
-  margin: 150px auto;
+  margin: 0 auto;
+  margin-top: 120px;
+  text-align: center;
+  font-weight: bold;
+}
+.col-sm-2 h3{
+  margin: 20px auto;
   text-align: center;
   font-weight: bold;
 }
@@ -108,4 +115,55 @@ a img{
 .field_with_errors_pokemon{
   color: red;
   font-weight: bold;
+}
+#notice{
+  color: red;
+  text-align: center;
+  font-weight: bold;
+}
+.text-primary{
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+}
+.breadcrumb{
+  background-color: white;
+}
+.actions{
+  margin-top: 80px;
+}
+.panel_statistic{
+  margin-top: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
+  width: 480px;
+  height: 400px;
+  float: left;
+}
+#most_win_pokemon{
+  margin-right: 20px;
+}
+#most_lose_pokemon{
+  margin-left: 20px;
+}
+#most_used_skill{
+  margin-right: 20px;
+}
+#most_pokemon_picked{
+  margin-left: 20px;
+}
+#most_surrender_pokemon{
+  float: none;
+  width: 800px !important;
+}
+.nav-element{
+  font-size: 11px;
+  background-color:  #d9edf7;
+  width: 100%;
+}
+hr{
+  border-top: 2px solid #d9edf7;
+}
+#win_rate_pokemon{
+  width: 90%;
 }

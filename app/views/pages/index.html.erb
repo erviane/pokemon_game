@@ -2,16 +2,77 @@
 <%= render 'pages/nav' %>
     <div class="container">
 
-      <div class="panel panel-info">
-        <div class="panel-body">
-          <div class="index_page">
-            <%= image_tag "logo.png" %>
-            <h2>WELCOME TO POKEMON GAME</h2>
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="index_page">
+                    <%= image_tag "logo.png" %>
+                    <br><br>
+                    <div class="clearfix"></div>
+                    <div class="panel panel-info">                     
+                        <ul class="nav navbar-nav nav-element">
+                            <li class="active"><%= link_to 'Normal', root_path(:element_type => "Normal") %></li>
+                            <li><%= link_to 'Fire', root_path(:element_type => "Fire") %></li>
+                            <li><%= link_to 'Fighting', root_path(:element_type => "Fighting") %></li>
+                            <li><%= link_to 'Water', root_path(:element_type => "Water") %></li>
+                            <li><%= link_to 'Flying', root_path(:element_type => "Flying") %></li>
+                            <li><%= link_to 'Grass', root_path(:element_type => "Grass") %></li>
+                            <li><%= link_to 'Poison', root_path(:element_type => "Poison") %></li>
+                            <li><%= link_to 'Ground', root_path(:element_type => "Ground") %></li>
+                            <li><%= link_to 'Psychic', root_path(:element_type => "Psychic") %></li>
+                            <li><%= link_to 'Rock', root_path(:element_type => "Rock") %></li>
+                            <li><%= link_to 'Ice', root_path(:element_type => "Ice") %></li>
+                            <li><%= link_to 'Bug', root_path(:element_type => "Bug") %></li>
+                            <li><%= link_to 'Dragon', root_path(:element_type => "Dragon") %></li>
+                            <li><%= link_to 'Ghost', root_path(:element_type => "Ghost") %></li>
+                            <li><%= link_to 'Dark', root_path(:element_type => "Dark") %></li>
+                            <li><%= link_to 'Steel', root_path(:element_type => "Steel") %></li>
+                            <li><%= link_to 'Fairy', root_path(:element_type => "Fairy") %></li>
+                            <li><%= link_to 'Electric', root_path(:element_type => "Electric") %></li>
+                        </ul>
+              
+                        <div class="tab-content">
+                            <br><br><br>
+                            <h3>Element Type : <%= @element_type %></h3>
+                            <div class="panel panel-info panel_statistic" id="most_win_pokemon">
+                                <div class="panel-heading">5 Most Win Pokemon</div>
+                                <div class="panel-body">
+                                    <%= column_chart @most_win_pokemon %>
+                                </div>
+                            </div>  
+
+                            <div class="panel panel-info panel_statistic" id="most_lose_pokemon">
+                                <div class="panel-heading">5 Most Lose Pokemon</div>
+                                <div class="panel-body">
+                                    <%= column_chart @most_lose_pokemon %>
+                                </div>
+                            </div>              
+
+                            <div class="panel panel-info panel_statistic" id="most_used_skill">
+                                <div class="panel-heading">5 Most Used Skill In Battle</div>
+                                <div class="panel-body">
+                                    <%= column_chart @most_used_skill %>
+                                </div>
+                            </div>              
+
+                            <div class="panel panel-info panel_statistic" id="most_pokemon_picked">
+                                <div class="panel-heading">5 Most Pokemon Picked</div>
+                                <div class="panel-body">
+                                    <%= column_chart @most_pokemon_picked %>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <center>
+                            <div class="panel panel-info panel_statistic" id="most_surrender_pokemon">
+                                <div class="panel-heading">5 Most Surrender Pokemon</div>
+                                <div class="panel-body">
+                                    <%= column_chart @most_surrender_pokemon %>
+                                </div>
+                            </div>
+                            </center>                     
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-
-
-
-    </div> <!-- /container -->
+    </div>
+</div> <!-- /container -->
 <%= render 'pages/footer' %>

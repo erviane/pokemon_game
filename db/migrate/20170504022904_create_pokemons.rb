@@ -14,6 +14,6 @@ class CreatePokemons < ActiveRecord::Migration[5.0]
       t.timestamps null:false
     end
     add_index :pokemons, :pokedex_id
-    add_foreign_key :pokemons, :pokedexes
+    add_foreign_key :pokemons, :pokedexes, on_delete: :cascade
   end
 end

@@ -1,15 +1,17 @@
 
 <%= render 'pages/nav' %>
     <div class="container">
-
-      <div class="panel panel-info">
-      <div class="panel-heading">Editing Pokedexes</div>
-        <div class="panel-body">
-            <%= render 'form', pokedex: @pokedex %>
+        <div class="panel panel-info">
+            <div class="panel-heading">Editing Pokedexes</div>
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                      <li><%= link_to 'Home', root_path%></li>
+                      <li><%= link_to 'Pokedexes', pokedexes_path%></li>
+                      <li><%= link_to 'Pokedex Show', pokedex_path%></li>
+                      <li class="active">Pokedex Edit</li>
+                </ol>
+                <%= render 'form', pokedex: @pokedex %>
+            </div>
         </div>
-      </div>
-
-
-
     </div> <!-- /container -->
 <%= render 'pages/footer' %>

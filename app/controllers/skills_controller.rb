@@ -1,5 +1,6 @@
 class SkillsController < ApplicationController
   before_action :set_skill, only: [:show, :edit, :update, :destroy]
+  before_action :select_skill, only: [:new, :create, :edit, :update]
 
   # GET /skills
   # GET /skills.json
@@ -61,5 +62,9 @@ class SkillsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def skill_params
       params.require(:skill).permit(:name, :power, :max_pp, :element_type  )
+    end
+
+    def select_skill
+      @skill_select = Skill::ELEMENT_TYPE.collect {|p| [ p, p ] }
     end
 end

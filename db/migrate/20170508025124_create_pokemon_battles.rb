@@ -15,6 +15,5 @@ class CreatePokemonBattles < ActiveRecord::Migration[5.0]
     end
     add_index :pokemon_battles, :pokemon1_id
     add_index :pokemon_battles, :pokemon2_id
-    add_foreign_key :pokemon_battles, :pokemons
   end
 end

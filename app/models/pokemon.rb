@@ -35,16 +35,13 @@ class Pokemon < ApplicationRecord
 		pokedex.element_type
 	end
 
-	# A Pokedex without a learnset lets its Pokemon learn every skill.
 	def learnable_skills
-		return Skill.all if pokedex.pokedex_skills.empty?
 		Skill.joins(:pokedex_skills).where(pokedex_skills: { pokedex_id: pokedex_id }).where("pokedex_skills.learn_level <= ?", level)
 	end
 
 	private
 
 	def learn_starting_skills
-		return if pokedex.pokedex_skills.empty?
 		learnable_skills.order("skills.power DESC").limit(4).each do |skill|
 			pokemon_skills.create(skill: skill, current_pp: skill.max_pp)
 		end

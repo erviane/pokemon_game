@@ -121,6 +121,7 @@ en:
       remove_skill: "Remove skill"
       no_skills: "No skills yet. A Pokemon needs at least one skill to battle."
       skills_full: "%{name} knows 4 skills (the maximum). Remove one to learn a new skill."
+      no_learnset_html: "%{pokedex} has no learnset yet, so %{name} can't learn any skill."
       choose_skill: "Choose a skill to learn"
       learn: "Learn"
 
@@ -140,7 +141,7 @@ en:
       unlock_level_help: "Pokemon of this species can learn the skill once they reach this level. Level 1 skills are learned automatically when a Pokemon is created."
       add_skill: "Add"
       remove_skill: "Remove from learnset"
-      no_learnset: "No learnset yet. Pokemon of this species can learn any skill."
+      no_learnset: "No learnset yet. Pokemon of this species can't learn any skill until you add one."
 
   skills:
     index:

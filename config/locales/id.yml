@@ -121,6 +121,7 @@ id:
       remove_skill: "Hapus skill"
       no_skills: "Belum ada skill. Pokemon butuh minimal satu skill untuk bertarung."
       skills_full: "%{name} sudah punya 4 skill (maksimum). Hapus satu untuk mempelajari skill baru."
+      no_learnset_html: "%{pokedex} belum punya learnset, jadi %{name} tidak bisa mempelajari skill apa pun."
       choose_skill: "Pilih skill untuk dipelajari"
       learn: "Pelajari"
 
@@ -140,7 +141,7 @@ id:
       unlock_level_help: "Pokemon spesies ini bisa mempelajari skill setelah mencapai level ini. Skill level 1 otomatis dipelajari saat Pokemon dibuat."
       add_skill: "Tambah"
       remove_skill: "Hapus dari learnset"
-      no_learnset: "Belum ada learnset. Pokemon spesies ini bisa mempelajari skill apa pun."
+      no_learnset: "Belum ada learnset. Pokemon spesies ini tidak bisa mempelajari skill apa pun sampai learnset ditambahkan."
 
   skills:
     index:

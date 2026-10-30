@@ -72,6 +72,8 @@
       <div class="card-body border-top">
         <% if @pokemon.pokemon_skills.size >= 4 %>
           <p class="small text-body-secondary mb-0"><i class="bi bi-info-circle"></i> <%= t(".skills_full", name: @pokemon.name) %></p>
+        <% elsif @pokemon.pokedex.pokedex_skills.empty? %>
+          <p class="small text-body-secondary mb-0"><i class="bi bi-info-circle"></i> <%= t(".no_learnset_html", name: @pokemon.name, pokedex: link_to(@pokemon.pokedex.name.capitalize, pokedex_path(@pokemon.pokedex, anchor: "learnset"))) %></p>
         <% else %>
           <%= form_for([@pokemon, @pokemon.pokemon_skills.build], html: { class: "d-flex gap-2" }) do %>
             <%= select_tag('skill_id', options_with_placeholder(t(".choose_skill"), @skill_list), class: "form-select", required: true, "aria-label": t("common.skill")) %>

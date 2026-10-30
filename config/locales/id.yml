@@ -224,7 +224,7 @@ id:
       added: "%{skill} ditambahkan ke learnset di Lv %{level}"
       removed: "%{skill} dihapus dari learnset"
     pokemons:
-      created: "%{name} bergabung ke timmu! Ajari satu skill agar bisa bertarung."
+      created: "%{name} bergabung ke timmu!"
       updated: "%{name} berhasil diperbarui"
       released: "%{name} telah dilepas"
       in_battle: "%{name} sedang bertarung dan tidak bisa dipulihkan sampai pertarungan selesai."
@@ -319,3 +319,5 @@ id:
         last_starting_skill: "Ini skill level 1 terakhir. Tambahkan skill level 1 lain dulu, atau Pokemon baru akan lahir tanpa skill."
         same_as_pokemon1: "harus berbeda dari Pokemon 1"
         no_usable_skills: "%{name} tidak punya skill dengan PP tersisa. Ajari skill atau pulihkan dulu."
+        fainted: "%{name} sedang pingsan. Pulihkan dulu."
+        in_battle: "%{name} sedang ikut battle lain."

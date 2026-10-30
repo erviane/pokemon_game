@@ -33,6 +33,7 @@ class PokemonBattle < ApplicationRecord
 	validates :battle_type, presence: true
 	validate :check_pokemon2
 	validate :check_usable_skills, on: :create
+	validate :check_available, on: :create
 
 	def self.ongoing_pokemon_ids
 		where(state: "ongoing").pluck(:pokemon1_id, :pokemon2_id).flatten
@@ -43,6 +44,19 @@ class PokemonBattle < ApplicationRecord
 		{ pokemon1_id: pokemon1, pokemon2_id: pokemon2 }.each do |field, pokemon|
 			next if pokemon.nil? || pokemon.pokemon_skills.where("current_pp > 1").exists?
 			errors.add(field, :no_usable_skills, name: pokemon.name)
+		end
+	end
+
+	# Checked on the server too, since the battle form can be posted by hand.
+	def check_available
+		busy = PokemonBattle.ongoing_pokemon_ids
+		{ pokemon1_id: pokemon1, pokemon2_id: pokemon2 }.each do |field, pokemon|
+			next if pokemon.nil?
+			if pokemon.current_health_point.to_i <= 0
+				errors.add(field, :fainted, name: pokemon.name)
+			elsif busy.include?(pokemon.id)
+				errors.add(field, :in_battle, name: pokemon.name)
+			end
 		end
 	end
 

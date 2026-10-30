@@ -165,10 +165,13 @@ class BattleEngine
     end
 
     def winner_level_up(winner)
+        old_level = winner.level
     	level_up(winner)
         extra_point = PokemonBattleCalculator.calculate_level_up_extra_stats
         save_extra_point(winner, extra_point)
-        @level_up = I18n.t("battle.level_up", name: winner.name, level: winner.level)
+        new_skills = winner.pokedex.pokedex_skills.where(learn_level: (old_level + 1)..winner.level).includes(:skill).map { |s| s.skill.name }
+        @level_up = [I18n.t("battle.level_up", name: winner.name, level: winner.level),
+                     (I18n.t("battle.new_skills", name: winner.name, skills: new_skills.join(", ")) if new_skills.any?)].compact.join(" ")
     end
 
     def level_up(winner)

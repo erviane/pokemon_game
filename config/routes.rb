@@ -9,6 +9,10 @@ resources :pokemons do
 	resources :pokemon_skills
 end
 
+resources :pokedexes do
+	resources :pokedex_skills, only: [:create, :destroy]
+end
+
 resources :pokemon_battles do
 	resources :pokemon_battle_logs
 end

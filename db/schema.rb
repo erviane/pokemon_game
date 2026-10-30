@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_30_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_30_020000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "pokedex_skills", force: :cascade do |t|
+    t.bigint "pokedex_id", null: false
+    t.bigint "skill_id", null: false
+    t.integer "learn_level", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pokedex_id", "skill_id"], name: "index_pokedex_skills_on_pokedex_id_and_skill_id", unique: true
+    t.index ["pokedex_id"], name: "index_pokedex_skills_on_pokedex_id"
+    t.index ["skill_id"], name: "index_pokedex_skills_on_skill_id"
+  end
 
   create_table "pokedexes", force: :cascade do |t|
     t.string "name", null: false
@@ -93,6 +104,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_30_010000) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "pokedex_skills", "pokedexes", on_delete: :cascade
+  add_foreign_key "pokedex_skills", "skills", on_delete: :cascade
   add_foreign_key "pokemon_battle_logs", "pokemon_battles", on_delete: :cascade
   add_foreign_key "pokemon_battle_logs", "skills", on_delete: :cascade
   add_foreign_key "pokemon_battles", "pokemons", column: "pokemon1_id", on_delete: :cascade

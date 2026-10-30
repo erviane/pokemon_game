@@ -21,6 +21,7 @@ class Pokemon < ApplicationRecord
 	validates :level, numericality: { :greater_than => 0 }
 	validate :check_current_health_point
 	validate :check_pokedex_id
+	after_create :learn_starting_skills
 	
 	def check_current_health_point
   		errors.add(:current_health_point, :exceeds_max_hp) if current_health_point.to_i > max_health_point.to_i
@@ -32,5 +33,20 @@ class Pokemon < ApplicationRecord
 
 	def element_type
 		pokedex.element_type
+	end
+
+	# A Pokedex without a learnset lets its Pokemon learn every skill.
+	def learnable_skills
+		return Skill.all if pokedex.pokedex_skills.empty?
+		Skill.joins(:pokedex_skills).where(pokedex_skills: { pokedex_id: pokedex_id }).where("pokedex_skills.learn_level <= ?", level)
+	end
+
+	private
+
+	def learn_starting_skills
+		return if pokedex.pokedex_skills.empty?
+		learnable_skills.order("skills.power DESC").limit(4).each do |skill|
+			pokemon_skills.create(skill: skill, current_pp: skill.max_pp)
+		end
 	end
 end 

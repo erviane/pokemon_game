@@ -96,6 +96,7 @@ en:
 
   pokemons:
     skill_option: "%{name} (%{type}, power %{power})"
+    skill_option_locked: "%{name} (unlocks at Lv %{level})"
     card:
       xp: "%{count} XP"
     index:
@@ -133,6 +134,11 @@ en:
       submit: "Save Pokedex"
     show:
       base_stats: "Base Stats"
+      learnset: "Learnset"
+      learn_level: "Level"
+      add_skill: "Add"
+      remove_skill: "Remove from learnset"
+      no_learnset: "No learnset yet. Pokemon of this species can learn any skill."
 
   skills:
     index:
@@ -211,6 +217,9 @@ en:
       empty: "No moves yet. Pick a skill and attack!"
 
   flash:
+    pokedex_skills:
+      added: "%{skill} added to the learnset at Lv %{level}"
+      removed: "%{skill} removed from the learnset"
     pokemons:
       created: "%{name} joined your team! Teach it a skill so it can battle."
       updated: "%{name} was updated"
@@ -243,6 +252,7 @@ en:
     surrendered: "%{attacker} surrendered. %{defender} wins!"
     auto_finished: "Auto battle finished."
     level_up: "%{name} leveled up to Lv %{level}!"
+    new_skills: "%{name} can now learn %{skills}!"
     invalid:
       finished: "This battle has already finished"
       not_your_turn: "It's %{attacker}'s turn, not %{pokemon}'s"
@@ -299,5 +309,8 @@ en:
         exceeds_max_pp: "can't be more than the skill's max PP"
         too_many_skills: "can't learn more than 4 skills. Remove one first."
         already_known: "is already known by this Pokemon"
+        already_in_learnset: "is already in this learnset"
+        not_in_learnset: "is not in the %{pokemon} learnset"
+        level_too_low: "unlocks at Lv %{level}"
         same_as_pokemon1: "must be different from Pokemon 1"
         no_usable_skills: "%{name} has no skills with PP left. Teach it a skill or heal it first."

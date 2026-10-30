@@ -1,5 +1,6 @@
 class Pokedex < ApplicationRecord
 	has_many :pokemons, dependent: :destroy
+	has_many :pokedex_skills, dependent: :delete_all
 
 	scope :search, ->(query) { query.present? ? where("pokedexes.name ILIKE ?", contains_pattern(query)) : all }
 	scope :of_type, ->(type) { type.present? ? where(element_type: type) : all }

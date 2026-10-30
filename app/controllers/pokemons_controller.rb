@@ -13,7 +13,9 @@ class PokemonsController < ApplicationController
                             .sorted(params[:sort], params[:dir], PokemonSkill::SORTS, default: "pokemon_skills.created_at ASC")
       @number_of_win = PokemonBattle.where("pokemon_winner_id=?", @pokemon.id).count
       @number_of_lose = PokemonBattle.where("pokemon_loser_id=?", @pokemon.id).count
-      @skill_list = Skill.where.not(id: @pokemon.skill_ids).order(:name).collect {|p| [ t("pokemons.skill_option", name: p.name, type: p.element_type, power: p.power), p.id ] }
+      @skill_list = @pokemon.learnable_skills.where.not(id: @pokemon.skill_ids).order(:name).collect {|p| [ t("pokemons.skill_option", name: p.name, type: p.element_type, power: p.power), p.id ] }
+      locked = @pokemon.pokedex.pokedex_skills.includes(:skill).where("learn_level > ?", @pokemon.level).order(:learn_level)
+      @skill_list += locked.map {|p| [ t("pokemons.skill_option_locked", name: p.skill.name, level: p.learn_level), p.skill_id, { disabled: true } ] }
   end
 
   # GET /pokemons/new

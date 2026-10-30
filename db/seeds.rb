@@ -34,3 +34,11 @@ csv_pokedex_parse.each do |row|
   t.save
 end
 puts "Total Pokedex : #{Pokedex.count}"
+pokedex_ids = Pokedex.pluck(:name, :id).to_h
+skill_ids = Skill.pluck(:name, :id).to_h
+csv_learnset = CSV.read(Rails.root.join('lib', 'seeds', 'list_learnset.csv'), :headers => true)
+PokedexSkill.insert_all(csv_learnset.filter_map { |row|
+  pokedex_id, skill_id = pokedex_ids[row['pokedex_name']], skill_ids[row['skill_name']]
+  { pokedex_id: pokedex_id, skill_id: skill_id, learn_level: row['learn_level'] } if pokedex_id && skill_id
+})
+puts "Total Learnset : #{PokedexSkill.count}"

@@ -96,6 +96,7 @@ id:
 
   pokemons:
     skill_option: "%{name} (%{type}, kekuatan %{power})"
+    skill_option_locked: "%{name} (terbuka di Lv %{level})"
     card:
       xp: "%{count} XP"
     index:
@@ -133,6 +134,11 @@ id:
       submit: "Simpan Pokedex"
     show:
       base_stats: "Statistik Dasar"
+      learnset: "Learnset"
+      learn_level: "Level"
+      add_skill: "Tambah"
+      remove_skill: "Hapus dari learnset"
+      no_learnset: "Belum ada learnset. Pokemon spesies ini bisa mempelajari skill apa pun."
 
   skills:
     index:
@@ -211,6 +217,9 @@ id:
       empty: "Belum ada gerakan. Pilih skill dan serang!"
 
   flash:
+    pokedex_skills:
+      added: "%{skill} ditambahkan ke learnset di Lv %{level}"
+      removed: "%{skill} dihapus dari learnset"
     pokemons:
       created: "%{name} bergabung ke timmu! Ajari satu skill agar bisa bertarung."
       updated: "%{name} berhasil diperbarui"
@@ -243,6 +252,7 @@ id:
     surrendered: "%{attacker} menyerah. %{defender} menang!"
     auto_finished: "Pertarungan otomatis selesai."
     level_up: "%{name} naik ke Lv %{level}!"
+    new_skills: "%{name} sekarang bisa mempelajari %{skills}!"
     invalid:
       finished: "Pertarungan ini sudah selesai"
       not_your_turn: "Sekarang giliran %{attacker}, bukan %{pokemon}"
@@ -299,5 +309,8 @@ id:
         exceeds_max_pp: "tidak boleh lebih dari PP maksimum skill"
         too_many_skills: "tidak bisa mempelajari lebih dari 4 skill. Hapus satu dulu."
         already_known: "sudah dikuasai Pokemon ini"
+        already_in_learnset: "sudah ada di learnset ini"
+        not_in_learnset: "tidak ada di learnset %{pokemon}"
+        level_too_low: "baru terbuka di Lv %{level}"
         same_as_pokemon1: "harus berbeda dari Pokemon 1"
         no_usable_skills: "%{name} tidak punya skill dengan PP tersisa. Ajari skill atau pulihkan dulu."

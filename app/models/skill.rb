@@ -2,6 +2,7 @@ class Skill < ApplicationRecord
 		has_many :pokemon_skills, dependent: :destroy
   		has_many :pokemons, through: :pokemon_skills, dependent: :destroy
   		has_many :pokemon_battle_logs, dependent: :destroy
+  		has_many :pokedex_skills, dependent: :delete_all
 
   		SORTS = { "name" => "skills.name", "type" => "skills.element_type", "power" => "skills.power", "max_pp" => "skills.max_pp" }
 

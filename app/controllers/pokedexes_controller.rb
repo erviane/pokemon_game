@@ -7,6 +7,8 @@ class PokedexesController < ApplicationController
     end 
 
     def show
+        @learnset = @pokedex.pokedex_skills.includes(:skill).order(:learn_level, "skills.name").references(:skill)
+        @skill_select = Skill.where.not(id: @learnset.map(&:skill_id)).order(:name).map {|p| [ t("pokemons.skill_option", name: p.name, type: p.element_type, power: p.power), p.id ] }
     end 
 
     def new

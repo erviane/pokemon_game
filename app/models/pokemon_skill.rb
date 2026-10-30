@@ -9,10 +9,23 @@ class PokemonSkill < ApplicationRecord
 						allow_blank: false, 
 						:uniqueness => {:scope => :pokemon_id, :message => :already_known}
 	validate :check_current_pp
-	validate :max_skill_have
+	validate :max_skill_have, on: :create
+	validate :check_learnable, on: :create
 
 	def max_skill_have
 		errors.add(:pokemon_id, :too_many_skills) if pokemon && pokemon.pokemon_skills.count >= 4
+	end
+
+	# Only checked when learning, so skills known before learnsets existed are kept.
+	def check_learnable
+		learnset = pokemon&.pokedex&.pokedex_skills
+		return if learnset.blank? || skill_id.nil?
+		entry = learnset.find_by(skill_id: skill_id)
+		if entry.nil?
+			errors.add(:skill_id, :not_in_learnset, pokemon: pokemon.pokedex.name.capitalize)
+		elsif entry.learn_level > pokemon.level
+			errors.add(:skill_id, :level_too_low, level: entry.learn_level)
+		end
 	end
 
 	def check_current_pp

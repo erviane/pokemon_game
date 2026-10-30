@@ -32,3 +32,46 @@
     </div>
   </div>
 </div>
+
+<div class="card mt-4" id="learnset">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span><%= t(".learnset") %></span>
+    <span class="badge text-bg-light"><%= @learnset.size %></span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-modern table-hover">
+      <thead>
+        <tr>
+          <th class="col-fit"><%= t(".learn_level") %></th>
+          <th><%= t("common.skill") %></th>
+          <th class="col-fit"><%= t("common.type") %></th>
+          <th class="col-fit"><%= t("common.power") %></th>
+          <th class="col-fit"><span class="visually-hidden"><%= t("common.actions") %></span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @learnset.each do |entry| %>
+          <tr>
+            <td class="text-end"><%= entry.learn_level %></td>
+            <td class="text-start fw-semibold text-capitalize"><%= ref_link entry.skill.name, skill_path(entry.skill) %></td>
+            <td class="text-start"><%= type_badge(entry.skill.element_type) %></td>
+            <td class="text-end"><%= entry.skill.power %></td>
+            <td class="text-center">
+              <%= link_to pokedex_pokedex_skill_path(@pokedex, entry), method: :delete, data: { confirm: t("common.are_you_sure") }, class: "btn btn-sm btn-outline-danger", title: t(".remove_skill"), "aria-label": t(".remove_skill") do %><i class="bi bi-x-lg"></i><% end %>
+            </td>
+          </tr>
+        <% end %>
+        <% if @learnset.empty? %>
+          <tr><td colspan="5" class="text-center text-body-secondary py-4"><%= t(".no_learnset") %></td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-body border-top">
+    <%= form_with url: pokedex_pokedex_skills_path(@pokedex), class: "d-flex gap-2" do %>
+      <%= select_tag :skill_id, options_with_placeholder(t("pokemons.show.choose_skill"), @skill_select), class: "form-select", required: true, "aria-label": t("common.skill") %>
+      <%= number_field_tag :learn_level, 1, min: 1, class: "form-control", style: "max-width: 7rem", required: true, "aria-label": t(".learn_level") %>
+      <%= submit_tag t(".add_skill"), class: "btn btn-primary text-nowrap" %>
+    <% end %>
+  </div>
+</div>

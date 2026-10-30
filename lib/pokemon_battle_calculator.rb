@@ -370,15 +370,17 @@ class PokemonBattleCalculator
 		attacker_element_type = attacker.element_type
 		defender_element_type = defender.element_type
 
-		stab = if skill_element_type == defender_element_type
+		# Same-type attack bonus: the skill matches the Pokemon using it.
+		stab = if skill_element_type == attacker_element_type
 			1.5
 		else
 			1
 		end
 
-		attacker_symbol = attacker_element_type.downcase.to_sym
+		# Effectiveness depends on the skill's type, not the attacker's.
+		skill_symbol = skill_element_type.downcase.to_sym
 		defender_symbol = defender_element_type.downcase.to_sym
-		weakness_resistance = ARRAY_OF_BATTLE_TYPES[attacker_symbol][defender_symbol]
+		weakness_resistance = ARRAY_OF_BATTLE_TYPES[skill_symbol][defender_symbol]
 
 		damage = ((((2 * attacker.level / 5.to_f + 2) * attacker.attack * skill.power / defender.defence.to_f) / 50.to_f) + 2) * stab * weakness_resistance * ( rand(85..100) / 100.to_f)
 

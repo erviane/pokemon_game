@@ -12,7 +12,7 @@ class PokemonSkill < ApplicationRecord
 	validate :max_skill_have
 
 	def max_skill_have
-		errors.add(:pokemon_id, :too_many_skills) if pokemon && pokemon.pokemon_skills.count >= 4
+		errors.add(:pokemon_id, :too_many_skills) if pokemon && pokemon.pokemon_skills.count > 4
 	end
 
 	def check_current_pp

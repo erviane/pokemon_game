@@ -9,7 +9,7 @@ class Pokedex < ApplicationRecord
 	validates :base_health_point, numericality: { :greater_than => 0 }
 	validates :base_attack,numericality: { :greater_than => 0 }
 	validates :base_defence, numericality: { :greater_than => 0 }
-	validates :base_speed, numericality: { :greater_than => 0 }
+	validates :base_speed, numericality: { :greater_than_or_equal_to => 0 }
 	validates :element_type, presence: true,
 							inclusion: {in: Skill::ELEMENT_TYPE, allow_blank: true}
 end

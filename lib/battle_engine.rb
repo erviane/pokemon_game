@@ -52,7 +52,7 @@ class BattleEngine
 
 	def attack
         @damage = PokemonBattleCalculator.calculate_damage(@attacker, @defender, @attacker_skill.skill)
-        @hp_defender = @defender.current_health_point - damage.to_i
+        @hp_defender = @defender.current_health_point - damage.round
         @hp_defender = 0 if @hp_defender < 0
         attacker_current_pp = @attacker_skill.current_pp - 1
         @attacker_skill.update(current_pp: attacker_current_pp)

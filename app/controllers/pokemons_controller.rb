@@ -75,7 +75,7 @@ class PokemonsController < ApplicationController
     @pokemon.each do |pokemon|
       if !ongoing_pokemon.include?(pokemon.id)
           pokemon.update(current_health_point: pokemon.max_health_point)
-          pokemon.pokemon_skills.each do |pokemon_skill|
+          pokemon.pokemon_skills.first(3).each do |pokemon_skill|
               pokemon_skill.update(current_pp: pokemon_skill.skill_max_pp)
           end
       end

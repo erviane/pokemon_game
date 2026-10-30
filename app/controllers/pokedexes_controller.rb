@@ -3,7 +3,7 @@ class PokedexesController < ApplicationController
     before_action :pokedex_select, only: [:new, :create, :edit, :update]  
 
     def index
-        @pokedexes = Pokedex.all.order("created_at DESC").paginate(page: params[:page], per_page: 20)
+        @pokedexes = Pokedex.search(params[:q]).of_type(params[:type]).order("pokedexes.created_at DESC").paginate(page: params[:page], per_page: 20)
     end 
 
     def show
@@ -19,26 +19,26 @@ class PokedexesController < ApplicationController
     def create
         @pokedex = Pokedex.new(pokedex_params)
         if @pokedex.save
-          redirect_to pokedexes_url
-          flash[:success] = "New pokedex was successfully created"
+          redirect_to pokedex_url(@pokedex)
+          flash[:success] = t("flash.pokedexes.created")
         else
-          render :new
+          render :new, status: :unprocessable_entity
         end
     end 
 
     def update
         if @pokedex.update(pokedex_params)
-          redirect_to pokedexes_url
-          flash[:success] = "Pokedex was successfully updated"
+          redirect_to pokedex_url(@pokedex)
+          flash[:success] = t("flash.pokedexes.updated")
         else
-          render :edit
+          render :edit, status: :unprocessable_entity
         end
     end 
 
     def destroy
       @pokedex.destroy
         redirect_to pokedexes_url
-        flash[:success] = "Pokedex was successfully destroyed"
+        flash[:success] = t("flash.pokedexes.deleted")
     end
 
     private

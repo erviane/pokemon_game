@@ -1,41 +1,15 @@
-<%= render 'pages/nav' %>
-    <div class="container">
-        <div class="panel panel-info">
-            <div class="panel-heading">Detail Skill</div>
-            <div class="panel-body"><br>
-                <ol class="breadcrumb">
-                    <li><%= link_to 'Home', root_path%></li>
-                    <li><%= link_to 'Skills', skills_path%></li>
-                    <li class="active">Skill Show</li>
-                </ol>
-                <div class="button">
-                    <%= link_to 'Edit', edit_skill_path(@skill), class: "btn btn-success" %>
-                    <%= link_to 'Destroy', @skill, :class=>"btn btn-danger" , method: :delete, data: { confirm: 'Are you sure?' } %>
-                </div>
-                <br>
-                <div class="panel-body-show">
-        	           <table class="table table-striped table-bordered">
-               			  <tbody>
-                			     <tr>
-                			         <td width="30%"><strong>Name</strong></td>
-                			         <td><%= @skill.name %></td>
-                			      </tr>
-                			      <tr>
-                			         <td><strong>Power</strong></td>
-                			         <td><%= @skill.power %></td>
-                			      </tr>
-                			      <tr>
-                			         <td><strong>max PP</strong></td>
-                			         <td><%= @skill.max_pp %></td>
-                			      </tr>
-                			      <tr>
-                			         <td><strong>Element Type</strong></td>
-                			         <td><%= @skill.element_type %></td>
-                			      </tr>
-              			    </tbody>
-            			  </table>			
-                </div>
-            </div>
-        </div>
-    </div> <!-- /container -->
-<%= render 'pages/footer' %>
+<%= page_header @skill.name.capitalize, { t("common.skills") => skills_path, @skill.name.capitalize => nil } do %>
+  <%= link_to edit_skill_path(@skill), class: "btn btn-outline-secondary" do %><i class="bi bi-pencil"></i> <%= t("common.edit") %><% end %>
+  <%= link_to @skill, class: "btn btn-outline-danger", method: :delete, data: { confirm: t("common.are_you_sure") } do %><i class="bi bi-trash"></i> <%= t("common.delete") %><% end %>
+<% end %>
+
+<div class="row g-4">
+  <% { t("common.type") => type_badge(@skill.element_type), t("common.power") => @skill.power, t("common.max_pp") => @skill.max_pp }.each do |label, value| %>
+    <div class="col-md-4">
+      <div class="card h-100"><div class="card-body">
+        <div class="small text-body-secondary fw-semibold text-uppercase"><%= label %></div>
+        <div class="fs-3 fw-bold mt-1"><%= value %></div>
+      </div></div>
+    </div>
+  <% end %>
+</div>

@@ -1,19 +1,2 @@
-<%= render 'pages/nav' %>
-    <div class="container">
-        <div class="panel panel-info">
-            <div class="panel-heading">New Pokemon</div>
-            <div class="panel-body">
-                <ol class="breadcrumb">
-                      <li><%= link_to 'Home', root_path%></li>
-                      <% if @trainer.present? %>
-                          <li><%= link_to 'Trainer Show', trainer_path(@trainer)%></li>
-                      <% else %>
-                          <li><%= link_to 'Pokemons', pokemons_path%></li>
-                      <% end %>
-                      <li class="active">Pokemon New</li>
-                </ol>
-                <%= render 'form', pokemon: @pokemon %>
-          </div>
-        </div>
-    </div> <!-- /container -->
-<%= render 'pages/footer' %>
+<%= page_header t(".title"), { t("common.pokemon") => pokemons_path, t("common.new") => nil } %>
+<div class="card"><div class="card-body"><%= render 'form', pokemon: @pokemon %></div></div>

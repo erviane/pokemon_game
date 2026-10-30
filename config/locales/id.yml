@@ -1,0 +1,303 @@
+id:
+  common:
+    home: "Beranda"
+    new: "Baru"
+    edit: "Ubah"
+    delete: "Hapus"
+    heal: "Pulihkan"
+    heal_all: "Pulihkan Semua"
+    details: "Detail"
+    actions: "Aksi"
+    are_you_sure: "Yakin?"
+    close: "Tutup"
+    level: "Lv %{level}"
+    xp: "%{count} XP"
+    hp: "HP"
+    health_point: "Poin nyawa"
+    atk: "Srg"
+    def: "Thn"
+    spd: "Kcp"
+    type: "Tipe"
+    power: "Kekuatan"
+    max_pp: "PP Maks"
+    pp: "PP"
+    name: "Nama"
+    skill: "Skill"
+    pokemon: "Pokemon"
+    pokedex: "Pokedex"
+    skills: "Skill"
+    battles: "Pertarungan"
+    battle_log: "Log Pertarungan"
+    vs: "VS"
+    edit_name: "Ubah %{name}"
+    delete_name: "Hapus %{name}"
+  battle_types:
+    "Manual Battle": "Pertarungan Manual"
+    "Player VS AI": "Pemain VS AI"
+    "Auto Battle": "Pertarungan Otomatis"
+
+  search:
+    submit: "Cari"
+    clear: "Hapus"
+    all_types: "Semua tipe"
+    results:
+      zero: "Tidak ada hasil."
+      one: "1 hasil"
+      other: "%{count} hasil"
+    no_results: "Tidak ada yang cocok. Coba kata kunci lain atau hapus filter."
+    placeholders:
+      pokemons: "Cari nama Pokemon atau Pokedex…"
+      pokedexes: "Cari Pokedex…"
+      skills: "Cari skill…"
+      pokemon_battles: "Cari nama Pokemon…"
+      pokemon_battle_logs: "Cari penyerang, bertahan, atau skill…"
+    all_states: "Semua status"
+    all_modes: "Semua mode"
+    all_actions: "Semua aksi"
+
+  sort:
+    by: "Urutkan berdasarkan %{column}"
+
+  will_paginate:
+    previous_label: "Sebelumnya"
+    next_label: "Berikutnya"
+    page_gap: "&hellip;"
+
+  layouts:
+    application:
+      title: "Pokemon Rainbow"
+  pages:
+    nav:
+      battle: "Pertarungan"
+      pokemon: "Pokemon"
+      pokedex: "Pokedex"
+      skill: "Skill"
+      toggle_navigation: "Buka/tutup navigasi"
+      language: "Bahasa"
+    footer:
+      credit: "Dibuat oleh Erna Erviana · Pokemon Rainbow"
+    index:
+      tagline: "Latih, bertarung, dan pantau statistik Pokemon kamu di satu tempat."
+      start_battle: "Mulai Bertarung"
+      new_pokemon: "Pokemon Baru"
+      counts:
+        pokemon: "Pokemon"
+        pokedex: "Entri Pokedex"
+        skills: "Skill"
+        battles: "Pertarungan"
+      statistics_by_element: "Statistik per elemen"
+      top5: "5 Teratas · %{title}"
+      charts:
+        most_wins: "Paling Banyak Menang"
+        most_losses: "Paling Banyak Kalah"
+        most_used_skills: "Skill Paling Sering Dipakai"
+        most_picked: "Paling Sering Dipilih"
+        most_surrenders: "Paling Sering Menyerah"
+
+  pokemons:
+    skill_option: "%{name} (%{type}, kekuatan %{power})"
+    card:
+      xp: "%{count} XP"
+    index:
+      new_pokemon: "Pokemon Baru"
+      empty: "Belum ada Pokemon. Buat yang pertama!"
+    new:
+      title: "Pokemon Baru"
+    edit:
+      title: "Ubah %{name}"
+    form:
+      name_placeholder: "mis. Sparky"
+      select_pokedex: "Pilih Pokedex"
+      submit: "Buat Pokemon"
+    form_edit:
+      submit: "Simpan perubahan"
+    show:
+      wins: "Menang"
+      losses: "Kalah"
+      stats: "Statistik"
+      experience: "Pengalaman"
+      forget_confirm: "%{pokemon} akan melupakan %{skill}. Lanjutkan?"
+      remove_skill: "Hapus skill"
+      no_skills: "Belum ada skill. Pokemon butuh minimal satu skill untuk bertarung."
+      skills_full: "%{name} sudah punya 4 skill (maksimum). Hapus satu untuk mempelajari skill baru."
+      choose_skill: "Pilih skill untuk dipelajari"
+      learn: "Pelajari"
+
+  pokedexes:
+    index:
+      new_pokedex: "Pokedex Baru"
+    new:
+      title: "Pokedex Baru"
+    form:
+      select_element_type: "Pilih Tipe Elemen"
+      submit: "Simpan Pokedex"
+    show:
+      base_stats: "Statistik Dasar"
+
+  skills:
+    index:
+      new_skill: "Skill Baru"
+    new:
+      title: "Skill Baru"
+    form:
+      select_element_type: "Pilih Tipe Elemen"
+      submit: "Simpan Skill"
+
+  pokemon_battles:
+    pokemon_option: "%{name} (Lv %{level}, HP %{hp}/%{max})"
+    index:
+      new_battle: "Pertarungan Baru"
+      match: "Pertandingan"
+      mode: "Mode"
+      turn: "Giliran"
+      status: "Status"
+      winner: "Pemenang"
+      xp: "XP"
+      finished: "Selesai"
+      ongoing: "Berlangsung"
+      open: "Buka"
+      delete_battle: "Hapus pertarungan"
+      empty: "Belum ada pertarungan. Mulai sekarang!"
+    new:
+      title: "Pertarungan Baru"
+      need_two: "Kamu butuh minimal dua Pokemon yang sehat untuk bertarung."
+      create_pokemon: "Buat Pokemon"
+      or: "atau"
+      heal_all: "pulihkan semua"
+      fainted:
+        one: "%{count} Pokemon pingsan (0 HP) tidak ditampilkan."
+        other: "%{count} Pokemon pingsan (0 HP) tidak ditampilkan."
+      fainted_heal: "Pulihkan semua"
+      fainted_suffix: "untuk mengembalikan mereka."
+      pokemon_n: "Pokemon %{n}"
+      choose: "Pilih %{label}"
+      select_pokemon: "Pilih Pokemon"
+      hints:
+        "Manual Battle": "Kedua sisi kamu yang kendalikan."
+        "Player VS AI": "Kamu mengendalikan Pokemon 1, AI mengendalikan Pokemon 2."
+        "Auto Battle": "Pertarungan berjalan sendiri sampai selesai."
+    show:
+      title: "Pertarungan #%{id}"
+      finished: "Pertarungan selesai."
+      winner_html: "%{name} adalah pemenangnya!"
+      winner_xp_html: "%{name} adalah pemenangnya dan mendapat %{xp} XP!"
+      heal_all: "Pulihkan semua Pokemon"
+      new_battle: "Pertarungan baru"
+      turn: "Giliran %{turn}"
+      view_all: "Lihat semua"
+    fighter:
+      your_turn: "Giliranmu"
+      winner: "Pemenang"
+      defeated: "Kalah"
+      choose_attack: "Pilih serangan"
+      no_pp: "PP semua skill habis. %{name} hanya bisa menyerah."
+      attack: "Serang"
+      surrender: "Menyerah"
+      surrender_confirm: "%{name} akan menyerah dan kalah di pertarungan ini. Menyerah?"
+
+  pokemon_battle_logs:
+    index:
+      title: "Log Pertarungan #%{id}"
+      log: "Log"
+    table_log:
+      turn: "Giliran"
+      attacker: "Penyerang"
+      action: "Aksi"
+      damage: "Damage"
+      defender: "Bertahan"
+      hp_left: "Sisa HP"
+      surrender: "Menyerah"
+      attack: "Serang"
+      empty: "Belum ada gerakan. Pilih skill dan serang!"
+
+  flash:
+    pokemons:
+      created: "%{name} bergabung ke timmu! Ajari satu skill agar bisa bertarung."
+      updated: "%{name} berhasil diperbarui"
+      released: "%{name} telah dilepas"
+      in_battle: "%{name} sedang bertarung dan tidak bisa dipulihkan sampai pertarungan selesai."
+      healed: "%{name} pulih sepenuhnya (HP dan PP terisi kembali)"
+      healed_all: "Semua Pokemon pulih sepenuhnya"
+      healed_all_except:
+        one: "Semua Pokemon pulih sepenuhnya kecuali %{count} yang sedang bertarung"
+        other: "Semua Pokemon pulih sepenuhnya kecuali %{count} yang sedang bertarung"
+    pokemon_skills:
+      forgot: "%{pokemon} melupakan %{skill}"
+      learned: "%{pokemon} mempelajari %{skill}!"
+      choose_skill: "Pilih skill yang ingin dipelajari"
+    skills:
+      created: "Skill baru berhasil dibuat"
+      updated: "Skill berhasil diperbarui"
+      deleted: "Skill berhasil dihapus"
+    pokedexes:
+      created: "Pokedex baru berhasil dibuat"
+      updated: "Pokedex berhasil diperbarui"
+      deleted: "Pokedex berhasil dihapus"
+    pokemon_battles:
+      deleted: "Pertarungan berhasil dihapus"
+      choose_skill: "Pilih skill untuk menyerang"
+
+  battle:
+    used_skill: "%{attacker} memakai %{skill} dan memberi %{damage} damage!"
+    used_skill_fainted: "%{attacker} memakai %{skill} dan memberi %{damage} damage. %{defender} pingsan — %{attacker} menang!"
+    surrendered: "%{attacker} menyerah. %{defender} menang!"
+    auto_finished: "Pertarungan otomatis selesai."
+    level_up: "%{name} naik ke Lv %{level}!"
+    invalid:
+      finished: "Pertarungan ini sudah selesai"
+      not_your_turn: "Sekarang giliran %{attacker}, bukan %{pokemon}"
+      unknown_skill: "%{pokemon} tidak menguasai skill itu"
+      no_pp: "PP %{skill} sudah habis"
+      not_allowed: "Gerakan itu tidak diizinkan sekarang"
+
+  activerecord:
+    models:
+      pokemon: "Pokemon"
+      pokedex: "Pokedex"
+      skill: "Skill"
+      pokemon_skill: "Skill Pokemon"
+      pokemon_battle: "Pertarungan"
+    attributes:
+      pokemon:
+        name: "Nama"
+        pokedex: "Pokedex"
+        pokedex_id: "Pokedex"
+        level: "Level"
+        max_health_point: "HP maksimum"
+        current_health_point: "HP saat ini"
+        attack: "Serangan"
+        defence: "Pertahanan"
+        speed: "Kecepatan"
+        current_experience: "Pengalaman saat ini"
+      pokedex:
+        name: "Nama"
+        base_health_point: "HP dasar"
+        base_attack: "Serangan dasar"
+        base_defence: "Pertahanan dasar"
+        base_speed: "Kecepatan dasar"
+        element_type: "Tipe elemen"
+        image_url: "URL gambar"
+      skill:
+        name: "Nama"
+        power: "Kekuatan"
+        max_pp: "PP maksimum"
+        element_type: "Tipe elemen"
+      pokemon_skill:
+        pokemon: "Pokemon"
+        pokemon_id: "Pokemon"
+        skill: "Skill"
+        skill_id: "Skill"
+        current_pp: "PP saat ini"
+      pokemon_battle:
+        pokemon1: "Pokemon 1"
+        pokemon1_id: "Pokemon 1"
+        pokemon2: "Pokemon 2"
+        pokemon2_id: "Pokemon 2"
+    errors:
+      messages:
+        exceeds_max_hp: "tidak boleh lebih dari HP maksimum"
+        exceeds_max_pp: "tidak boleh lebih dari PP maksimum skill"
+        too_many_skills: "tidak bisa mempelajari lebih dari 4 skill. Hapus satu dulu."
+        already_known: "sudah dikuasai Pokemon ini"
+        same_as_pokemon1: "harus berbeda dari Pokemon 1"
+        no_usable_skills: "%{name} tidak punya skill dengan PP tersisa. Ajari skill atau pulihkan dulu."

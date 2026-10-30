@@ -5,6 +5,8 @@ class PagesController < ApplicationController
 		else
 			@element_type = "Normal"
 		end
+		@counts = { pokemon: [Pokemon.count, pokemons_path], pokedex: [Pokedex.count, pokedexes_path],
+		            skills: [Skill.count, skills_path], battles: [PokemonBattle.count, pokemon_battles_path] }
 		#most win
 		most_win_pokemon
 

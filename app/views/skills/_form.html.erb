@@ -1,40 +1,22 @@
-<br>
-<%= form_for skill,:html => {:class => 'form-horizontal'} do |f| %>
-    <div class="form-group">
-        <%= f.label :name, class: "control-label col-sm-2" %>
-        <div class="col-sm-10">
-            <%= f.text_field :name, class: "form-control" %>
-            <%= content_tag(:div, "#{ skill.errors[:name].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
-        </div>
-    </div>  
-
-    <div class="form-group">
-        <%= f.label :power, class: "control-label col-sm-2" %>
-        <div class="col-sm-10">
-            <%= f.text_field :power, class: "form-control" %>
-            <%= content_tag(:div, "#{ skill.errors[:power].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
-        </div>
-    </div>  
-
-    <div class="form-group">
-        <%= f.label :max_pp, class: "control-label col-sm-2" %>
-        <div class="col-sm-10">
-            <%= f.text_field :max_pp, class: "form-control"%>
-            <%= content_tag(:div, "#{ skill.errors[:max_pp].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
-        </div>
+<%= form_for skill do |f| %>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <%= f.label :name, class: "form-label" %>
+      <%= f.text_field :name, class: ["form-control", ("is-invalid" if skill.errors[:name].any?)] %>
+      <%= field_error(skill, :name) %>
     </div>
-
-     <div class="form-group">
-        <%= f.label :element_type, class: "control-label col-sm-2" %>
-        <div class="col-sm-10">
-            <%= select_tag('skill[element_type]',  options_for_select(@skill_select, selected: skill.element_type),prompt: "Select Element Type" , class: "form-control") %>
-            <%= content_tag(:div, "#{ skill.errors[:element_type].join(', ')}", class: ["field_with_errors_pokemon"]) if skill.errors.any?%>
-        </div>
-    </div>  
-
-    <div class="form-group">        
-        <div class="col-sm-offset-2 col-sm-10">
-            <%= f.submit'Submit', class: "btn btn-primary"%>
-        </div>
+    <div class="col-md-6">
+      <%= f.label :element_type, class: "form-label" %>
+      <%= select_tag('skill[element_type]', options_with_placeholder(t(".select_element_type"), @skill_select, skill.element_type), required: true, id: "skill_element_type", class: ["form-select", ("is-invalid" if skill.errors[:element_type].any?)]) %>
+      <%= field_error(skill, :element_type) %>
     </div>
+    <% %i[power max_pp].each do |attr| %>
+      <div class="col-md-6">
+        <%= f.label attr, class: "form-label" %>
+        <%= f.number_field attr, class: ["form-control", ("is-invalid" if skill.errors[attr].any?)] %>
+        <%= field_error(skill, attr) %>
+      </div>
+    <% end %>
+    <div class="col-12"><%= f.submit t(".submit"), class: "btn btn-primary" %></div>
+  </div>
 <% end %>

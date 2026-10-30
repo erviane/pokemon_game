@@ -1,13 +1,31 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <%= link_to 'POKEMON RAINBOW', root_path, :class => "navbar-brand" %></a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to 'Battle', pokemon_battles_path %></li>
-            <li><%= link_to 'Pokemon', pokemons_path %></li>
-            <li><%= link_to 'Pokedex', pokedexes_path %></li>
-            <li><%= link_to 'Trainer', trainers_path %></li>
-        </ul>
+<nav class="navbar navbar-expand-md sticky-top app-navbar">
+  <div class="container">
+    <%= link_to root_path, class: "navbar-brand d-flex align-items-center gap-2" do %>
+      <span class="brand-ball"></span> Pokemon <span class="text-gradient">Rainbow</span>
+    <% end %>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="<%= t(".toggle_navigation") %>">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto gap-md-1 align-items-md-center">
+        <% { battle: [pokemon_battles_path, 'lightning-charge', %w[pokemon_battles pokemon_battle_logs]],
+             pokemon: [pokemons_path, 'stars', %w[pokemons]],
+             pokedex: [pokedexes_path, 'book', %w[pokedexes]],
+             skill: [skills_path, 'magic', %w[skills]] }.each do |key, (path, icon, controllers)| %>
+          <li class="nav-item">
+            <%= link_to path, class: ["nav-link", ("active" if controllers.include?(controller_name))] do %>
+              <i class="bi bi-<%= icon %>"></i> <%= t(".#{key}") %>
+            <% end %>
+          </li>
+        <% end %>
+        <li class="nav-item ms-md-2 my-2 my-md-0">
+          <div class="btn-group btn-group-sm lang-switch" role="group" aria-label="<%= t(".language") %>">
+            <% I18n.available_locales.each do |locale| %>
+              <%= link_to locale.to_s.upcase, locale_path(locale), class: ["btn", (locale == I18n.locale ? "btn-dark" : "btn-outline-secondary")], lang: locale, "aria-current": (locale == I18n.locale) %>
+            <% end %>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>

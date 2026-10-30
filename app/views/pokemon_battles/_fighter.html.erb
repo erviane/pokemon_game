@@ -1,0 +1,35 @@
+<% my_turn = turn_active && @pokemon_battle.state != "finish" %>
+<div class="fighter p-3 h-100 <%= 'is-turn' if my_turn %>">
+  <div class="d-flex justify-content-between align-items-center">
+    <%= type_badge(pokemon.pokedex.element_type) %>
+    <% if my_turn %><span class="badge rounded-pill text-bg-primary"><%= t(".your_turn") %></span><% end %>
+    <span class="level-chip"><%= t("common.level", level: pokemon.level) %></span>
+  </div>
+  <%= image_tag pokemon.pokedex.image_url, class: "sprite my-2 #{'opacity-50' unless my_turn || @pokemon_battle.state == 'finish'}", alt: pokemon.pokedex.name %>
+  <h2 class="h5 fw-bold text-center mb-3"><%= ref_link pokemon.name, pokemon_path(pokemon) %></h2>
+  <%= hp_bar(pokemon.current_health_point, pokemon.max_health_point) %>
+
+  <% if @pokemon_battle.state == "finish" %>
+    <div class="text-center mt-3">
+      <% if @pokemon_battle.pokemon_winner_id == pokemon.id %>
+        <span class="badge rounded-pill text-bg-success fs-6 px-3 py-2"><i class="bi bi-trophy-fill"></i> <%= t(".winner") %></span>
+      <% else %>
+        <span class="badge rounded-pill text-bg-secondary fs-6 px-3 py-2"><%= t(".defeated") %></span>
+      <% end %>
+    </div>
+  <% else %>
+  <%= form_tag attack_path(@pokemon_battle), class: "mt-3" do %>
+    <%= hidden_field_tag('pokemon_id', pokemon.id, id: "pokemon_id_#{pokemon.id}") %>
+    <%= label_tag "attack_#{pokemon.id}", t("common.skill"), class: "visually-hidden" %>
+    <% if my_turn && skills.empty? %>
+      <div class="alert alert-warning small py-2 mb-2"><i class="bi bi-exclamation-triangle"></i> <%= t(".no_pp", name: pokemon.name) %></div>
+    <% else %>
+      <%= select_tag('attack', options_with_placeholder(t(".choose_attack"), skills), id: "attack_#{pokemon.id}", class: "form-select mb-2", required: true, disabled: !my_turn) %>
+    <% end %>
+    <div class="d-flex gap-2">
+      <%= button_tag type: "submit", class: "btn btn-danger flex-fill", disabled: !my_turn || skills.empty? do %><i class="bi bi-lightning-fill"></i> <%= t(".attack") %><% end %>
+      <%= link_to surrender_path(@pokemon_battle, pokemon), class: ["btn btn-outline-secondary", ("disabled" unless my_turn)], "aria-disabled": !my_turn, data: { confirm: t(".surrender_confirm", name: pokemon.name) } do %><i class="bi bi-flag"></i> <%= t(".surrender") %><% end %>
+    </div>
+  <% end %>
+  <% end %>
+</div>

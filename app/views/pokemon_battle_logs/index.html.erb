@@ -1,22 +1,7 @@
-<%= render 'pages/nav' %>
-    <div class="container">
-        <div class="panel panel-info">
-            <div class="panel-heading">Pokemon Battle Logs</div>
-            <div class="panel-body">
-                <ol class="breadcrumb">
-                    <li><%= link_to 'Home', root_path%></li>
-                    <li><%= link_to 'Pokemon Battles', pokemon_battles_path%></li>
-                    <li class="active">Battle Logs</li>
-                </ol>
-                <% flash.each do |key, value| %>
-                    <div class="alert alert-<%= key %>"><%= value %></div>
-                <% end %> 
-                <h3> Log For Pokemon Battle ID : <%= params[:pokemon_battle_id] %></h3>
-                <br>
-                <%= render 'pokemon_battle_logs/table_log' %>
-                <br>
-                <%= will_paginate @pokemon_battle_logs, previous_label: "Previous", next_label: "Next", inner_window: 1, outer_window: 0 %>
-            </div>
-        </div>
-    </div> <!-- /container -->
-<%= render 'pages/footer' %>
+<%= page_header t(".title", id: params[:pokemon_battle_id]), { t("common.battles") => pokemon_battles_path, "##{params[:pokemon_battle_id]}" => pokemon_battle_path(params[:pokemon_battle_id]), t(".log") => nil } %>
+<%= render "shared/search", path: pokemon_battle_pokemon_battle_logs_path(params[:pokemon_battle_id]), placeholder: t("search.placeholders.pokemon_battle_logs"), collection: @pokemon_battle_logs,
+           filters: [[:action_type, t("search.all_actions"), [[t("pokemon_battle_logs.table_log.attack"), "attack"], [t("pokemon_battle_logs.table_log.surrender"), "surrender"]]]] %>
+<div id="battle_log" data-frame>
+  <div class="card"><%= render 'pokemon_battle_logs/table_log', sortable: true, anchor: "battle_log" %></div>
+  <%= will_paginate @pokemon_battle_logs, inner_window: 1, outer_window: 0 %>
+</div>

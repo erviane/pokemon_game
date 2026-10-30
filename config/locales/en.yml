@@ -1,23 +1,303 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  common:
+    home: "Home"
+    new: "New"
+    edit: "Edit"
+    delete: "Delete"
+    heal: "Heal"
+    heal_all: "Heal All"
+    details: "Details"
+    actions: "Actions"
+    are_you_sure: "Are you sure?"
+    close: "Close"
+    level: "Lv %{level}"
+    xp: "%{count} XP"
+    hp: "HP"
+    health_point: "Health point"
+    atk: "Atk"
+    def: "Def"
+    spd: "Spd"
+    type: "Type"
+    power: "Power"
+    max_pp: "Max PP"
+    pp: "PP"
+    name: "Name"
+    skill: "Skill"
+    pokemon: "Pokemon"
+    pokedex: "Pokedex"
+    skills: "Skills"
+    battles: "Battles"
+    battle_log: "Battle Log"
+    vs: "VS"
+    edit_name: "Edit %{name}"
+    delete_name: "Delete %{name}"
+  battle_types:
+    "Manual Battle": "Manual Battle"
+    "Player VS AI": "Player VS AI"
+    "Auto Battle": "Auto Battle"
+
+  search:
+    submit: "Search"
+    clear: "Clear"
+    all_types: "All types"
+    results:
+      zero: "No results found."
+      one: "1 result"
+      other: "%{count} results"
+    no_results: "Nothing matches your search. Try another keyword or clear the filters."
+    placeholders:
+      pokemons: "Search Pokemon or Pokedex name…"
+      pokedexes: "Search Pokedex…"
+      skills: "Search skills…"
+      pokemon_battles: "Search by Pokemon name…"
+      pokemon_battle_logs: "Search attacker, defender or skill…"
+    all_states: "All states"
+    all_modes: "All modes"
+    all_actions: "All actions"
+
+  sort:
+    by: "Sort by %{column}"
+
+  will_paginate:
+    previous_label: "Previous"
+    next_label: "Next"
+    page_gap: "&hellip;"
+
+  layouts:
+    application:
+      title: "Pokemon Rainbow"
+  pages:
+    nav:
+      battle: "Battle"
+      pokemon: "Pokemon"
+      pokedex: "Pokedex"
+      skill: "Skill"
+      toggle_navigation: "Toggle navigation"
+      language: "Language"
+    footer:
+      credit: "Created by Erna Erviana · Pokemon Rainbow"
+    index:
+      tagline: "Train, battle, and track your Pokemon stats in one place."
+      start_battle: "Start Battle"
+      new_pokemon: "New Pokemon"
+      counts:
+        pokemon: "Pokemon"
+        pokedex: "Pokedex entries"
+        skills: "Skills"
+        battles: "Battles"
+      statistics_by_element: "Statistics by element"
+      top5: "Top 5 · %{title}"
+      charts:
+        most_wins: "Most Wins"
+        most_losses: "Most Losses"
+        most_used_skills: "Most Used Skills"
+        most_picked: "Most Picked"
+        most_surrenders: "Most Surrenders"
+
+  pokemons:
+    skill_option: "%{name} (%{type}, power %{power})"
+    card:
+      xp: "%{count} XP"
+    index:
+      new_pokemon: "New Pokemon"
+      empty: "No Pokemon yet. Create your first one!"
+    new:
+      title: "New Pokemon"
+    edit:
+      title: "Edit %{name}"
+    form:
+      name_placeholder: "e.g. Sparky"
+      select_pokedex: "Select Pokedex"
+      submit: "Create Pokemon"
+    form_edit:
+      submit: "Save changes"
+    show:
+      wins: "Wins"
+      losses: "Losses"
+      stats: "Stats"
+      experience: "Experience"
+      forget_confirm: "%{pokemon} will forget %{skill}. Continue?"
+      remove_skill: "Remove skill"
+      no_skills: "No skills yet. A Pokemon needs at least one skill to battle."
+      skills_full: "%{name} knows 4 skills (the maximum). Remove one to learn a new skill."
+      choose_skill: "Choose a skill to learn"
+      learn: "Learn"
+
+  pokedexes:
+    index:
+      new_pokedex: "New Pokedex"
+    new:
+      title: "New Pokedex"
+    form:
+      select_element_type: "Select Element Type"
+      submit: "Save Pokedex"
+    show:
+      base_stats: "Base Stats"
+
+  skills:
+    index:
+      new_skill: "New Skill"
+    new:
+      title: "New Skill"
+    form:
+      select_element_type: "Select Element Type"
+      submit: "Save Skill"
+
+  pokemon_battles:
+    pokemon_option: "%{name} (Lv %{level}, HP %{hp}/%{max})"
+    index:
+      new_battle: "New Battle"
+      match: "Match"
+      mode: "Mode"
+      turn: "Turn"
+      status: "State"
+      winner: "Winner"
+      xp: "XP"
+      finished: "Finished"
+      ongoing: "Ongoing"
+      open: "Open"
+      delete_battle: "Delete battle"
+      empty: "No battles yet. Start one!"
+    new:
+      title: "New Battle"
+      need_two: "You need at least two healthy Pokemon to battle."
+      create_pokemon: "Create a Pokemon"
+      or: "or"
+      heal_all: "heal all"
+      fainted:
+        one: "%{count} fainted Pokemon (0 HP) not listed."
+        other: "%{count} fainted Pokemon (0 HP) not listed."
+      fainted_heal: "Heal all"
+      fainted_suffix: "to bring them back."
+      pokemon_n: "Pokemon %{n}"
+      choose: "Choose %{label}"
+      select_pokemon: "Select Pokemon"
+      hints:
+        "Manual Battle": "Both sides are controlled by you."
+        "Player VS AI": "You control Pokemon 1, the AI controls Pokemon 2."
+        "Auto Battle": "The battle plays itself to the end."
+    show:
+      title: "Battle #%{id}"
+      finished: "Battle finished."
+      winner_html: "%{name} is the winner!"
+      winner_xp_html: "%{name} is the winner and gained %{xp} XP!"
+      heal_all: "Heal all Pokemon"
+      new_battle: "New battle"
+      turn: "Turn %{turn}"
+      view_all: "View all"
+    fighter:
+      your_turn: "Your turn"
+      winner: "Winner"
+      defeated: "Defeated"
+      choose_attack: "Choose attack"
+      no_pp: "No PP left on any skill. %{name} can only surrender."
+      attack: "Attack"
+      surrender: "Surrender"
+      surrender_confirm: "%{name} will give up and lose this battle. Surrender?"
+
+  pokemon_battle_logs:
+    index:
+      title: "Battle #%{id} Log"
+      log: "Log"
+    table_log:
+      turn: "Turn"
+      attacker: "Attacker"
+      action: "Action"
+      damage: "Damage"
+      defender: "Defender"
+      hp_left: "HP left"
+      surrender: "Surrender"
+      attack: "Attack"
+      empty: "No moves yet. Pick a skill and attack!"
+
+  flash:
+    pokemons:
+      created: "%{name} joined your team! Teach it a skill so it can battle."
+      updated: "%{name} was updated"
+      released: "%{name} was released"
+      in_battle: "%{name} is in an ongoing battle and can't be healed until it ends."
+      healed: "%{name} is fully healed (HP and PP restored)"
+      healed_all: "All Pokemon are fully healed"
+      healed_all_except:
+        one: "All Pokemon are fully healed except %{count} still in battle"
+        other: "All Pokemon are fully healed except %{count} still in battle"
+    pokemon_skills:
+      forgot: "%{pokemon} forgot %{skill}"
+      learned: "%{pokemon} learned %{skill}!"
+      choose_skill: "Please choose a skill to learn"
+    skills:
+      created: "New skill was created"
+      updated: "Skill was updated"
+      deleted: "Skill was deleted"
+    pokedexes:
+      created: "New pokedex was created"
+      updated: "Pokedex was updated"
+      deleted: "Pokedex was deleted"
+    pokemon_battles:
+      deleted: "Battle was deleted"
+      choose_skill: "Choose a skill to attack with"
+
+  battle:
+    used_skill: "%{attacker} used %{skill} for %{damage} damage!"
+    used_skill_fainted: "%{attacker} used %{skill} for %{damage} damage. %{defender} fainted — %{attacker} wins!"
+    surrendered: "%{attacker} surrendered. %{defender} wins!"
+    auto_finished: "Auto battle finished."
+    level_up: "%{name} leveled up to Lv %{level}!"
+    invalid:
+      finished: "This battle has already finished"
+      not_your_turn: "It's %{attacker}'s turn, not %{pokemon}'s"
+      unknown_skill: "%{pokemon} doesn't know that skill"
+      no_pp: "%{skill} has no PP left"
+      not_allowed: "That move isn't allowed right now"
+
+  activerecord:
+    models:
+      pokemon: "Pokemon"
+      pokedex: "Pokedex"
+      skill: "Skill"
+      pokemon_skill: "Pokemon skill"
+      pokemon_battle: "Battle"
+    attributes:
+      pokemon:
+        name: "Name"
+        pokedex: "Pokedex"
+        pokedex_id: "Pokedex"
+        level: "Level"
+        max_health_point: "Max health point"
+        current_health_point: "Current health point"
+        attack: "Attack"
+        defence: "Defence"
+        speed: "Speed"
+        current_experience: "Current experience"
+      pokedex:
+        name: "Name"
+        base_health_point: "Base health point"
+        base_attack: "Base attack"
+        base_defence: "Base defence"
+        base_speed: "Base speed"
+        element_type: "Element type"
+        image_url: "Image URL"
+      skill:
+        name: "Name"
+        power: "Power"
+        max_pp: "Max PP"
+        element_type: "Element type"
+      pokemon_skill:
+        pokemon: "Pokemon"
+        pokemon_id: "Pokemon"
+        skill: "Skill"
+        skill_id: "Skill"
+        current_pp: "Current PP"
+      pokemon_battle:
+        pokemon1: "Pokemon 1"
+        pokemon1_id: "Pokemon 1"
+        pokemon2: "Pokemon 2"
+        pokemon2_id: "Pokemon 2"
+    errors:
+      messages:
+        exceeds_max_hp: "can't be more than max health point"
+        exceeds_max_pp: "can't be more than the skill's max PP"
+        too_many_skills: "can't learn more than 4 skills. Remove one first."
+        already_known: "is already known by this Pokemon"
+        same_as_pokemon1: "must be different from Pokemon 1"
+        no_usable_skills: "%{name} has no skills with PP left. Teach it a skill or heal it first."

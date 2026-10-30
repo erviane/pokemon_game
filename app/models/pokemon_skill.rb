@@ -1,20 +1,22 @@
 class PokemonSkill < ApplicationRecord
 	belongs_to :pokemon
 	belongs_to :skill
+
+	SORTS = { "name" => "skills.name", "type" => "skills.element_type", "power" => "skills.power", "pp" => "pokemon_skills.current_pp" }
 	validates :pokemon_id, presence: true
 	validates :current_pp, numericality: { :greater_than_or_equal_to => 0}
 	validates :skill_id, presence: true, 
 						allow_blank: false, 
-						:uniqueness => {:scope => :pokemon_id, :message => "has already been taken"}
+						:uniqueness => {:scope => :pokemon_id, :message => :already_known}
 	validate :check_current_pp
 	validate :max_skill_have
 
 	def max_skill_have
-		errors.add(:pokemon_id, "can't have more than 4 skills") if Pokemon.find(pokemon_id).pokemon_skills.count >= 4
+		errors.add(:pokemon_id, :too_many_skills) if pokemon && pokemon.pokemon_skills.count >= 4
 	end
 
 	def check_current_pp
-		errors.add(:current_pp, "should be greater than or equal to skill max PP") if current_pp.to_i > skill_max_pp.to_i
+		errors.add(:current_pp, :exceeds_max_pp) if current_pp.to_i > skill_max_pp.to_i
 	end
 
 	def skill_name

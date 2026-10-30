@@ -1,16 +1,2 @@
-  
-<%= render 'pages/nav' %>
-    <div class="container">
-        <div class="panel panel-info">
-        <div class="panel-heading">New Pokedex</div>
-            <div class="panel-body">
-                <ol class="breadcrumb">
-                    <li><%= link_to 'Home', root_path%></li>
-                    <li><%= link_to 'Pokedexes', pokedexes_path%></li>
-                    <li class="active">Pokedex New</li>
-                </ol>
-                <%= render 'form', pokedex: @pokedex %>
-            </div>
-        </div>
-    </div> <!-- /container -->
-<%= render 'pages/footer' %>
+<%= page_header t(".title"), { t("common.pokedex") => pokedexes_path, t("common.new") => nil } %>
+<div class="card"><div class="card-body"><%= render 'form', pokedex: @pokedex %></div></div>

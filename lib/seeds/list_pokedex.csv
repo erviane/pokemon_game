@@ -742,7 +742,7 @@ litleo,62,50,58,72,fire,http://assets.pokemon.com/assets/cms2/img/pokedex/full/6
 pyroar,86,68,72,106,fire,http://assets.pokemon.com/assets/cms2/img/pokedex/full/668.png
 flabebe,44,38,39,42,fairy,http://assets.pokemon.com/assets/cms2/img/pokedex/full/669.png
 floette,54,45,47,52,fairy,http://assets.pokemon.com/assets/cms2/img/pokedex/full/670.png
-floette-eternal,74,65,67,92,fairy,http://assets.pokemon.com/assets/cms2/img/pokedex/full/670_f2.png
+floette-eternal,74,65,67,92,fairy,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10061.png
 florges,78,65,68,75,fairy,http://assets.pokemon.com/assets/cms2/img/pokedex/full/671.png
 skiddo,66,65,48,52,grass,http://assets.pokemon.com/assets/cms2/img/pokedex/full/672.png
 gogoat,123,100,62,68,grass,http://assets.pokemon.com/assets/cms2/img/pokedex/full/673.png

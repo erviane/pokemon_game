@@ -6,7 +6,8 @@ class PokemonBattlesController < ApplicationController
     # GET /pokemon_battles
     # GET /pokemon_battles.json
     def index
-       @pokemon_battles = PokemonBattle.all.order("created_at DESC").paginate(page: params[:page], per_page: 20)
+       @pokemon_battles = PokemonBattle.search(params[:q]).with_state(params[:state]).of_battle_type(params[:mode])
+                                       .includes(pokemon1: :pokedex, pokemon2: :pokedex).sorted(params[:sort], params[:dir], PokemonBattle::SORTS, default: "pokemon_battles.created_at DESC").paginate(page: params[:page], per_page: 20)
     end 
 
     # GET /pokemon_battles/1
@@ -18,7 +19,9 @@ class PokemonBattlesController < ApplicationController
         pokemon2_select_skill =  @pokemon2.pokemon_skills.where("current_pp >?", 0)
         @pokemon1_skills = pokemon1_select_skill.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
         @pokemon2_skills = pokemon2_select_skill.map {|p| [ "#{p.skill_name} (#{p.current_pp}/#{p.skill_max_pp})", p.id ] }
-        @pokemon_battle_logs = PokemonBattleLog.where("pokemon_battle_id=?", params[:id]).order("created_at ASC").paginate(page: params[:page], per_page: 10)        
+        @pokemon_battle_logs = PokemonBattleLog.where(pokemon_battle_id: params[:id])
+                                               .sorted(params[:sort], params[:dir], PokemonBattleLog::SORTS, default: "pokemon_battle_logs.created_at ASC")
+                                               .paginate(page: params[:page], per_page: 10)
     end
 
     # GET /pokemon_battles/new
@@ -50,7 +53,7 @@ class PokemonBattlesController < ApplicationController
             redirect_to pokemon_battle_url(@pokemon_battle)
         else
             select_pokemon
-            render :new
+            render :new, status: :unprocessable_entity
         end 
     end
 
@@ -58,19 +61,21 @@ class PokemonBattlesController < ApplicationController
     def destroy
         @pokemon_battle.destroy
         redirect_to pokemon_battles_url
-        flash[:success] = "Pokemon battle was successfully destroyed"
+        flash[:success] = t("flash.pokemon_battles.deleted")
     end 
 
     def attack
-        attacker_skill = PokemonSkill.find(params[:attack])       
+        attacker_skill = PokemonSkill.find_by(id: params[:attack])
         battle = BattleEngine.new(pokemon_battle: @pokemon_battle, pokemon_skill: attacker_skill, pokemon: @pokemon)
-        if battle.valid_next_turn?
+        if attacker_skill.nil?
+            flash[:danger] = t("flash.pokemon_battles.choose_skill")
+        elsif battle.valid_next_turn?
             battle.attack        
             flash[:success] = battle.flash[:success]
         else
-            flash[:danger] ="Can't attack"
+            flash[:danger] = battle.invalid_reason
         end
-        redirect_to :back
+        redirect_to pokemon_battle_url(@pokemon_battle)
     end
 
 
@@ -79,11 +84,10 @@ class PokemonBattlesController < ApplicationController
         if battle.valid_surrender?
             battle.surrender        
             flash[:success] = battle.flash[:success]
-            redirect_to :back
         else
-            flash[:danger] ="Can't surrender"
-            redirect_to :back
+            flash[:danger] = battle.invalid_reason
         end     
+        redirect_to pokemon_battle_url(@pokemon_battle)
     end
 
 
@@ -102,15 +106,16 @@ class PokemonBattlesController < ApplicationController
     end   
 
     def select_pokemon
-        available_pokemon = Pokemon.where("current_health_point>?",0)
-        @pokemon_select = available_pokemon.all.collect {|p| [ p.name, p.id ] }
+        available_pokemon = Pokemon.where("current_health_point>?",0).includes(:pokedex).order(:name)
+        @pokemon_select = available_pokemon.collect {|p| [ t("pokemon_battles.pokemon_option", name: p.name, level: p.level, hp: p.current_health_point, max: p.max_health_point), p.id,
+                                                          { data: { image: p.pokedex.image_url, type: p.pokedex.element_type } } ] }
+        @fainted_count = Pokemon.where(current_health_point: 0).count
     end
 
     def run_auto_battle
         battle = BattleEngine.new(pokemon_battle: @pokemon_battle)
         battle.auto_battle
         flash[:success] = battle.flash[:success]        
-        sleep 2
     end
 
 end

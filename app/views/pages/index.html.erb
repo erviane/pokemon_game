@@ -1,78 +1,53 @@
-    
-<%= render 'pages/nav' %>
-    <div class="container">
-
-        <div class="panel panel-info">
-            <div class="panel-body">
-                <div class="index_page">
-                    <%= image_tag "logo.png" %>
-                    <br><br>
-                    <div class="clearfix"></div>
-                    <div class="panel panel-info">                     
-                        <ul class="nav navbar-nav nav-element">
-                            <li class="active"><%= link_to 'Normal', root_path(:element_type => "Normal") %></li>
-                            <li><%= link_to 'Fire', root_path(:element_type => "Fire") %></li>
-                            <li><%= link_to 'Fighting', root_path(:element_type => "Fighting") %></li>
-                            <li><%= link_to 'Water', root_path(:element_type => "Water") %></li>
-                            <li><%= link_to 'Flying', root_path(:element_type => "Flying") %></li>
-                            <li><%= link_to 'Grass', root_path(:element_type => "Grass") %></li>
-                            <li><%= link_to 'Poison', root_path(:element_type => "Poison") %></li>
-                            <li><%= link_to 'Ground', root_path(:element_type => "Ground") %></li>
-                            <li><%= link_to 'Psychic', root_path(:element_type => "Psychic") %></li>
-                            <li><%= link_to 'Rock', root_path(:element_type => "Rock") %></li>
-                            <li><%= link_to 'Ice', root_path(:element_type => "Ice") %></li>
-                            <li><%= link_to 'Bug', root_path(:element_type => "Bug") %></li>
-                            <li><%= link_to 'Dragon', root_path(:element_type => "Dragon") %></li>
-                            <li><%= link_to 'Ghost', root_path(:element_type => "Ghost") %></li>
-                            <li><%= link_to 'Dark', root_path(:element_type => "Dark") %></li>
-                            <li><%= link_to 'Steel', root_path(:element_type => "Steel") %></li>
-                            <li><%= link_to 'Fairy', root_path(:element_type => "Fairy") %></li>
-                            <li><%= link_to 'Electric', root_path(:element_type => "Electric") %></li>
-                        </ul>
-              
-                        <div class="tab-content">
-                            <br><br><br>
-                            <h3>Element Type : <%= @element_type %></h3>
-                            <div class="panel panel-info panel_statistic" id="most_win_pokemon">
-                                <div class="panel-heading">5 Most Win Pokemon</div>
-                                <div class="panel-body">
-                                    <%= column_chart @most_win_pokemon %>
-                                </div>
-                            </div>  
-
-                            <div class="panel panel-info panel_statistic" id="most_lose_pokemon">
-                                <div class="panel-heading">5 Most Lose Pokemon</div>
-                                <div class="panel-body">
-                                    <%= column_chart @most_lose_pokemon %>
-                                </div>
-                            </div>              
-
-                            <div class="panel panel-info panel_statistic" id="most_used_skill">
-                                <div class="panel-heading">5 Most Used Skill In Battle</div>
-                                <div class="panel-body">
-                                    <%= column_chart @most_used_skill %>
-                                </div>
-                            </div>              
-
-                            <div class="panel panel-info panel_statistic" id="most_pokemon_picked">
-                                <div class="panel-heading">5 Most Pokemon Picked</div>
-                                <div class="panel-body">
-                                    <%= column_chart @most_pokemon_picked %>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <center>
-                            <div class="panel panel-info panel_statistic" id="most_surrender_pokemon">
-                                <div class="panel-heading">5 Most Surrender Pokemon</div>
-                                <div class="panel-body">
-                                    <%= column_chart @most_surrender_pokemon %>
-                                </div>
-                            </div>
-                            </center>                     
-                      </div>
-                  </div>
-              </div>
-          </div>
+<section class="hero mb-4">
+  <div class="row align-items-center g-4">
+    <div class="col-lg-5 text-center text-lg-start">
+      <%= image_tag "logo.png", alt: "Pokemon" %>
+      <p class="lead mt-3 mb-0"><%= t(".tagline") %></p>
+      <div class="d-flex gap-2 mt-3 justify-content-center justify-content-lg-start">
+        <%= link_to new_pokemon_battle_path, class: "btn btn-light" do %><i class="bi bi-lightning-charge-fill text-danger"></i> <%= t(".start_battle") %><% end %>
+        <%= link_to new_pokemon_path, class: "btn btn-outline-light" do %><i class="bi bi-plus-lg"></i> <%= t(".new_pokemon") %><% end %>
+      </div>
     </div>
-</div> <!-- /container -->
-<%= render 'pages/footer' %>
+    <div class="col-lg-7">
+      <div class="row g-3">
+        <% @counts.each do |label, (count, path)| %>
+          <div class="col-6">
+            <%= link_to path, class: "kpi" do %>
+              <div class="value"><%= number_with_delimiter(count) %></div>
+              <div class="label"><%= t(".counts.#{label}") %></div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <h2 class="h5 fw-bold mb-0"><%= t(".statistics_by_element") %></h2>
+      <%= type_badge(@element_type) %>
+    </div>
+    <div class="type-pills">
+      <% Skill::ELEMENT_TYPE.each do |type| %>
+        <%= link_to type, root_path(element_type: type), class: ["type-badge", "type-#{type.downcase}", ("active" if type == @element_type)] %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <% { most_wins: [@most_win_pokemon, "trophy"],
+       most_losses: [@most_lose_pokemon, "emoji-frown"],
+       most_used_skills: [@most_used_skill, "magic"],
+       most_picked: [@most_pokemon_picked, "hand-index-thumb"],
+       most_surrenders: [@most_surrender_pokemon, "flag"] }.each_with_index do |(key, (data, icon)), i| %>
+    <div class="<%= i == 4 ? 'col-12' : 'col-lg-6' %>">
+      <div class="card h-100">
+        <div class="card-header"><i class="bi bi-<%= icon %> me-1"></i> <%= t(".top5", title: t(".charts.#{key}")) %></div>
+        <div class="card-body"><%= column_chart data, height: "260px" %></div>
+      </div>
+    </div>
+  <% end %>
+</div>

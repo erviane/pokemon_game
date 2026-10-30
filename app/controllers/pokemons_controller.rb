@@ -1,19 +1,19 @@
 class PokemonsController < ApplicationController
   before_action :set_pokemon, only: [:show, :edit, :update, :destroy, :destroy_skill, :heal]
   before_action :select_pokedex, only: [:new, :create]
-  before_action :set_trainer, only: [:new, :create, :show, :edit, :update, :destroy, :heal_all]
 
   # GET /pokemons
   def index
-      @pokemons = Pokemon.all.order("created_at ASC").paginate(page: params[:page], per_page: 20)
+      @pokemons = Pokemon.search(params[:q]).of_type(params[:type]).includes(:pokedex).order("pokemons.created_at ASC").paginate(page: params[:page], per_page: 20)
   end
 
   # GET /pokemons/1
   def show
-      @pokemon_skills = PokemonSkill.new
+      @skill_rows = @pokemon.pokemon_skills.joins(:skill).includes(:skill)
+                            .sorted(params[:sort], params[:dir], PokemonSkill::SORTS, default: "pokemon_skills.created_at ASC")
       @number_of_win = PokemonBattle.where("pokemon_winner_id=?", @pokemon.id).count
       @number_of_lose = PokemonBattle.where("pokemon_loser_id=?", @pokemon.id).count
-      @skill_list = Skill.all.collect {|p| [ p.name, p.id ] }
+      @skill_list = Skill.where.not(id: @pokemon.skill_ids).order(:name).collect {|p| [ t("pokemons.skill_option", name: p.name, type: p.element_type, power: p.power), p.id ] }
   end
 
   # GET /pokemons/new
@@ -29,89 +29,49 @@ class PokemonsController < ApplicationController
   # POST /pokemons
   def create
       @pokemon = Pokemon.new(pokemon_params_create)
-      if @trainer.present?
-          create_with_trainer
+      assign_attribute         
+
+      if @pokemon.save
+          redirect_to pokemon_url(@pokemon)
+          flash[:success] = t("flash.pokemons.created", name: @pokemon.name)
       else
-          assign_attribute         
-
-          if @pokemon.save
-              redirect_to pokemons_url
-              flash[:success] = "New pokemon was successfully created" 
-          else
-              render :new
-          end 
-      end        
-  end
-
-  def create_with_trainer
-      @pokemon = Pokemon.new(pokemon_params_create)
-      @pokemon.trainer_id = params[:trainer_id]
-      if @trainer.pokemons.count >= 5
-        flash[:danger] = "Can't Have More Than 5 Pokemons"
-        redirect_to trainer_url(@trainer)
-      else
-          assign_attribute            
-
-          if @pokemon.save
-              redirect_to trainer_url(@trainer)
-              flash[:success] = "New pokemon was successfully created" 
-          else
-              flash[:danger] = @pokemon.errors.messages[:trainer_id].to_sentence
-              redirect_to trainer_url(@trainer)
-          end
+          render :new, status: :unprocessable_entity
       end 
   end
 
   # PATCH/PUT /pokemons/1
   def update
       if @pokemon.update(pokemon_params_edit)
-          if @trainer.present?
-              redirect_to trainer_url(@trainer)
-          else
-              redirect_to pokemons_url
-          end
-          flash[:success] = "Pokemon was successfully updated"
+          redirect_to pokemon_url(@pokemon)
+          flash[:success] = t("flash.pokemons.updated", name: @pokemon.name)
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
   end
 
   # DELETE /pokemons/1
   def destroy
     @pokemon.destroy
-      if @trainer.present?
-          redirect_to trainer_url(@trainer)
-      else
-          redirect_to pokemons_url
-      end
-      flash[:success] = "Pokemon was successfully deleted"
+      redirect_to pokemons_url
+      flash[:success] = t("flash.pokemons.released", name: @pokemon.name)
   end
 
   def heal
-    pokemon1 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon1_id}
-    pokemon2 = PokemonBattle.where(state: "ongoing").map{|x| x.pokemon2_id}
-    ongoing_pokemon = pokemon1 + pokemon2
-    if ongoing_pokemon.include?(params[:pokemon_id])
-      flash[:danger] = "Heal failed. Pokemon is ongoing on battle"
+    if PokemonBattle.ongoing_pokemon_ids.include?(@pokemon.id)
+      flash[:danger] = t("flash.pokemons.in_battle", name: @pokemon.name)
     else
       @pokemon.update(current_health_point: @pokemon.max_health_point)
       @pokemon.pokemon_skills.each do |pokemon_skill|
         pokemon_skill.update(current_pp: pokemon_skill.skill_max_pp)
       end
-      redirect_to :back
-      flash[:success] = "Heal was Successfully"
+      flash[:success] = t("flash.pokemons.healed", name: @pokemon.name)
     end
+    redirect_back fallback_location: pokemon_path(@pokemon)
   end
 
   def heal_all
-    pokemon1 = PokemonBattle.where("state=?", "ongoing").map{|x| x.pokemon1_id}
-    pokemon2 = PokemonBattle.where("state=?", "ongoing").map{|x| x.pokemon2_id}
-    ongoing_pokemon = pokemon1 + pokemon2
-    if @trainer.present?
-        @pokemon = Pokemon.where("trainer_id=?", @trainer.id)
-    else
-      @pokemon = Pokemon.all
-    end
+    ongoing_pokemon = PokemonBattle.ongoing_pokemon_ids
+    @pokemon = Pokemon.all
     @pokemon.each do |pokemon|
       if !ongoing_pokemon.include?(pokemon.id)
           pokemon.update(current_health_point: pokemon.max_health_point)
@@ -120,19 +80,12 @@ class PokemonsController < ApplicationController
           end
       end
     end
-      redirect_to :back
-      flash[:success] = "Heal All was Successfully"
+      skipped = @pokemon.count { |pokemon| ongoing_pokemon.include?(pokemon.id) }
+      flash[:success] = skipped > 0 ? t("flash.pokemons.healed_all_except", count: skipped) : t("flash.pokemons.healed_all")
+      redirect_back fallback_location: root_path
   end
 
   private
-    def trainer_present_and_valid?
-      if @trainer.present?
-        @trainer.valid?
-      else
-        true
-      end
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_pokemon
       @pokemon = Pokemon.find(params[:id])
@@ -148,11 +101,7 @@ class PokemonsController < ApplicationController
     end
 
     def select_pokedex
-      @pokedex_select = Pokedex.all.map {|p| [ p.name, p.id ] }
-    end
-
-    def set_trainer
-      @trainer = Trainer.find(params[:trainer_id]) if params[:trainer_id].present?
+      @pokedex_select = Pokedex.order(:name).map {|p| [ p.name.capitalize, p.id ] }
     end
 
     def assign_attribute

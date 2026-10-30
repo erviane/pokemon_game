@@ -5,7 +5,7 @@ class SkillsController < ApplicationController
   # GET /skills
   # GET /skills.json
   def index
-    @skills = Skill.all.order("created_at DESC").paginate(page: params[:page], per_page: 20)
+    @skills = Skill.search(params[:q]).of_type(params[:type]).sorted(params[:sort], params[:dir], Skill::SORTS, default: "skills.created_at DESC").paginate(page: params[:page], per_page: 20)
   end
 
   # GET /skills/1
@@ -27,10 +27,10 @@ class SkillsController < ApplicationController
   def create
     @skill = Skill.new(skill_params)
       if @skill.save
-        redirect_to skills_url
-        flash[:success] = "New skill was successfully created"
+        redirect_to skill_url(@skill)
+        flash[:success] = t("flash.skills.created")
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
   end
 
@@ -38,10 +38,10 @@ class SkillsController < ApplicationController
   # PATCH/PUT /skills/1.json
   def update
       if @skill.update(skill_params)
-        redirect_to skills_url
-        flash[:success] = "Skill was successfully updated"
+        redirect_to skill_url(@skill)
+        flash[:success] = t("flash.skills.updated")
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
   end
 
@@ -50,7 +50,7 @@ class SkillsController < ApplicationController
   def destroy
     @skill.destroy
     redirect_to skills_url
-    flash[:success] = "Skill was successfully destroyed"
+    flash[:success] = t("flash.skills.deleted")
   end
 
   private

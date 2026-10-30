@@ -1,4 +1,3 @@
-require 'pry'
 
 class BattleEngine
 	attr_accessor :flash
@@ -20,8 +19,25 @@ class BattleEngine
         player
         @pokemon_battle.state == "ongoing" &&
         @attacker.id == @pokemon.id &&
-        (@pokemon.pokemon_skills.include?attacker_skill)
+        (@pokemon.pokemon_skills.include?attacker_skill) &&
+        attacker_skill.current_pp > 0
     end  
+
+    # Human-readable reason why valid_next_turn?/valid_surrender? failed.
+    def invalid_reason
+        player
+        if @pokemon_battle.state != "ongoing"
+            I18n.t("battle.invalid.finished")
+        elsif @attacker.id != @pokemon.id
+            I18n.t("battle.invalid.not_your_turn", attacker: @attacker.name, pokemon: @pokemon.name)
+        elsif @attacker_skill && !@pokemon.pokemon_skills.include?(@attacker_skill)
+            I18n.t("battle.invalid.unknown_skill", pokemon: @pokemon.name)
+        elsif @attacker_skill && @attacker_skill.current_pp <= 0
+            I18n.t("battle.invalid.no_pp", skill: @attacker_skill.skill_name)
+        else
+            I18n.t("battle.invalid.not_allowed")
+        end
+    end
 
     def valid_surrender?
        player
@@ -54,6 +70,11 @@ class BattleEngine
                                 defender_id: @defender.id,
                                 defender_current_health_point: @hp_defender,
                                 action_type: "attack")
+        @flash[:success] = if @pokemon_battle.state == "finish"
+            [I18n.t("battle.used_skill_fainted", attacker: @attacker.name, skill: @attacker_skill.skill_name, damage: @damage.to_i, defender: @defender.name), @level_up].compact.join(" ")
+        else
+            I18n.t("battle.used_skill", attacker: @attacker.name, skill: @attacker_skill.skill_name, damage: @damage.to_i)
+        end
         next_turn!
         if (@pokemon_battle.battle_type == "Player VS AI") && (@pokemon_battle.current_turn%2 == 0) && (@pokemon_battle.state == "ongoing")
             ai_do_attack
@@ -63,13 +84,14 @@ class BattleEngine
     def ai_do_attack
         player 
         pokemon_ai_skill = @attacker.pokemon_skills.where("current_pp>?", 0)
+        player_message = @flash[:success]
         if !pokemon_ai_skill.empty?
             @attacker_skill = pokemon_ai_skill.sample
             attack
-            sleep 1
         else
             surrender
-        end 
+        end
+        @flash[:success] = "#{player_message} #{@flash[:success]}" 
     end
 
     def auto_battle
@@ -83,11 +105,13 @@ class BattleEngine
             surrender
         end
     end
+        @flash[:success] = "#{I18n.t("battle.auto_finished")} #{@flash[:success]}"
     end 
 
 	def surrender
 		player
 		result(@defender, @attacker)
+        @flash[:success] = [I18n.t("battle.surrendered", attacker: @attacker.name, defender: @defender.name), @level_up].compact.join(" ")
         PokemonBattleLog.create(pokemon_battle_id: @pokemon_battle.id,
                      turn: @pokemon_battle.current_turn,
                      attacker_id: @attacker.id,
@@ -144,7 +168,7 @@ class BattleEngine
     	level_up(winner)
         extra_point = PokemonBattleCalculator.calculate_level_up_extra_stats
         save_extra_point(winner, extra_point)
-        @flash[:success] = "#{winner.name} level up"
+        @level_up = I18n.t("battle.level_up", name: winner.name, level: winner.level)
     end
 
     def level_up(winner)

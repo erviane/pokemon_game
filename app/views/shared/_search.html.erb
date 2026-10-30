@@ -1,0 +1,22 @@
+<%# Shared GET search bar. filters: [[param, "All …" label, options]] where options are [label, value] pairs. %>
+<% searching = params[:q].present? || filters.any? { |name, *| params[name].present? } %>
+<%= form_with url: path, method: :get, class: "card search-bar mb-3", html: { role: "search" } do |f| %>
+  <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+    <div class="input-group flex-grow-1 search-input">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <%= f.search_field :q, value: params[:q], placeholder: placeholder, class: "form-control", "aria-label": placeholder %>
+    </div>
+    <% filters.each do |name, label, options| %>
+      <%= f.select name, options_for_select(options, params[name]), { include_blank: label }, class: "form-select w-auto", "aria-label": label, data: { auto_submit: true } %>
+    <% end %>
+    <%= hidden_field_tag :sort, params[:sort], id: nil if params[:sort].present? %>
+    <%= hidden_field_tag :dir, params[:dir], id: nil if params[:dir].present? %>
+    <%= f.submit t("search.submit"), name: nil, class: "btn btn-dark" %>
+    <% if searching %>
+      <%= link_to t("search.clear"), path, class: "btn btn-outline-secondary" %>
+    <% end %>
+  </div>
+<% end %>
+<% if searching %>
+  <p class="small text-body-secondary mb-3"><%= t("search.results", count: collection.total_entries) %></p>
+<% end %>

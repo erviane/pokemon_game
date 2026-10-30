@@ -1,29 +1,38 @@
-<table class="table table-bordered">
+<div class="table-responsive">
+  <table class="table table-modern table-hover">
     <thead>
-        <tr>
-            <th>Turn</th>
-            <th>Skill</th>
-            <th>Damage</th>
-            <th>Attacker</th>
-            <th>Attacker HP</th>
-            <th>Defender</th>
-            <th>Defender HP</th>
-            <th>Action</th>
-        </tr>
-    </thead>              
-
-    <tbody>
-        <% @pokemon_battle_logs.each do |pokemon_battle_log| %>
-            <tr>
-                <td><%= pokemon_battle_log.turn %></td>
-                <td><%= pokemon_battle_log.skill.name if pokemon_battle_log.skill_id.present?%></td>
-                <td><%= pokemon_battle_log.damage %></td>
-                <td><%= pokemon_battle_log.attacker_name %></td>
-                <td><%= pokemon_battle_log.attacker_current_health_point %></td>
-                <td><%= pokemon_battle_log.defender_name %></td>
-                <td><%= pokemon_battle_log.defender_current_health_point %></td>
-                <td><%= pokemon_battle_log.action_type %></td>            
-            </tr>
+      <tr>
+        <% [[t(".turn"), "turn", true], [t(".attacker"), "attacker", false], [t(".action"), "action", true], [t("common.skill"), "skill", false],
+            [t(".damage"), "damage", true], [t(".defender"), "defender", false], [t(".hp_left"), "hp_left", true]].each do |label, column, fit| %>
+          <% if local_assigns[:sortable] %>
+            <%= sort_header label, column, fit: fit, anchor: local_assigns[:anchor] %>
+          <% else %>
+            <th class="<%= 'col-fit' if fit %>"><%= label %></th>
+          <% end %>
         <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pokemon_battle_logs.each do |pokemon_battle_log| %>
+        <tr>
+          <td class="text-center"><span class="badge text-bg-light border"><%= pokemon_battle_log.turn %></span></td>
+          <td class="text-start fw-semibold"><%= ref_link pokemon_battle_log.attacker_name, pokemon_path(pokemon_battle_log.attacker_id) %> <span class="small text-body-secondary">(<%= pokemon_battle_log.attacker_current_health_point %> <%= t("common.hp") %>)</span></td>
+          <td class="text-start">
+            <% if pokemon_battle_log.action_type == "surrender" %>
+              <span class="badge rounded-pill text-bg-secondary"><i class="bi bi-flag"></i> <%= t(".surrender") %></span>
+            <% else %>
+              <span class="badge rounded-pill text-bg-danger-subtle text-danger-emphasis bg-danger-subtle"><i class="bi bi-lightning-fill"></i> <%= t(".attack") %></span>
+            <% end %>
+          </td>
+          <td class="text-start text-capitalize"><%= ref_link(pokemon_battle_log.skill.name, skill_path(pokemon_battle_log.skill_id)) if pokemon_battle_log.skill_id.present? %></td>
+          <td class="text-end fw-bold text-danger"><%= pokemon_battle_log.damage %></td>
+          <td class="text-start"><%= ref_link pokemon_battle_log.defender_name, pokemon_path(pokemon_battle_log.defender_id) %></td>
+          <td class="text-end"><%= pokemon_battle_log.defender_current_health_point %></td>
+        </tr>
+      <% end %>
+      <% if @pokemon_battle_logs.empty? %>
+        <tr><td colspan="7" class="text-center text-body-secondary py-4"><%= params[:q].present? || params[:action_type].present? ? t("search.no_results") : t(".empty") %></td></tr>
+      <% end %>
     </tbody>
-</table> 
+  </table>
+</div>

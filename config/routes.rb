@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   resources :pokemons
   resources :skills
   resources :pokedexes
-  resources :trainers
 
 resources :pokemons do
 	resources :pokemon_skills
@@ -14,16 +13,13 @@ resources :pokemon_battles do
 	resources :pokemon_battle_logs
 end
 
-resources :trainers do
-	resources :pokemons
-end
 
 root 'pages#index'
+get 'locale/:locale', to: 'locales#update', as: 'locale'
 delete '/pokemons/:pokemon_id/pokemon_skills/:skill_id', to: 'pokemon_skills#destroy', as: 'pokemon_skill_destroy'
 post '/pokemon_battles/:id/pokemon_skills/', to: 'pokemon_battles#attack', as: 'attack'
 get 'pokemon_battles/:id/surrender/:pokemon_id', to: 'pokemon_battles#surrender', as: 'surrender'
 get 'heal/:id', to: 'pokemons#heal', as: 'heal'
 get 'heal_all', to: 'pokemons#heal_all', as: 'heal_all'
-get 'trainer/:trainer_id/heal_all', to: 'pokemons#heal_all', as: 'heal_all_trainer_pokemon'
 
 end

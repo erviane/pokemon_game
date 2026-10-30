@@ -106,7 +106,7 @@ class PokemonBattlesController < ApplicationController
     end   
 
     def select_pokemon
-        available_pokemon = Pokemon.where("current_health_point>?",0).includes(:pokedex).order(:name)
+        available_pokemon = Pokemon.where("current_health_point>?",0).where.not(id: PokemonBattle.ongoing_pokemon_ids).includes(:pokedex).order(:name)
         @pokemon_select = available_pokemon.collect {|p| [ t("pokemon_battles.pokemon_option", name: p.name, level: p.level, hp: p.current_health_point, max: p.max_health_point), p.id,
                                                           { data: { image: p.pokedex.image_url, type: p.pokedex.element_type } } ] }
         @fainted_count = Pokemon.where(current_health_point: 0).count

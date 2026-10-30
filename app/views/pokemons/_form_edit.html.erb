@@ -21,7 +21,7 @@
           <%= f.label :level, class: "form-label" %>
           <%= f.text_field :level, class: "form-control", disabled: true %>
         </div>
-        <% %i[max_health_point current_health_point attack defence speed current_experience].each do |attr| %>
+        <% %i[max_health_point current_health_point attack defence speed].each do |attr| %>
           <div class="col-md-4">
             <%= f.label attr, class: "form-label" %>
             <%= f.number_field attr, class: ["form-control", ("is-invalid" if @pokemon.errors[attr].any?)] %>

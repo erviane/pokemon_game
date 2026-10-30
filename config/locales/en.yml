@@ -224,7 +224,7 @@ en:
       added: "%{skill} added to the learnset at Lv %{level}"
       removed: "%{skill} removed from the learnset"
     pokemons:
-      created: "%{name} joined your team! Teach it a skill so it can battle."
+      created: "%{name} joined your team!"
       updated: "%{name} was updated"
       released: "%{name} was released"
       in_battle: "%{name} is in an ongoing battle and can't be healed until it ends."
@@ -319,3 +319,5 @@ en:
         last_starting_skill: "This is the last level 1 skill. Add another level 1 skill first, or new Pokemon will start without skills."
         same_as_pokemon1: "must be different from Pokemon 1"
         no_usable_skills: "%{name} has no skills with PP left. Teach it a skill or heal it first."
+        fainted: "%{name} has fainted. Heal it first."
+        in_battle: "%{name} is already in another battle."

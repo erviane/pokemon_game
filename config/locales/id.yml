@@ -251,7 +251,7 @@ id:
 
   battle:
     used_skill: "%{attacker} memakai %{skill} dan memberi %{damage} damage!"
-    used_skill_fainted: "%{attacker} memakai %{skill} dan memberi %{damage} damage. %{defender} pingsan — %{attacker} menang!"
+    used_skill_fainted: "%{attacker} memakai %{skill} dan memberi %{damage} damage. %{attacker} pingsan — %{defender} menang!"
     surrendered: "%{attacker} menyerah. %{defender} menang!"
     auto_finished: "Pertarungan otomatis selesai."
     level_up: "%{name} naik ke Lv %{level}!"

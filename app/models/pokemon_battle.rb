@@ -41,7 +41,7 @@ class PokemonBattle < ApplicationRecord
 	# A Pokemon with no PP left can only surrender, so don't let it start a battle.
 	def check_usable_skills
 		{ pokemon1_id: pokemon1, pokemon2_id: pokemon2 }.each do |field, pokemon|
-			next if pokemon.nil? || pokemon.pokemon_skills.where("current_pp > 0").exists?
+			next if pokemon.nil? || pokemon.pokemon_skills.where("current_pp > 1").exists?
 			errors.add(field, :no_usable_skills, name: pokemon.name)
 		end
 	end

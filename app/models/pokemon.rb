@@ -2,7 +2,7 @@ class Pokemon < ApplicationRecord
 	belongs_to :pokedex
 	has_many :pokemon_skills, dependent: :destroy
 
-	scope :search, ->(query) { query.present? ? joins(:pokedex).where("pokemons.name ILIKE :q OR pokedexes.name ILIKE :q", q: contains_pattern(query)) : all }
+	scope :search, ->(query) { query.present? ? joins(:pokedex).where("pokemons.name LIKE :q OR pokedexes.name ILIKE :q", q: contains_pattern(query)) : all }
 	scope :of_type, ->(type) { type.present? ? joins(:pokedex).where(pokedexes: { element_type: type }) : all }
   	has_many :skills, through: :pokemon_skills, dependent: :destroy
   	has_many :pokemon_battles, foreign_key: :pokemon1_id, dependent: :destroy
@@ -24,7 +24,7 @@ class Pokemon < ApplicationRecord
 	after_create :learn_starting_skills
 	
 	def check_current_health_point
-  		errors.add(:current_health_point, :exceeds_max_hp) if current_health_point.to_i > max_health_point.to_i
+  		errors.add(:current_health_point, :exceeds_max_hp) if current_health_point.to_i > (max_health_point_was || max_health_point).to_i
 	end
 
 	def check_pokedex_id

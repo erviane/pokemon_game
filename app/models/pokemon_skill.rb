@@ -13,7 +13,7 @@ class PokemonSkill < ApplicationRecord
 	validate :check_learnable, on: :create
 
 	def max_skill_have
-		errors.add(:pokemon_id, :too_many_skills) if pokemon && pokemon.pokemon_skills.count >= 4
+		errors.add(:pokemon_id, :too_many_skills) if pokemon && pokemon.pokemon_skills.count > 4
 	end
 
 	# Only checked when learning, so skills known before learnsets existed are kept.

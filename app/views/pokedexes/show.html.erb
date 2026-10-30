@@ -68,10 +68,24 @@
     </table>
   </div>
   <div class="card-body border-top">
-    <%= form_with url: pokedex_pokedex_skills_path(@pokedex), class: "d-flex gap-2" do %>
-      <%= select_tag :skill_id, options_with_placeholder(t("pokemons.show.choose_skill"), @skill_select), class: "form-select", required: true, "aria-label": t("common.skill") %>
-      <%= number_field_tag :learn_level, 1, min: 1, class: "form-control", style: "max-width: 7rem", required: true, "aria-label": t(".learn_level") %>
-      <%= submit_tag t(".add_skill"), class: "btn btn-primary text-nowrap" %>
+    <%= form_with url: pokedex_pokedex_skills_path(@pokedex) do %>
+      <div class="row g-2 align-items-end">
+        <div class="col-md">
+          <%= label_tag :skill_id, t("common.skill"), class: "form-label small fw-semibold" %>
+          <%= select_tag :skill_id, options_with_placeholder(t("pokemons.show.choose_skill"), @skill_select), class: "form-select", required: true %>
+        </div>
+        <div class="col-6 col-md-auto">
+          <%= label_tag :learn_level, t(".unlock_level"), class: "form-label small fw-semibold" %>
+          <div class="input-group" style="max-width: 9rem">
+            <span class="input-group-text">Lv</span>
+            <%= number_field_tag :learn_level, @learnset.empty? ? 1 : nil, min: 1, step: 1, class: "form-control", required: true, placeholder: "1", "aria-describedby": "learn_level_help" %>
+          </div>
+        </div>
+        <div class="col-6 col-md-auto">
+          <%= submit_tag t(".add_skill"), class: "btn btn-primary w-100 text-nowrap" %>
+        </div>
+      </div>
+      <div id="learn_level_help" class="form-text"><%= t(".unlock_level_help") %></div>
     <% end %>
   </div>
 </div>

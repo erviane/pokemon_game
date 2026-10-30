@@ -13,8 +13,11 @@ class PokedexSkillsController < ApplicationController
 
 	def destroy
 		pokedex_skill = @pokedex.pokedex_skills.find(params[:id])
-		pokedex_skill.destroy
-		flash[:success] = t("flash.pokedex_skills.removed", skill: pokedex_skill.skill.name)
+		if pokedex_skill.destroy
+			flash[:success] = t("flash.pokedex_skills.removed", skill: pokedex_skill.skill.name)
+		else
+			flash[:danger] = pokedex_skill.errors.full_messages.first
+		end
 		redirect_to pokedex_path(@pokedex, anchor: "learnset")
 	end
 
